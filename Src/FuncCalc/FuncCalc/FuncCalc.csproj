@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9088DB81-E5DE-44A6-B4CE-94944100E4BC}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FuncCalc</RootNamespace>
+    <AssemblyName>FuncCalc</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Analyzer\Analyzer.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer\ConvertMFormula.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer\ConvertToFunctionFormula.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer\ConvertToRPEFormula.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer\RPEToken.cs" />
+    <Compile Include="Analyzer\TokenAnaluzer.cs" />
+    <Compile Include="Analyzer\TokenType.cs" />
+    <Compile Include="Exceptions\FuncCalcException.cs" />
+    <Compile Include="Exceptions\FunctionExecutionCancelException.cs" />
+    <Compile Include="Exceptions\RuntimeException.cs" />
+    <Compile Include="Exceptions\SyntaxException.cs" />
+    <Compile Include="Expression\AdditionFormula.cs" />
+    <Compile Include="Expression\Array.cs" />
+    <Compile Include="Expression\Condition.cs" />
+    <Compile Include="Expression\Const\InfinityValue.cs" />
+    <Compile Include="Expression\Const\NaturalLogarithm.cs" />
+    <Compile Include="Expression\Const\Pi.cs" />
+    <Compile Include="Expression\ExpressionType.cs" />
+    <Compile Include="Expression\FloatNumber.cs" />
+    <Compile Include="Expression\Formula.cs" />
+    <Compile Include="Expression\Fraction.cs" />
+    <Compile Include="Expression\FuncedINumber.cs" />
+    <Compile Include="Expression\FunctionFormula.cs" />
+    <Compile Include="Expression\LineBreak.cs" />
+    <Compile Include="Expression\Member.cs" />
+    <Compile Include="Expression\MultipleFormula.cs" />
+    <Compile Include="Expression\Number.cs" />
+    <Compile Include="Expression\Operator.cs" />
+    <Compile Include="Expression\Results.cs" />
+    <Compile Include="Expression\RPEFormula.cs" />
+    <Compile Include="Expression\ValueType.cs" />
+    <Compile Include="Expression\Variable.cs" />
+    <Compile Include="Interface\IBlock.cs" />
+    <Compile Include="Interface\IConstParameter.cs" />
+    <Compile Include="Interface\IDiff.cs" />
+    <Compile Include="Interface\IDiffWithParameters.cs" />
+    <Compile Include="Interface\IEval.cs" />
+    <Compile Include="Interface\IEvalWithParameters.cs" />
+    <Compile Include="Interface\IExpression.cs" />
+    <Compile Include="Interface\IFormula.cs" />
+    <Compile Include="Interface\IFunction.cs" />
+    <Compile Include="Interface\IFunctionOutput.cs" />
+    <Compile Include="Interface\IMulti.cs" />
+    <Compile Include="Interface\INumber.cs" />
+    <Compile Include="Interface\IOperator.cs" />
+    <Compile Include="Interface\IOptimizer.cs" />
+    <Compile Include="Interface\IOutput.cs" />
+    <Compile Include="Interface\IUnknownParameter.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Runtime\BlockData.cs" />
+    <Compile Include="Runtime\Func\Debug\test.cs" />
+    <Compile Include="Runtime\Func\Debug\test2.cs" />
+    <Compile Include="Runtime\Func\Differential.cs" />
+    <Compile Include="Runtime\Func\Limit.cs" />
+    <Compile Include="Runtime\Func\Math\ExGcd.cs" />
+    <Compile Include="Runtime\Func\Math\Gcd.cs" />
+    <Compile Include="Runtime\Func\Math\Logarithm.cs" />
+    <Compile Include="Runtime\Func\Math\Maximum.cs" />
+    <Compile Include="Runtime\Func\Math\Minimum.cs" />
+    <Compile Include="Runtime\Func\Math\Random.cs" />
+    <Compile Include="Runtime\Func\Math\Solution.cs" />
+    <Compile Include="Runtime\Func\pow.cs" />
+    <Compile Include="Runtime\Func\Runtime\DeleteFunction.cs" />
+    <Compile Include="Runtime\Func\Runtime\DeleteVariable.cs" />
+    <Compile Include="Runtime\Func\Runtime\Evaluation.cs" />
+    <Compile Include="Runtime\Func\Runtime\UserDefineFunction.cs" />
+    <Compile Include="Runtime\Func\Trigonometric\Cosine.cs" />
+    <Compile Include="Runtime\Func\Trigonometric\Sine.cs" />
+    <Compile Include="Runtime\Func\Trigonometric\Tangent.cs" />
+    <Compile Include="Runtime\Operator\Addition.cs" />
+    <Compile Include="Runtime\Operator\ConditionDefine.cs" />
+    <Compile Include="Runtime\Operator\DecrementLeft.cs" />
+    <Compile Include="Runtime\Operator\DecrementRight.cs" />
+    <Compile Include="Runtime\Operator\Diff.cs" />
+    <Compile Include="Runtime\Operator\Division.cs" />
+    <Compile Include="Runtime\Operator\FuncSubstitution.cs" />
+    <Compile Include="Runtime\Operator\IncrementLeft.cs" />
+    <Compile Include="Runtime\Operator\IncrementRight.cs" />
+    <Compile Include="Runtime\Operator\Lamda.cs" />
+    <Compile Include="Runtime\Operator\MinusValue.cs" />
+    <Compile Include="Runtime\Operator\Multiplication.cs" />
+    <Compile Include="Runtime\Operator\Output.cs" />
+    <Compile Include="Runtime\Operator\OutputEval.cs" />
+    <Compile Include="Runtime\Operator\OutputFinalEval.cs" />
+    <Compile Include="Runtime\Operator\Power.cs" />
+    <Compile Include="Runtime\Operator\Remaindation.cs" />
+    <Compile Include="Runtime\Operator\Substitution.cs" />
+    <Compile Include="Runtime\Operator\Subtraction.cs" />
+    <Compile Include="Runtime\Optimizer\Trigonometric.cs" />
+    <Compile Include="Runtime\OutputType.cs" />
+    <Compile Include="Runtime\RuntimeData.cs" />
+    <Compile Include="Runtime\RuntimeSetting.cs" />
+    <Compile Include="Runtime\Support\SortFormula.cs" />
+    <Compile Include="Spec.cs" />
+    <Compile Include="Token.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Docs\INumber.Prioeity.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Docs\limit.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Docs\OperatorFuncs.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Runtime\Func\Graph\" />
+    <Folder Include="Runtime\Func\Table\" />
+    <Folder Include="Runtime\Statement\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
