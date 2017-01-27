@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc", "FuncCalc\FuncCa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.CUI", "FuncCalc.CUI\FuncCalc.CUI.csproj", "{C375B73C-FCF9-4A78-9F53-8CC5ED2926D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.GUI", "..\..\..\..\..\Dropbox\Project\プログラム\Project9\FuncCalc\Backup\2017-01-19\funccalc.gui\FuncCalc.GUI.csproj", "{090A6805-7AF8-44A8-A3E0-13ACB62393D8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.GUI", "FuncCalc.GUI\FuncCalc.GUI.csproj", "{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{C375B73C-FCF9-4A78-9F53-8CC5ED2926D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C375B73C-FCF9-4A78-9F53-8CC5ED2926D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C375B73C-FCF9-4A78-9F53-8CC5ED2926D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{090A6805-7AF8-44A8-A3E0-13ACB62393D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{090A6805-7AF8-44A8-A3E0-13ACB62393D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{090A6805-7AF8-44A8-A3E0-13ACB62393D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{090A6805-7AF8-44A8-A3E0-13ACB62393D8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
