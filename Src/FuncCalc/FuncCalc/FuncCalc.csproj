@@ -64,6 +64,7 @@
     <Compile Include="Expression\Fraction.cs" />
     <Compile Include="Expression\FuncedINumber.cs" />
     <Compile Include="Expression\FunctionFormula.cs" />
+    <Compile Include="Expression\ImaginaryNumber.cs" />
     <Compile Include="Expression\LineBreak.cs" />
     <Compile Include="Expression\Member.cs" />
     <Compile Include="Expression\MultipleFormula.cs" />

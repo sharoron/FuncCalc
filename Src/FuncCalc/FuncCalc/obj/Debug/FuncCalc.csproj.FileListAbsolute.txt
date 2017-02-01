@@ -5,4 +5,3 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.dl
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.pdb
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
-C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csprojResolveAssemblyReference.cache

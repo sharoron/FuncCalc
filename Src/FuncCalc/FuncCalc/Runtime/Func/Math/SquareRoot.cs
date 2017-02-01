@@ -40,8 +40,15 @@ namespace FuncCalc.Runtime.Func.Math
 
             if (val is Number) {
 
-                if ((double)(val as Number).Value < 0)
-                    throw new RuntimeException("現在、虚数には対応していません。", parameters[0]);
+                // 答えが虚数になるもの
+                if ((double)(val as Number).Value < 0) {
+                    var ires = this.Execute(runtime, Number.New((val as Number).Value * -1));
+                    if (ires is Number) {
+                        return new ImaginaryNumber((ires as Number).Value);
+                    }else {
+                        return ires;
+                    }
+                }
 
                 var res = System.Math.Sqrt((val as Number).Value);
 

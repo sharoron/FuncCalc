@@ -73,7 +73,20 @@ namespace FuncCalc.Interface
         }
 
         public virtual string Output(OutputType type) {
-            return this.ToString();
+            switch (type) {
+                case OutputType.String:
+                case OutputType.Mathjax:
+                    return this.ToString();
+
+                    string str = this.ToString();
+                    StringBuilder sb = new StringBuilder();
+                    for (int i = 0; i < str.Length; i++) {
+                        sb.Append("\\" + str[i]);
+                    }
+                    return sb.ToString();
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public abstract INumber ExecuteDiff(RuntimeData runtime, string t);
