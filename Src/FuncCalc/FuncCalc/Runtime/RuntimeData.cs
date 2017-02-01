@@ -15,6 +15,7 @@ namespace FuncCalc.Runtime
         private RuntimeSetting setting = null;
         private List<BlockData> blocks = null;
         private Dictionary<string, IFunction> funcs = null;
+        private OutputType logType = OutputType.String;
 
         private RuntimeData() { }
         public RuntimeData(RuntimeSetting setting) {
@@ -54,6 +55,11 @@ namespace FuncCalc.Runtime
         public BlockData[] Blocks
         {
             get { return this.blocks.ToArray(); }
+        }
+        public OutputType LogType
+        {
+            get { return this.logType; }
+            set { this.logType = value; }
         }
         
         public RuntimeData Clone() {
@@ -225,6 +231,9 @@ namespace FuncCalc.Runtime
             }
         }
 
+        public void AddCondition(string name, Condition var) {
+            
+        }
 
     }
 

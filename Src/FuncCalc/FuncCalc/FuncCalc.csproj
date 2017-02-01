@@ -84,6 +84,7 @@
     <Compile Include="Interface\IFormula.cs" />
     <Compile Include="Interface\IFunction.cs" />
     <Compile Include="Interface\IFunctionOutput.cs" />
+    <Compile Include="Interface\ILogger.cs" />
     <Compile Include="Interface\IMulti.cs" />
     <Compile Include="Interface\INumber.cs" />
     <Compile Include="Interface\IOperator.cs" />
