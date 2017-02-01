@@ -1,0 +1,5 @@
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.csprojResolveAssemblyReference.cache
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\MainWindow.g.cs
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\App.g.cs
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI_MarkupCompile.cache
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI_MarkupCompile.lref

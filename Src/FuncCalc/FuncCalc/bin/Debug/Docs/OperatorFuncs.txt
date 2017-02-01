@@ -1,0 +1,29 @@
+﻿
+
+各演算子の処理は以下の場所にコードを書く
+
+↓と→	|	Number	|	Fraction	|	StrFormula	|
+----------------------------------------------------------
+Number		|	○		|	✗		|	✗			|	
+Fraction	|	○		|	○		|	✗			|	
+StrFormula	|	○		|	○		|	○			|	
+			|
+			|
+
+Pow対応
+Number	Add			○
+		Subtract	○
+		Multiple	○
+		Divide		○
+Fract	Add			○
+		Subtract	○
+		Multiple	○
+		Divide		○
+AF		Add			
+		Subtract	
+		Multiple	
+		Divide		
+MF		Add			
+		Subtract	
+		Multiple	
+		Divide		

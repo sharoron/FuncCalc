@@ -1,0 +1,10 @@
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.csprojResolveAssemblyReference.cache
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\Docs\INumber.Prioeity.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\Docs\limit.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\Docs\OperatorFuncs.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\FuncCalc.CUI.exe
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\FuncCalc.CUI.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\FuncCalc.dll
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\bin\Debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.exe
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.pdb

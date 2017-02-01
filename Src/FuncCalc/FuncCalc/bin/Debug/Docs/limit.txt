@@ -1,0 +1,10 @@
+﻿
+
+sin inf  = 0
+sin -inf = 0
+cos inf  = 1
+cos -inf = 1
+tan inf  = 
+tan =inf = 
+arctan inf  = Pi / 2
+arctan -inf = -Pi / 2

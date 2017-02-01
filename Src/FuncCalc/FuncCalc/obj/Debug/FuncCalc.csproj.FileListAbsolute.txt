@@ -1,0 +1,7 @@
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\Docs\INumber.Prioeity.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\Docs\limit.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\Docs\OperatorFuncs.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.dll
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
