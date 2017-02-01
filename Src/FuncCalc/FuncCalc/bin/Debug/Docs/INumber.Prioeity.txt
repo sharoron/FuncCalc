@@ -1,0 +1,18 @@
+﻿
+Infinity		50
+Number			100
+FloatNumber		100
+IConstParameter	150
+Fanction		200
+Results			300
+Member			500
+Variable		500
+Array			750
+AdditionFormula	1000
+MultipleFormula	1000
+Formula			1500
+FuncedINumber	3000
+FunctionFormula	3000
+RPEFormula		3000
+Condition		5000
+LineBreak		10000
