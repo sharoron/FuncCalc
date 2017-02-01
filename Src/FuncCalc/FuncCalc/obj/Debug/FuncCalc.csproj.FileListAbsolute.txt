@@ -5,3 +5,7 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.dl
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.pdb
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csproj.GenerateResource.Cache
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Res.resources
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Res-str.resources
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Res-mathjax.resources

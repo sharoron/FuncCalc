@@ -13,6 +13,7 @@ namespace FuncCalc.Runtime {
         private bool doOptimize = true;
         private bool isDebug = false;
         private List<IOptimizer> optimizers = new List<IOptimizer>();
+        private ILogger _logger = new ConsoleLogger();
 
         // Initializer
         public RuntimeSetting() {
@@ -32,6 +33,11 @@ namespace FuncCalc.Runtime {
         {
             get { return this.isDebug; }
             set { this.isDebug = value; }
+        }
+        public ILogger Logger
+        {
+            get { return this._logger; }
+            set { this._logger = value; }
         }
 
         // Public Methods

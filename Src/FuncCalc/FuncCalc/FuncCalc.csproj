@@ -92,7 +92,24 @@
     <Compile Include="Interface\IOutput.cs" />
     <Compile Include="Interface\IUnknownParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Res.Designer.cs">
+      <DependentUpon>Res.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Res.cs" />
+    <Compile Include="Res-str.Designer.cs">
+      <DependentUpon>Res-str.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Res-mathjax.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Res-mathjax.resx</DependentUpon>
+    </Compile>
     <Compile Include="Runtime\BlockData.cs" />
+    <Compile Include="Runtime\ConsoleLogger.cs" />
     <Compile Include="Runtime\Func\Debug\test.cs" />
     <Compile Include="Runtime\Func\Debug\test2.cs" />
     <Compile Include="Runtime\Func\Differential.cs" />
@@ -155,6 +172,21 @@
     <Folder Include="Runtime\Func\Graph\" />
     <Folder Include="Runtime\Func\Table\" />
     <Folder Include="Runtime\Statement\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Res.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Res.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Res-str.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Res-str.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Res-mathjax.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Res-mathjax.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

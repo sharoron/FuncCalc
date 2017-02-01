@@ -140,9 +140,14 @@ namespace FuncCalc.Runtime.Func
                 !(keisu[1] is Number && (keisu[1] as Number).Value == 0)))  // x^2の係数が0ではない
                 return null;
 
+            runtime.AddLogWay("AsLinerEquation", keisu[1], keisu[0]);
+
             // ax + b = 0の時
             // 解: -(b / a)
             var res1 = keisu[0].Divide(runtime, keisu[1]).Multiple(runtime, Number.New(-1));
+            
+            var vr = new Variable(varname);
+            runtime.AddLogWay("_LinerEquationWay1", vr, res1);
 
             Results res = new Results(new Variable(varname));
             res.items.Add(res1);
@@ -160,6 +165,8 @@ namespace FuncCalc.Runtime.Func
                 !(keisu[2] is Number && (keisu[2] as Number).Value == 0)))  // x^2の係数が0ではない
                 return null;
 
+            runtime.AddLogWay("AsQuadraticEquation", keisu[2], keisu[1], keisu[0]);
+
             INumber res1 = null, res2 = null;
             try {
                 runtime.AddBlock(new BlockData() { MoreScope = false });
@@ -170,6 +177,10 @@ namespace FuncCalc.Runtime.Func
                 // ( -b ± √(b^2 - 4ac)) / 2a
                 res1 = (runtime.Setting.GetExpression("((0-b)+sqrt(b^2-4a*c))/(2a)") as IEval).Eval(runtime);
                 res2 = (runtime.Setting.GetExpression("((0-b)-sqrt(b^2-4a*c))/(2a)") as IEval).Eval(runtime);
+
+                var vr = new Variable(varname);
+                runtime.AddLogWay("_QuadraticEquationWay1", vr, res1);
+                runtime.AddLogWay("_QuadraticEquationWay2", vr, res2);
 
             }
             finally { runtime.PopBlock(); }
