@@ -55,7 +55,7 @@ namespace FuncCalc.Runtime
         {
             get { return this.blocks.ToArray(); }
         }
-
+        
         public RuntimeData Clone() {
             return this.MemberwiseClone() as RuntimeData;
 

@@ -8,7 +8,13 @@ using FuncCalc.Interface;
 namespace FuncCalc.Expression {
     public class Results: INumber {
         internal List<INumber> items = new List<INumber>();
-        
+        internal Variable _var = null;
+
+        private Results() { }
+        public Results(Variable var) {
+            this._var = var;
+        }
+
         public override ExpressionType Type {
             get { return ExpressionType.Anything; }
         }
@@ -20,6 +26,10 @@ namespace FuncCalc.Expression {
         }
         public INumber[] Items {
             get { return this.items.ToArray(); }
+        }
+        public Variable Variable
+        {
+            get { return this._var; }
         }
 
 
@@ -42,6 +52,10 @@ namespace FuncCalc.Expression {
 
         public override string ToString() {
             StringBuilder sb = new StringBuilder();
+            if (this.Variable != null) {
+                sb.Append(this.Variable.ToString());
+                sb.Append("=");
+            }
             sb.Append("{");
             for (int i = 0; i < this.items.Count; i++) {
                 if (i != 0) sb.Append(", ");
@@ -56,15 +70,20 @@ namespace FuncCalc.Expression {
                     return this.ToString();
                 case FuncCalc.Runtime.OutputType.Mathjax: {
                         StringBuilder sb = new StringBuilder();
+                        if (this.Variable != null) {
+                            sb.Append(this.Variable.ToString());
+                            sb.Append("=");
+                        }
                         sb.Append("\\{");
                         for (int i = 0; i < this.items.Count; i++) {
                             if (i != 0) sb.Append(", ");
+                            sb.Append("{");
                             sb.Append(this.items[i].Output(type));
+                            sb.Append("}");
                         }
                         sb.Append("\\}");
                         return sb.ToString();
                     }
-                    break;
                 default:
                     throw new NotImplementedException();
             }

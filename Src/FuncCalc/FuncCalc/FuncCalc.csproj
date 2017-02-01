@@ -49,6 +49,7 @@
     <Compile Include="Analyzer\TokenType.cs" />
     <Compile Include="Exceptions\FuncCalcException.cs" />
     <Compile Include="Exceptions\FunctionExecutionCancelException.cs" />
+    <Compile Include="Exceptions\MathExecutionException.cs" />
     <Compile Include="Exceptions\RuntimeException.cs" />
     <Compile Include="Exceptions\SyntaxException.cs" />
     <Compile Include="Expression\AdditionFormula.cs" />

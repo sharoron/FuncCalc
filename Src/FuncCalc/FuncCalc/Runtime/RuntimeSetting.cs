@@ -14,10 +14,12 @@ namespace FuncCalc.Runtime {
         private bool isDebug = false;
         private List<IOptimizer> optimizers = new List<IOptimizer>();
 
+        // Initializer
         public RuntimeSetting() {
             this.Initialize();
         }
 
+        // Properties
         public Spec Spec {
             get { return this.spec; }
         }
@@ -32,6 +34,7 @@ namespace FuncCalc.Runtime {
             set { this.isDebug = value; }
         }
 
+        // Public Methods
         public IOperator GetOperator(string op, Token t, bool throwExc) {
             foreach (var item in this.Spec.Operations) {
                 if (item.Key.Text == op)
@@ -42,7 +45,15 @@ namespace FuncCalc.Runtime {
             else
                 return null;
         }
+        public RuntimeData CreateNewRuntimedata() {
+            RuntimeData data = new Runtime.RuntimeData(this);
+            return data;
+        }
+        public IExpression GetExpression(string formula) {
+            return Analyzer.Analyzer.Compile(formula, this);
+        }
 
+        // Private Methods
         private void Initialize() {
             this.LoadOptimizer();
         }

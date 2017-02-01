@@ -39,6 +39,9 @@ namespace FuncCalc.Expression
         }
 
         private Variable() { }
+        public Variable(string name) {
+            this.Token = new FuncCalc.Token(name, Analyzer.TokenType.Member);
+        }
         public Variable(Token token) {
             this.Token = token;
         }
