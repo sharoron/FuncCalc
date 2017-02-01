@@ -3,3 +3,16 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\MainWin
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\App.g.cs
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI_MarkupCompile.cache
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI_MarkupCompile.lref
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\Docs\INumber.Prioeity.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\Docs\limit.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\Docs\OperatorFuncs.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\FuncCalc.GUI.exe
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\FuncCalc.GUI.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\FuncCalc.dll
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\bin\Debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\MainWindow.baml
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.g.resources
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.Properties.Resources.resources
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.csproj.GenerateResource.Cache
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.exe
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.pdb
