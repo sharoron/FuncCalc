@@ -126,11 +126,11 @@ namespace FuncCalc.Expression
 
             } else { // このメンバーの名前がtとは違う場合
 
-                var res = runtime.GetData(new Token(t));
+                var res = runtime.GetData(this.Token);
                 if (res is Member) throw new NotImplementedException("話が違う");
 
                 if (res is Variable) {
-                    if ((res as Variable).Name == t) {
+                    if ((res as Variable).Name == this.Text) {
                         // yをxで微分しようとしている場合
 
                         // tとres(それぞれ違う名前の変数)がそれぞれ関係ないならば成り立つ
