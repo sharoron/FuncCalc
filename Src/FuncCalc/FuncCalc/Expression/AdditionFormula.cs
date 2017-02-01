@@ -214,6 +214,15 @@ namespace FuncCalc.Expression
             else
                 return af;
         }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            AdditionFormula af = new Expression.AdditionFormula();
+
+            for (int i = 0; i < this.items.Count; i++) {
+                af.AddItem(runtime, this.items[i].Integrate(runtime, t));
+            }
+
+            return af.Optimise(runtime);
+        }
 
         public void AddItem(RuntimeData runtime, IExpression exp) {
             this.AddItem(runtime, exp as INumber);

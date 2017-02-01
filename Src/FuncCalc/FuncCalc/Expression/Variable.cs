@@ -200,6 +200,9 @@ namespace FuncCalc.Expression
             else
                 return res;
         }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            return (new Member(this.Token) { Pow = this.Pow }).Integrate(runtime, t);
+        }
 
 
         public override string ToString() {

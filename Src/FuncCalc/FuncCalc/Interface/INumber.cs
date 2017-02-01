@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Interface
 {
-    public abstract class INumber : IEval, IExpression, IOutput, IDiff
+    public abstract class INumber : IEval, IExpression, IOutput, IDiff, IIntegratable
     {
         private INumber _pow = null;
 
@@ -47,6 +47,14 @@ namespace FuncCalc.Interface
             return new Fraction(val, this);
         }
         public virtual INumber Power(RuntimeData runtime, INumber val) {
+
+            if (val is Number && (val as Number).Value == 0)
+                return Number.New(0);
+            if (val is Number && (val as Number).Value < 0)
+                return new Fraction(
+                    this.Clone().Power(runtime, val.Multiple(runtime, Number.New(-1))),
+                    Number.New(1));
+
             var me = this.Clone();
             me.Pow = me.Pow.Multiple(runtime, val);
             return me;
@@ -90,5 +98,15 @@ namespace FuncCalc.Interface
         }
 
         public abstract INumber ExecuteDiff(RuntimeData runtime, string t);
+        public virtual INumber Integrate(RuntimeData runtime, string t) {
+            if (this is IConstParameter) {
+                MultipleFormula mf = new Expression.MultipleFormula();
+                mf.AddItem(runtime, this);
+                mf.AddItem(runtime, new Variable(t));
+                return mf;
+            }
+
+            throw new NotImplementedException();
+        }
     }
 }

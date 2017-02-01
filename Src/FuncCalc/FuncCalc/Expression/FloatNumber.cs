@@ -94,6 +94,10 @@ namespace FuncCalc.Expression
         }
         public override INumber Power(RuntimeData runtime, INumber val) {
             var pow = val.FinalEval(runtime);
+
+            if (pow is IConstParameter && (pow as IConstParameter).ConstValue == 0)
+                return Number.New(1);
+
             if (runtime.IsConstValue(pow)) {
                 var me = this.Clone() as FloatNumber;
                 me.value = (decimal)Math.Pow((double)this.value, (double)(pow as IConstParameter).ConstValue);

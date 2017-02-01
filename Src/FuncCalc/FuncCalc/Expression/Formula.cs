@@ -7,6 +7,7 @@ using FuncCalc.Interface;
 using FuncCalc.Runtime;
 using FuncCalc.Analyzer;
 using FuncCalc.Exceptions;
+using System.Diagnostics;
 
 namespace FuncCalc.Expression {
     
@@ -232,16 +233,32 @@ namespace FuncCalc.Expression {
         }
 
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+
             var pow = Runtime.Func.Differential.DiffPow(runtime, t, this);
 
-            var res = this.Eval(runtime);
+            runtime.Setting.Logger.AddWarning("Formula型の表現を直接微分はバグってる可能性あり");
+            Debugger.Break();
+
+            var res = this.Eval(runtime).ExecuteDiff(runtime, t);
             if (pow != null) {
                 pow.AddItem(runtime, res);
                 return pow;
-            }else {
+            }
+            else {
                 return res;
             }
         }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+
+            var res = this.Eval(runtime);
+            if (res is Formula)
+                throw new NotImplementedException();
+
+            return res.Integrate(runtime, t);
+
+
+        }
+
     }
 
 }

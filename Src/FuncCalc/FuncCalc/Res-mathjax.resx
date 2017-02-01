@@ -123,13 +123,22 @@
   <data name="AsQuadraticEquation" xml:space="preserve">
     <value>二次方程式として計算: ax^2 + bx + c = 0 → a={0}, b={1}, c={2}なので</value>
   </data>
+  <data name="Equal" xml:space="preserve">
+    <value>{0} = {1}</value>
+  </data>
+  <data name="IntegralConstant" xml:space="preserve">
+    <value>{0}は積分定数</value>
+  </data>
+  <data name="UnrelationWith" xml:space="preserve">
+    <value>{0}と{1}が独立した関係にある場合のみ成り立つ</value>
+  </data>
   <data name="_LinerEquationWay1" xml:space="preserve">
-    <value>{0} = -(b/a) → {1}</value>
+    <value>{0} = -(b/a) = {1}</value>
   </data>
   <data name="_QuadraticEquationWay1" xml:space="preserve">
-    <value>{0}_1 = \frac {-b+\sqrt {b^2-4a*c} {2a} = {1}</value>
+    <value>{0}_1 = \frac {-b+\sqrt {b^2-4a*c} } {2a} = {1}</value>
   </data>
   <data name="_QuadraticEquationWay2" xml:space="preserve">
-    <value>{0}_2 = \frac {-b-\sqrt {b^2-4a*c} {2a} = {1}</value>
+    <value>{0}_2 = \frac {-b-\sqrt {b^2-4a*c} } {2a} = {1}</value>
   </data>
 </root>

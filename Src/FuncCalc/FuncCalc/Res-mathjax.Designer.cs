@@ -61,7 +61,7 @@ namespace FuncCalc {
         }
         
         /// <summary>
-        ///   {0} = -(b/a) → {1} に類似しているローカライズされた文字列を検索します。
+        ///   {0} = -(b/a) = {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _LinerEquationWay1 {
             get {
@@ -70,7 +70,7 @@ namespace FuncCalc {
         }
         
         /// <summary>
-        ///   {0}_1 = \frac {-b+\sqrt {b^2-4a*c} {2a} = {1} に類似しているローカライズされた文字列を検索します。
+        ///   {0}_1 = \frac {-b+\sqrt {b^2-4a*c} } {2a} = {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _QuadraticEquationWay1 {
             get {
@@ -79,7 +79,7 @@ namespace FuncCalc {
         }
         
         /// <summary>
-        ///   {0}_2 = \frac {-b-\sqrt {b^2-4a*c} {2a} = {1} に類似しているローカライズされた文字列を検索します。
+        ///   {0}_2 = \frac {-b-\sqrt {b^2-4a*c} } {2a} = {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _QuadraticEquationWay2 {
             get {
@@ -102,6 +102,33 @@ namespace FuncCalc {
         public static string AsQuadraticEquation {
             get {
                 return ResourceManager.GetString("AsQuadraticEquation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0} = {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Equal {
+            get {
+                return ResourceManager.GetString("Equal", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0}は積分定数 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string IntegralConstant {
+            get {
+                return ResourceManager.GetString("IntegralConstant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {0}と{1}が独立した関係にある場合のみ成り立つ に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string UnrelationWith {
+            get {
+                return ResourceManager.GetString("UnrelationWith", resourceCulture);
             }
         }
     }

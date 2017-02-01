@@ -100,8 +100,57 @@ namespace FuncCalc.Expression
         }
 
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-
             return new Variable(this.Token).ExecuteDiff(runtime, t);
+        }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            
+            // このメンバーの名前がtと同じだった場合
+            if (this.Text == t) {
+
+                if (this.Pow is IConstParameter) {
+                    // x^a
+                    
+                    // 1/(a + 1)
+                    MultipleFormula mf = new Expression.MultipleFormula();
+                    mf.AddItem(runtime, new Fraction(this.Pow.Add(runtime, Number.New(1)), Number.New(1)));
+
+                    // x~(a+1)
+                    var cln = this.Clone(); cln.Pow = cln.Pow.Add(runtime, Number.New(1));
+                    mf.AddItem(runtime, cln);
+
+                    return mf;
+
+                } else {
+                    throw new NotImplementedException("べき乗が定数ではない変数の積分は未実装です。");
+                }
+
+            } else { // このメンバーの名前がtとは違う場合
+
+                var res = runtime.GetData(new Token(t));
+                if (res is Member) throw new NotImplementedException("話が違う");
+
+                if (res is Variable) {
+                    if ((res as Variable).Name == t) {
+                        // yをxで微分しようとしている場合
+
+                        // tとres(それぞれ違う名前の変数)がそれぞれ関係ないならば成り立つ
+                        runtime.AddLogCondition("UnrelationWith", new Variable(t), res);
+
+                        // resを定数として扱って積分する
+                        // 参考: (2)~(3)の部分 http://www.geisya.or.jp/~mwm48961/electro/multi_integral3.htm
+                        MultipleFormula mf = new Expression.MultipleFormula();
+                        mf.AddItem(runtime, res);
+                        mf.AddItem(runtime, new Variable(t));
+                        return mf;
+                    }
+                    else {
+                        // yからまた別の変数が出てきちゃった場合
+                        return res.Integrate(runtime, t);
+                    }
+                }
+                else
+                    return res.Integrate(runtime, t);
+            }
 
 
         }

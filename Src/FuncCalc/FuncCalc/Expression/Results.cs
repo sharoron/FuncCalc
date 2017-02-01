@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Interface;
+using FuncCalc.Runtime;
 
 namespace FuncCalc.Expression {
     public class Results: INumber {
@@ -47,6 +48,9 @@ namespace FuncCalc.Expression {
             throw new NotImplementedException();
         }
         public override INumber ExecuteDiff(Runtime.RuntimeData runtime, string t) {
+            throw new NotImplementedException();
+        }
+        public override INumber Integrate(RuntimeData runtime, string t) {
             throw new NotImplementedException();
         }
 

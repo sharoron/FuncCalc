@@ -59,5 +59,14 @@ namespace FuncCalc {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   ただし、 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string But {
+            get {
+                return ResourceManager.GetString("But", resourceCulture);
+            }
+        }
     }
 }

@@ -19,8 +19,12 @@ namespace FuncCalc
             return rm.GetString(name);
         }
         internal static string Text(string source, string name, params object[] objs) {
-            return string.Format(
-                GetRes.Text(source, name), objs.ToArray());
+            string str = GetRes.Text(source, name);
+            for (int i = 0; i < objs.Length; i++) {
+                str = str.Replace("{" + i + "}", objs[i].ToString());
+            }
+            return str;
+
         }
     }
 }

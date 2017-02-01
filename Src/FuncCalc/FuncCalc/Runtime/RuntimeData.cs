@@ -229,14 +229,16 @@ namespace FuncCalc.Runtime
             }
         }
 
-        public void AddLogCondition(string str) {
-            this.setting.Logger.AddCondition(str);
+        public void AddLogCondition(string keyname, params IExpression[] parameter) {
+            this.setting.Logger.AddCondition(GetRes.Text("Res", "But") + GetResStr(keyname, parameter));
         }
         public void AddLogWay(string str) {
             this.setting.Logger.AddWay(str);
         }
         public void AddLogWay(string keyname, params IExpression[] parameter) {
-
+            this.AddLogWay(GetResStr(keyname, parameter));
+        }
+        private string GetResStr(string keyname, params IExpression[] parameter) {
             string source = "Res-";
             switch (this.LogType) {
                 case OutputType.String:
@@ -248,40 +250,42 @@ namespace FuncCalc.Runtime
                 default:
                     throw new NotImplementedException();
             }
+            
+            string str = GetRes.Text(source, keyname);
+
+            switch (this.LogType) {
+                case OutputType.Mathjax:
+                    if (keyname.StartsWith("_"))
+                        str = " $ " + str + " $ ";
+                    break;
+            }
 
             List<object> prm = new List<object>();
             for (int i = 0; i < parameter.Length; i++) {
                 if (parameter[i] is IOutput) {
+                    string st = "";
 
                     switch (this.LogType) {
                         case OutputType.Mathjax:
                             if (keyname.StartsWith("_"))
-                                prm.Add((parameter[i] as IOutput).Output(this.LogType));
-                            else 
-                                prm.Add(" $ " + (parameter[i] as IOutput).Output(this.LogType) + " $ ");
+                                st = ((parameter[i] as IOutput).Output(this.LogType));
+                            else
+                                st = (" $ " + (parameter[i] as IOutput).Output(this.LogType) + " $ ");
                             break;
                         default:
-                            prm.Add((parameter[i] as IOutput).Output(this.LogType));
+                            st = ((parameter[i] as IOutput).Output(this.LogType));
                             break;
                     }
 
-
+                    str = str.Replace("{" + i + "}", st);
                 }
                 else
                     prm.Add(parameter[i].ToString());
 
             }
 
-            string str = GetRes.Text(source, keyname, prm.ToArray());
 
-            switch (this.LogType) {
-                case OutputType.Mathjax:
-                    if (keyname.StartsWith("-"))
-                        str = " $ " + str + " $ ";
-                    break;
-            }
-
-            this.AddLogWay(str);
+            return str;
         }
 
     }

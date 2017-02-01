@@ -272,9 +272,14 @@ namespace FuncCalc.Expression
         public override bool CanJoin(RuntimeData runtime, INumber val) {
             return false;
         }
+
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {
             throw new NotImplementedException();
         }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            return base.Integrate(runtime, t);
+        }
+
         public override INumber Eval(RuntimeData runtime) {
             MultipleFormula mf = new Expression.MultipleFormula();
             for (int i = 0; i < this.items.Count; i++) {

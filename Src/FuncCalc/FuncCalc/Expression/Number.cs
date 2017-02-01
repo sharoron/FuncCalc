@@ -144,11 +144,13 @@ namespace FuncCalc.Expression
         public override INumber Power(RuntimeData runtime, INumber val) {
             var me = this.Clone() as Number;
 
-            if (val is Number && (val as Number).Value < 0)
-                throw new NotImplementedException("マイナスを含むべき乗はまだ正常に実装されていません。");
+            if (val is Number && (val as Number).Value < 0) {
+                return new Fraction(
+                    Number.New(this.Value).Power(runtime, val.Multiple(runtime, Number.New(-1))) , 
+                    Number.New(1));
+            }
 
             if (val is Number) {
-                // 正の整数の場合のみ対応する
                 if ((val as Number).Value >= 1) {
                     var res = me.Value;
                     for (int i = 0; i < (val as Number).Value - 1; i++) {
@@ -159,7 +161,7 @@ namespace FuncCalc.Expression
                 }
                 else if ((val as Number).Value == 0)
                     return Number.New(1);
-                else
+                else 
                     return new Fraction(me.Power(runtime, Number.New((val as Number).Value * -1)), Number.New(1));
             }
             me.Pow = val;
@@ -186,6 +188,10 @@ namespace FuncCalc.Expression
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {
             return Number.New(0);
         }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            return base.Integrate(runtime, t);
+        }
+
         public static Number New(long val) {
             return new Number(val);
         }

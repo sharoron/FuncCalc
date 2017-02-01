@@ -9,7 +9,7 @@ using FuncCalc.Exceptions;
 
 namespace FuncCalc.Expression
 {
-    public class InfinityValue : INumber, IConstParameter
+    public class InfinityValue : INumber, IConstParameter, IOutput
     {
         private static InfinityValue value;
         private static InfinityValue minusvalue;
@@ -108,6 +108,14 @@ namespace FuncCalc.Expression
             return this.ValueType == ValueType.Plus ?
                 "∞" :
                 "-∞";
+        }
+        public override string Output(OutputType type) {
+            switch (type) {
+                case OutputType.Mathjax:
+                    return "\\infty";
+                default:
+                    return this.ToString();
+            }
         }
 
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {

@@ -55,6 +55,7 @@
     <Compile Include="Expression\AdditionFormula.cs" />
     <Compile Include="Expression\Array.cs" />
     <Compile Include="Expression\Condition.cs" />
+    <Compile Include="Expression\Const\IntegralConstant.cs" />
     <Compile Include="Expression\Const\InfinityValue.cs" />
     <Compile Include="Expression\Const\NaturalLogarithm.cs" />
     <Compile Include="Expression\Const\Pi.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Interface\IBlock.cs" />
     <Compile Include="Interface\IConstParameter.cs" />
     <Compile Include="Interface\IDiff.cs" />
+    <Compile Include="Interface\IIntegrateWithParameters.cs" />
     <Compile Include="Interface\IDiffWithParameters.cs" />
     <Compile Include="Interface\IEval.cs" />
     <Compile Include="Interface\IEvalWithParameters.cs" />
@@ -84,6 +86,7 @@
     <Compile Include="Interface\IFormula.cs" />
     <Compile Include="Interface\IFunction.cs" />
     <Compile Include="Interface\IFunctionOutput.cs" />
+    <Compile Include="Interface\IIntegratable.cs" />
     <Compile Include="Interface\ILogger.cs" />
     <Compile Include="Interface\IMulti.cs" />
     <Compile Include="Interface\INumber.cs" />
@@ -113,6 +116,7 @@
     <Compile Include="Runtime\Func\Debug\test.cs" />
     <Compile Include="Runtime\Func\Debug\test2.cs" />
     <Compile Include="Runtime\Func\Differential.cs" />
+    <Compile Include="Runtime\Func\Integrate.cs" />
     <Compile Include="Runtime\Func\Limit.cs" />
     <Compile Include="Runtime\Func\Math\ExGcd.cs" />
     <Compile Include="Runtime\Func\Math\Gcd.cs" />

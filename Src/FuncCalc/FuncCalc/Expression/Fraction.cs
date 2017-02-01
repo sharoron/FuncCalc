@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Runtime;
 using FuncCalc.Exceptions;
+using FuncCalc.Expression.Const;
 
 namespace FuncCalc.Expression
 {
@@ -327,6 +328,10 @@ namespace FuncCalc.Expression
             return me;
         }
         public override INumber Power(RuntimeData runtime, INumber val) {
+
+            if (val is Number && (val as Number).Value == 0)
+                return Number.New(1);
+
             var me = this.Clone() as Fraction;
             me.Denominator = me.Denominator.Power(runtime, val);
             me.Numerator = me.Numerator.Power(runtime, val);
@@ -427,6 +432,50 @@ namespace FuncCalc.Expression
                 return f;
                 
             }
+        }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+
+            // 計算し易いように条件を最適化しておく
+            var ress = this.Clone().Optimise(runtime);
+            if (!(ress is Fraction))
+                return ress.Integrate(runtime, t);
+
+            var res = ress as Fraction;
+
+            
+
+            // 特殊な定義: ∫(b / x^a)dx → b*log(x) / a
+            // ∫(1 / x^2)dxとかはこの条件に当てはまらないので注意しないといけない
+            if (runtime.IsConstValue(res.Numerator) && 
+                ((res.Denominator is Variable && (res.Denominator as Variable).Name == t) || 
+                (res.Denominator is Member && (res.Denominator as Member).Text == t)) &&
+                runtime.IsConstValue(res.Denominator.Pow)) {
+
+                MultipleFormula mf = new Expression.MultipleFormula();
+                mf.AddItem(runtime, res.Numerator);
+                mf.AddItem(runtime, new Fraction(res.Denominator.Pow, Number.New(1)));
+                mf.AddItem(runtime,  new FuncedINumber(
+                    runtime.Functions["log"], 
+                    new INumber[] { new NaturalLogarithm(), res.Denominator }));
+                if (runtime.Setting.DoOptimize)
+                    return mf.Optimise(runtime);
+                else
+                    return mf;
+            }
+
+            // 分母も分子も定数しか含まれていない → 定数として扱う
+            if (runtime.IsConstValue(res.Denominator) && 
+                runtime.IsConstValue(res.Numerator)) {
+                MultipleFormula mf = new Expression.MultipleFormula();
+                mf.AddItem(runtime, res);
+                mf.AddItem(runtime, new Variable(t));
+                return mf;
+            }
+
+            // 事前に分母と分子に存在する定数を外に出して計算した方がいい
+            runtime.Setting.Logger.AddInfo("分数の積分は申し訳程度にしか実装していません。");
+
+            throw new NotImplementedException("分数の積分はあまり対応してない");
         }
     }
 }

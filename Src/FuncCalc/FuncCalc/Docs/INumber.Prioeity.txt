@@ -16,4 +16,5 @@ FuncedINumber	3000
 FunctionFormula	3000
 RPEFormula		3000
 Condition		5000
+IntegralConstant9000
 LineBreak		10000

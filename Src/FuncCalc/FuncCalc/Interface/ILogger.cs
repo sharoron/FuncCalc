@@ -12,5 +12,7 @@ namespace FuncCalc.Interface
 
         void AddCondition(string str);
         void AddWay(string str);
+        void AddInfo(string str);
+        void AddWarning(string str);
     }
 }

@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FuncCalc.Runtime;
+using FuncCalc.Exceptions;
 
 namespace FuncCalc.Expression
 {
+    // 実態のある数値ではないのでIConstParamはつけないで
     public class ImaginaryNumber : INumber, IOutput
     {
         private long _val = 0;
@@ -43,6 +45,17 @@ namespace FuncCalc.Expression
                 return ValueType.Unknown;
             }
         }
+        public override INumber Pow
+        {
+            get
+            {
+                return base.Pow;
+            }
+            protected internal set
+            {
+                throw new FuncCalcException("虚数のpowを直接いじることはできません。", this);
+            }
+        }
 
         public override INumber Add(RuntimeData runtime, INumber val) {
 
@@ -56,6 +69,31 @@ namespace FuncCalc.Expression
             af.AddItem(runtime, val);
             af.AddItem(runtime, this);
             return af;
+        }
+        public override INumber Power(RuntimeData runtime, INumber val) {
+            if (val is Number) {
+                var pow = val as Number;
+                if (pow.Value == 0) return Number.New(1);
+                if (pow.Value < 0) { // 乗数がマイナスだったら
+                    var res = this.Clone();
+                    res = res.Power(runtime, Number.New(pow.Value * -1));
+                    return new Fraction(res, Number.New(1));
+                }
+                if (pow.Value % 2 == 0) { // 乗数が偶数だったら
+                    if (pow.Value % 4 == 0) {
+                        return Number.New(this.Value).Power(runtime, pow);
+                    } else {
+                        return Number.New(this.Value).Power(runtime, pow).Multiple(runtime, Number.New(-1));
+                    }
+                }else {
+                    MultipleFormula mf = new MultipleFormula();
+                    mf.AddItem(runtime, Number.New(this.Value).Power(runtime, Number.New(pow.Value - 1)));
+                    mf.AddItem(runtime, this);
+                    return mf;
+                }
+            }
+
+            throw new NotImplementedException("虚数に数値以外のべき乗含むのはまだ実装していません。");
         }
 
         public override bool CanJoin(RuntimeData runtime, INumber val) {
@@ -72,6 +110,17 @@ namespace FuncCalc.Expression
             // 参考 http://takeno.iee.niit.ac.jp/~shige/math/lecture/basic3/quotef4/node8.html
             return Number.New(0);
         }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            // 参考 https://oshiete.goo.ne.jp/qa/2664611.html
+
+            MultipleFormula mf = new Expression.MultipleFormula();
+            mf.AddItem(runtime, new Variable(t));
+            mf.AddItem(runtime, this);
+            return mf;
+
+
+        }
+
 
         public override INumber Multiple(RuntimeData runtime, INumber val) {
            
