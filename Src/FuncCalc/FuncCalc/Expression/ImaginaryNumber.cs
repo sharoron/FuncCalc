@@ -97,5 +97,9 @@ namespace FuncCalc.Expression
                     throw new NotImplementedException();
             }
         }
+
+        public override string ToString() {
+            return this.Output(OutputType.String);
+        }
     }
 }
