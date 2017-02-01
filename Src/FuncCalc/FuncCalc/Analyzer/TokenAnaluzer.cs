@@ -119,7 +119,7 @@ namespace FuncCalc.Analyzer {
             // メンバー
             if ((c >= '0' && c <= '9') ||
                 (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') ||
-                c == '@' || c == '$') {
+                c == '@' || c == '$' || c == '_') {
 
                 t = TokenType.Member;
                 goto Finish;
