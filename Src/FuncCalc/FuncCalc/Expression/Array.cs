@@ -34,6 +34,19 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 750; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                for (int i = 0; i < this.items.Count; i++) {
+                    for (int k = 0; k < this.items[i].Count; k++) {
+                        if (this.items[i][k].InfinitelyDifferentiable)
+                            return true;
+                    }
+                }
+                return false;
+            }
+        }
 
         public override INumber Add(Runtime.RuntimeData runtime, INumber val)
         {

@@ -42,6 +42,17 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 1000; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                for (int i = 0; i < this.items.Count; i++) {
+                    if (this.items[i].InfinitelyDifferentiable)
+                        return true;
+                }
+                return false;
+            }
+        }
 
         IExpression[] IFormula.Items
         {
@@ -277,7 +288,92 @@ namespace FuncCalc.Expression
             throw new NotImplementedException();
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
-            return base.Integrate(runtime, t);
+
+            MultipleFormula mf = new MultipleFormula();
+            List<INumber> intg = new List<INumber>();
+
+            foreach (var item in this.items) {
+
+                // itemが定数なら
+                if (item is IConstParameter || item is ImaginaryNumber)
+                    mf.AddItem(runtime, item);
+                else // ちがうなら
+                    intg.Add(item);
+            }
+
+            if (intg.Count == 0) {
+                mf.AddItem(runtime, new Variable(t));
+                return mf;
+            }
+            else if (intg.Count == 1) {
+                mf.AddItem(runtime, intg[0].Integrate(runtime, t));
+                if (runtime.Setting.DoOptimize)
+                    return mf.Optimise(runtime);
+                else return mf;
+            }
+            else if (intg.Count == 2) {
+                // 両方とも無限回[微分]可能な関数なら積分を行う子てゃできない
+                if (intg[0].InfinitelyDifferentiable &&
+                    intg[1].InfinitelyDifferentiable) {
+                    MultipleFormula mmf = new MultipleFormula();
+                    for (int i = 0; i < intg.Count; i++) {
+                        mmf.AddItem(runtime, intg[i]);
+                    }
+                    mf.AddItem(runtime, new FuncedINumber(
+                        runtime.Functions["intg"], new INumber[] { new Variable(t), mmf }));
+                    return mf;
+                }
+
+                INumber diffable = null, other = null;
+                if (intg[0].InfinitelyDifferentiable) {
+                    diffable = intg[1];
+                    other = intg[0];
+                }
+                else {
+                    diffable = intg[0];
+                    other = intg[1];
+                }
+
+                // diffable * other <=> f(x)g(x)
+                AdditionFormula af = new AdditionFormula();
+                INumber diffedDiffable = null, intedOthr = null;
+                INumber res1 = null, res2 = null;
+                // f*intg(g)
+                {
+                    MultipleFormula mf2 = new MultipleFormula();
+                    mf2.AddItem(runtime, diffable);
+                    mf2.AddItem(runtime, intedOthr = other.Integrate(runtime, t));
+                    res1 = mf2;
+                }
+                // -intg(f' * intg(g))
+                {
+                    MultipleFormula mf3 = new MultipleFormula();
+                    mf3.AddItem(runtime, diffedDiffable = diffable.ExecuteDiff(runtime, t));
+                    mf3.AddItem(runtime, other.Integrate(runtime, t));
+                    res2 = mf3.Integrate(runtime, t).Multiple(runtime, Number.New(-1));
+                }
+
+                // ログに出力
+                {
+                    MultipleFormula mf4 = new Expression.MultipleFormula();
+                    mf4.Items.AddRange(intg);
+                    runtime.AddLogWay("_PartialIntegralWay1",
+                        mf4, new Variable(t), diffable, other, diffedDiffable, intedOthr, mf);
+                }
+                af.AddItem(runtime, res1);
+                af.AddItem(runtime, res2);
+
+                mf.AddItem(runtime, af);
+
+                runtime.AddLogWay("Way", mf);
+                if (runtime.Setting.DoOptimize)
+                    return mf.Optimise(runtime);
+                else
+                    return mf;
+            }
+            else
+                throw new RuntimeException("3つ以上の合成関数の積分はまだ実装していません。", this);
+
         }
 
         public override INumber Eval(RuntimeData runtime) {

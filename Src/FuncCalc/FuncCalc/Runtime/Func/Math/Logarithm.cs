@@ -46,6 +46,8 @@ namespace FuncCalc.Runtime.Func
             }
         }
 
+        public bool InfinitelyDifferentiable { get { return false; } }
+
         public override INumber Execute(RuntimeData runtime, params INumber[] parameters) {
 
             var param0 = parameters[0];

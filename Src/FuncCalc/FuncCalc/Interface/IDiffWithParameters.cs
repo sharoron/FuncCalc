@@ -9,6 +9,7 @@ namespace FuncCalc.Interface
 {
     public interface IDiffWithParameters
     {
+        bool InfinitelyDifferentiable { get; }
         INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters);
     }
 }

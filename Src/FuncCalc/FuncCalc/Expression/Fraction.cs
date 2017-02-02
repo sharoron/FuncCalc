@@ -71,6 +71,15 @@ namespace FuncCalc.Expression
                 throw new FuncCalcException("FunctionにPowを直接指定することはできません。", null, null);
             }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return
+                    this.Denominator.InfinitelyDifferentiable ||
+                    this.Numerator.InfinitelyDifferentiable;
+            }
+        }
 
         public override INumber Add(RuntimeData runtime, INumber val) {
 

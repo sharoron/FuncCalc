@@ -60,6 +60,13 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 3000; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         public override INumber Clone() {
             var res = this.MemberwiseClone() as FunctionFormula;
@@ -308,6 +315,9 @@ namespace FuncCalc.Expression
         }
         public void ExecuteAsParameter(RuntimeData runtime) {
             throw new RuntimeException("FunctionFormulaはパラメータとして実行することはできません", this);
+        }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            return this.Eval(runtime).Integrate(runtime, t);
         }
 
         public override string ToString() {

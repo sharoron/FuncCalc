@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Expression;
+using FuncCalc.Exceptions;
 
 namespace FuncCalc.Runtime.Func.Trigonometric
 {
-    public class Sine : IFunction, IDiffWithParameters
+    public class Sine : IFunction, IDiffWithParameters, IIntegrateWithParameters
     {
         public override string Name
         {
@@ -31,6 +32,18 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             get
             {
                 return ExpressionType.Unknown;
+            }
+        }
+        public bool InfinitelyDifferentiable
+        {
+            get { return true; }
+        }
+
+        public bool InfinitelyIntegrable
+        {
+            get
+            {
+                return true;
             }
         }
 
@@ -64,6 +77,42 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             mf.AddItem(runtime, vaDiff);
             mf.AddItem(runtime, res);
             return mf;
+
+        }
+
+        public INumber Integrate(RuntimeData runtime, string t, INumber[] parameters) {
+
+            // パラメータ内に関数を含む場合は部分積分法で積分する必要がある
+            if (runtime.IsFunctionINumber(parameters[0], t)) {
+
+                var prmDiff = parameters[0].ExecuteDiff(runtime, t);
+                if ((prmDiff.InfinitelyDifferentiable && this.InfinitelyIntegrable) || 
+                    (prmDiff.InfinitelyIntegrable && this.InfinitelyDifferentiable))
+                    throw new RuntimeException("パラメータを微分した結果が無限回微分可能関数または無限回積分可能関数の場合、積分を行うことはできません。", this);
+                
+                MultipleFormula mf = new Expression.MultipleFormula();
+                mf.AddItem(runtime, new Fraction(prmDiff, Number.New(1)));
+                mf.AddItem(runtime, new FuncedINumber(runtime.Functions["cos"], parameters));
+                mf.AddItem(runtime, Number.New(-1));
+
+                {
+                    runtime.AddLogWay("_DisplacementIntegralWay1", 
+                        parameters[0], new Variable(t));
+                    runtime.AddLogWay("_DisplacementIntegralWay2",
+                        parameters[0], prmDiff);
+                    runtime.AddLogWay("_DisplacementIntegralWay3",
+                        new FuncedINumber(this, new[] { new Variable("t") }), prmDiff,
+                        new FuncedINumber(this, parameters),
+                        mf, new Variable(t));
+                    
+                }
+
+                return mf;
+            }
+
+            return
+                new FuncedINumber(runtime.Functions["cos"], parameters)
+                .Multiple(runtime, Number.New(-1));
 
         }
     }

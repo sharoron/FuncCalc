@@ -33,6 +33,10 @@ namespace FuncCalc.Runtime.Func.Trigonometric
                 return ExpressionType.Unknown;
             }
         }
+        public bool InfinitelyDifferentiable
+        {
+            get { return true; }
+        }
 
         public override INumber Execute(RuntimeData runtime, params INumber[] parameters) {
             

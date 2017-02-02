@@ -26,6 +26,8 @@ namespace FuncCalc.Interface
         public abstract ExpressionType Type { get; }
         public abstract Expression.ValueType ValueType { get; }
         public abstract int SortPriority { get; }
+        public abstract bool InfinitelyDifferentiable { get; }
+        public bool InfinitelyIntegrable { get; }
 
         public virtual Token Token
         {

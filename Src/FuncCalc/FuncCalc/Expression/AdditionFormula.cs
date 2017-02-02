@@ -45,6 +45,18 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 1000; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                for (int i = 0; i < this.items.Count; i++) {
+                    if (this.items[i].InfinitelyDifferentiable) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        }
 
         IExpression[] IFormula.Items
         {

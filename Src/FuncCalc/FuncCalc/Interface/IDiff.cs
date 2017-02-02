@@ -13,6 +13,9 @@ namespace FuncCalc.Interface
     /// </summary>
     public interface IDiff
     {
+        bool InfinitelyDifferentiable { get; }
+
         INumber ExecuteDiff(RuntimeData runtime, string t);
+        
     }
 }

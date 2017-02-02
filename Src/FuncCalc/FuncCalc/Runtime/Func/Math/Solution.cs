@@ -165,14 +165,28 @@ namespace FuncCalc.Runtime.Func
                 !(keisu[2] is Number && (keisu[2] as Number).Value == 0)))  // x^2の係数が0ではない
                 return null;
 
-            runtime.AddLogWay("AsQuadraticEquation", keisu[2], keisu[1], keisu[0]);
+            INumber a = null, b = null, c = null;
+            if (keisu.ContainsKey(2))
+                a = keisu[2];
+            else
+                a = Number.New(0);
+            if (keisu.ContainsKey(1))
+                b = keisu[1];
+            else
+                b = Number.New(0);
+            if (keisu.ContainsKey(0))
+                c = keisu[0];
+            else
+                c = Number.New(0);
+
+            runtime.AddLogWay("AsQuadraticEquation", a, b, c);
 
             INumber res1 = null, res2 = null;
             try {
                 runtime.AddBlock(new BlockData() { MoreScope = false });
-                runtime.NowBlock.Variables.Add("a", keisu[2]);
-                runtime.NowBlock.Variables.Add("b", keisu[1]);
-                runtime.NowBlock.Variables.Add("c", keisu[0]);
+                runtime.NowBlock.Variables.Add("a", a);
+                runtime.NowBlock.Variables.Add("b", b);
+                runtime.NowBlock.Variables.Add("c", c);
 
                 // ( -b ± √(b^2 - 4ac)) / 2a
                 res1 = (runtime.Setting.GetExpression("((0-b)+sqrt(b^2-4a*c))/(2a)") as IEval).Eval(runtime);

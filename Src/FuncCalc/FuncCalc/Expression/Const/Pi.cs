@@ -17,6 +17,13 @@ namespace FuncCalc.Expression.Const {
         public override int SortPriority {
             get { return 150; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public override INumber Add(Runtime.RuntimeData runtime, INumber val) {
             AdditionFormula af = new AdditionFormula();

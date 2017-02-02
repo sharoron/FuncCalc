@@ -35,7 +35,6 @@ namespace FuncCalc.Expression
                 return ExpressionType.Nothing;
             }
         }
-
         public override ValueType ValueType
         {
             get
@@ -45,6 +44,13 @@ namespace FuncCalc.Expression
         }
         public override int SortPriority {
             get { return 100; }
+        }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return false;
+            }
         }
 
         public override INumber Add(RuntimeData runtime, INumber val) {

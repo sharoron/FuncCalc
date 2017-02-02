@@ -68,6 +68,13 @@ namespace FuncCalc.Expression {
         {
             get { return this._items.Count; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         public override INumber Clone() {
             var res = this.MemberwiseClone() as Formula;

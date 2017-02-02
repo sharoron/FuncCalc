@@ -9,6 +9,8 @@ namespace FuncCalc.Interface
 {
     public interface IIntegrateWithParameters
     {
+        bool InfinitelyIntegrable { get; }
+
         INumber Integrate(RuntimeData runtime, string t, INumber[] parameters);
     }
 }

@@ -7,7 +7,7 @@ using FuncCalc.Interface;
 using FuncCalc.Runtime;
 
 namespace FuncCalc.Expression {
-    public class Results: INumber {
+    public class Results : INumber {
         internal List<INumber> items = new List<INumber>();
         internal Variable _var = null;
 
@@ -31,6 +31,17 @@ namespace FuncCalc.Expression {
         public Variable Variable
         {
             get { return this._var; }
+        }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                for (int i = 0; i < this.items.Count; i++) {
+                    if (this.items[i].InfinitelyDifferentiable)
+                        return true;
+                }
+                return false;
+            }
         }
 
 

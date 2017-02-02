@@ -61,11 +61,47 @@ namespace FuncCalc {
         }
         
         /// <summary>
+        ///   置換積分法を利用 {0}をtと置く に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _DisplacementIntegralWay1 {
+            get {
+                return ResourceManager.GetString("_DisplacementIntegralWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ∫({0}) dt = {1} なので に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _DisplacementIntegralWay2 {
+            get {
+                return ResourceManager.GetString("_DisplacementIntegralWay2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   ∫({0})dt = ∫( {2} / {1} )d{4} = {3} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _DisplacementIntegralWay3 {
+            get {
+                return ResourceManager.GetString("_DisplacementIntegralWay3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0} = -(b/a) → {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _LinerEquationWay1 {
             get {
                 return ResourceManager.GetString("_LinerEquationWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   部分積分法を使用 {6}∫({0})d{1} = {6}(({2})∫({3}) d{1}) - ∫({4} {5}) d{1}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _PartialIntegralWay1 {
+            get {
+                return ResourceManager.GetString("_PartialIntegralWay1", resourceCulture);
             }
         }
         
@@ -129,6 +165,15 @@ namespace FuncCalc {
         public static string UnrelationWith {
             get {
                 return ResourceManager.GetString("UnrelationWith", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   = {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Way {
+            get {
+                return ResourceManager.GetString("Way", resourceCulture);
             }
         }
     }

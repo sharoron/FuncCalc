@@ -288,6 +288,112 @@ namespace FuncCalc.Runtime
             return str;
         }
 
+        public bool IsFunctionINumber(INumber val, string varname) {
+
+            if (val is Variable) {
+                if ((val as Variable).Name != varname)
+                    return true;
+                else if (!(val.Pow is Number &&
+                    (val.Pow as Number).Value == 1))
+                    return true;
+                else if (!((val as IMulti).Multi is Number &&
+                    ((val as IMulti).Multi as Number).Value == 1))
+                    return true;
+                else return false;
+            }
+            if (val is Member) {
+                if ((val as Member).Text != varname)
+                    return true;
+                else if (!(val.Pow is Number &&
+                    (val.Pow as Number).Value == 1))
+                    return true;
+                else if (!((val as IMulti).Multi is Number &&
+                    ((val as IMulti).Multi as Number).Value == 1))
+                    return true;
+                else
+                    return false;
+            }
+
+            if (val is AdditionFormula) {
+
+                AdditionFormula af = val as AdditionFormula;
+                bool flag = false;
+                for (int i = 0; i < af.Items.Length; i++) {
+                    if (af.Items[i] is Number && (af.Items[i] as Number).Value == 0)
+                        continue;
+                    if (af.Items[i] is Number && (af.Items[i] as Number).Value == 1)
+                        continue;
+                    if (af.Items[i] is IConstParameter || af.Items[i] is ImaginaryNumber)
+                        continue;
+
+                    if (af.Items[i] is Variable) {
+                        if ((af.Items[i] as Variable).Name != varname || flag)
+                            return true;
+                        else if (!(af.Items[i].Pow is Number &&
+                            (af.Items[i].Pow as Number).Value == 1))
+                            return true;
+                        else { flag = true; continue; }
+                    }
+                    if (af.Items[i] is Member) {
+                        if ((af.Items[i] as Member).Text != varname || flag)
+                            return true;
+                        else if (!(af.Items[i].Pow is Number &&
+                            (af.Items[i].Pow as Number).Value == 1))
+                            return true;
+                        else { flag = true; continue; }
+                    }
+                    if (af.Items[i] is AdditionFormula &&
+                        !this.IsFunctionINumber(af.Items[i], varname))
+                        continue;
+                    if (af.Items[i] is MultipleFormula &&
+                        !this.IsFunctionINumber(af.Items[i], varname))
+                        continue;
+
+                    return true;
+                }
+            }
+            if (val is MultipleFormula) {
+                MultipleFormula mf = val as MultipleFormula;
+                bool flag = false;
+                for (int i = 0; i < mf.Items.Count; i++) {
+                    if (mf.Items[i] is Number && (mf.Items[i] as Number).Value == 0)
+                        return false;
+                    if (mf.Items[i] is Number && (mf.Items[i] as Number).Value == 1)
+                        continue;
+                    if (mf.Items[i] is IConstParameter || mf.Items[i] is ImaginaryNumber)
+                        return true;
+
+                    if (mf.Items[i] is Variable) {
+                        if ((mf.Items[i] as Variable).Name != varname || flag)
+                            return true;
+                        else if (!(mf.Items[i].Pow is Number &&
+                            (mf.Items[i].Pow as Number).Value == 1))
+                            return true;
+                        else { flag = true; continue; }
+                    }
+                    if (mf.Items[i] is Member) {
+                        if ((mf.Items[i] as Member).Text != varname || flag)
+                            return true;
+                        else if (!(mf.Items[i].Pow is Number &&
+                            (mf.Items[i].Pow as Number).Value == 1))
+                            return true;
+                        else { flag = true; continue; }
+                    }
+                    if (mf.Items[i] is AdditionFormula &&
+                        !this.IsFunctionINumber(mf.Items[i], varname))
+                        continue;
+                    if (mf.Items[i] is MultipleFormula &&
+                        !this.IsFunctionINumber(mf.Items[i], varname))
+                        continue;
+
+                    return true;
+                }
+            }
+
+            return true;
+
+        }
+
     }
 
 }

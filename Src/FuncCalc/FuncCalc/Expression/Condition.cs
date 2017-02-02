@@ -28,6 +28,13 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 5000; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         public override INumber Add(RuntimeData runtime, INumber val) {
             throw new NotImplementedException();

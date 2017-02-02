@@ -35,6 +35,13 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 500; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         private Member() { }
         public Member(Token t) {

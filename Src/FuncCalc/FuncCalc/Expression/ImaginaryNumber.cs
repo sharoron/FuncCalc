@@ -56,6 +56,13 @@ namespace FuncCalc.Expression
                 throw new FuncCalcException("虚数のpowを直接いじることはできません。", this);
             }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public override INumber Add(RuntimeData runtime, INumber val) {
 

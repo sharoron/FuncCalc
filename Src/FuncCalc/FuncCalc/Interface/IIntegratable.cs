@@ -8,6 +8,8 @@ namespace FuncCalc.Interface
 {
     public interface IIntegratable
     {
+        bool InfinitelyIntegrable { get; }
+
         INumber Integrate(RuntimeData runtime, string t);
     }
 }

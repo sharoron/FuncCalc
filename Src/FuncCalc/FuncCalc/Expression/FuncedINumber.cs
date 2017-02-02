@@ -46,6 +46,19 @@ namespace FuncCalc.Expression
         public override int SortPriority {
             get { return 3000; }
         }
+        public override bool InfinitelyDifferentiable
+        {
+            get
+            {
+                if (this.Function is IDiffWithParameters)
+                    return (this.Function as IDiffWithParameters).InfinitelyDifferentiable;
+                if (this.Function is IDiff)
+                    return (this.Function as IDiff).InfinitelyDifferentiable;
+
+                return true;
+            }
+        }
+
         public override INumber Add(RuntimeData runtime, INumber val) {
             AdditionFormula af = new Expression.AdditionFormula();
             af.AddItem(runtime, val);
