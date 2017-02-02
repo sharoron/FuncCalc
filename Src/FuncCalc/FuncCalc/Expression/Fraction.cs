@@ -481,6 +481,23 @@ namespace FuncCalc.Expression
                 return mf;
             }
 
+            // 分母が定数なら積分の外に出す
+            if (runtime.IsConstValue(this.Denominator) &&
+                !(this.Denominator is Number && (this.Denominator as Number).Value == 1)) {
+                MultipleFormula mf = new Expression.MultipleFormula();
+                mf.AddItem(runtime, new Fraction(this.Denominator, Number.New(1)));
+                mf.AddItem(runtime, this.Numerator.Integrate(runtime, t));
+                return mf;
+            }
+            // 分子が定数なら積分の外に出す
+            if (runtime.IsConstValue(this.Numerator) && 
+                !(this.Numerator is Number && (this.Numerator as Number).Value == 1)) {
+                MultipleFormula mf = new Expression.MultipleFormula();
+                mf.AddItem(runtime, this.Numerator);
+                mf.AddItem(runtime, (new Fraction(this.Denominator, Number.New(1))));
+                return mf;
+            }
+
             // 事前に分母と分子に存在する定数を外に出して計算した方がいい
             runtime.Setting.Logger.AddInfo("分数の積分は申し訳程度にしか実装していません。");
 

@@ -182,6 +182,7 @@ namespace FuncCalc.Expression
             //最終処理部
             {
                 // resが結果だけど、べき乗部分の処理をしていないかもしれないので要チェック
+
                 Debugger.Break();
                 if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
                     runtime.Setting.Logger.AddWarning("関数式の積分の部分は1以外のべき乗の計算を考慮していないので、結果がおかしくなっている可能性があります。");

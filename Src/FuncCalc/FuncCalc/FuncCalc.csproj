@@ -53,7 +53,7 @@
     <Compile Include="Exceptions\RuntimeException.cs" />
     <Compile Include="Exceptions\SyntaxException.cs" />
     <Compile Include="Expression\AdditionFormula.cs" />
-    <Compile Include="Expression\Array.cs" />
+    <Compile Include="Expression\Const\Array.cs" />
     <Compile Include="Expression\Condition.cs" />
     <Compile Include="Expression\Const\IntegralConstant.cs" />
     <Compile Include="Expression\Const\InfinityValue.cs" />

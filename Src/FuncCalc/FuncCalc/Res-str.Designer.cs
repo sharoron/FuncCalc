@@ -70,7 +70,7 @@ namespace FuncCalc {
         }
         
         /// <summary>
-        ///   ∫({0}) dt = {1} なので に類似しているローカライズされた文字列を検索します。
+        ///   ∫({0}) d{2} = {1} なので に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _DisplacementIntegralWay2 {
             get {
@@ -97,11 +97,20 @@ namespace FuncCalc {
         }
         
         /// <summary>
-        ///   部分積分法を使用 {6}∫({0})d{1} = {6}(({2})∫({3}) d{1}) - ∫({4} {5}) d{1}) に類似しているローカライズされた文字列を検索します。
+        ///   部分積分法を使用 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _PartialIntegralWay1 {
             get {
                 return ResourceManager.GetString("_PartialIntegralWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   {6}∫({0})d{1} = {6}(({2})∫({3}) d{1}) - ∫({4} {5}) d{1}) に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _PartialIntegralWay2 {
+            get {
+                return ResourceManager.GetString("_PartialIntegralWay2", resourceCulture);
             }
         }
         

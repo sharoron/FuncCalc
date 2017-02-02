@@ -59,7 +59,12 @@ namespace FuncCalc.Runtime
         {
             get { return this.setting.Logger.OutputType; }
         }
-        
+        public bool EnabledLogging
+        {
+            get { return true; }
+        }
+
+
         public RuntimeData Clone() {
             return this.MemberwiseClone() as RuntimeData;
 

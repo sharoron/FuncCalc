@@ -77,7 +77,7 @@ namespace FuncCalc.Expression
             if (v is Number && (val as Number).Value == 0) { }
             else if (v is AdditionFormula && 
                 (v.Pow is Number && (v.Pow as Number).Value == 1)) {
-                foreach (var item in (val as AdditionFormula).items) {
+                foreach (var item in (v as AdditionFormula).items) {
                     this.items.Add(item);
                 }
             }

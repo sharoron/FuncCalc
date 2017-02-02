@@ -139,7 +139,7 @@
     <value>置換積分法を利用 {0}をtと置く</value>
   </data>
   <data name="_DisplacementIntegralWay2" xml:space="preserve">
-    <value>∫({0}) dt = {1} なので</value>
+    <value>∫({0}) d{2} = {1} なので</value>
   </data>
   <data name="_DisplacementIntegralWay3" xml:space="preserve">
     <value>∫({0})dt = ∫( {2} / {1} )d{4} = {3}</value>
@@ -148,7 +148,10 @@
     <value>{0} = -(b/a) → {1}</value>
   </data>
   <data name="_PartialIntegralWay1" xml:space="preserve">
-    <value>部分積分法を使用 {6}∫({0})d{1} = {6}(({2})∫({3}) d{1}) - ∫({4} {5}) d{1})</value>
+    <value>部分積分法を使用</value>
+  </data>
+  <data name="_PartialIntegralWay2" xml:space="preserve">
+    <value>{6}∫({0})d{1} = {6}(({2})∫({3}) d{1}) - ∫({4} {5}) d{1})</value>
   </data>
   <data name="_QuadraticEquationWay1" xml:space="preserve">
     <value>{0}1 = (-b+√(b^2-4ac)) / 2a → {1}</value>

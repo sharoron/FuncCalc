@@ -95,11 +95,11 @@ namespace FuncCalc.Runtime.Func.Trigonometric
                 mf.AddItem(runtime, new FuncedINumber(runtime.Functions["cos"], parameters));
                 mf.AddItem(runtime, Number.New(-1));
 
-                {
+                if (runtime.EnabledLogging) { 
                     runtime.AddLogWay("_DisplacementIntegralWay1", 
                         parameters[0], new Variable(t));
                     runtime.AddLogWay("_DisplacementIntegralWay2",
-                        parameters[0], prmDiff);
+                        parameters[0], prmDiff, new Variable(t));
                     runtime.AddLogWay("_DisplacementIntegralWay3",
                         new FuncedINumber(this, new[] { new Variable("t") }), prmDiff,
                         new FuncedINumber(this, parameters),

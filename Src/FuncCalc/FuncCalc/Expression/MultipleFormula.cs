@@ -354,10 +354,11 @@ namespace FuncCalc.Expression
                 }
 
                 // ログに出力
-                {
+                if (runtime.EnabledLogging) {
                     MultipleFormula mf4 = new Expression.MultipleFormula();
                     mf4.Items.AddRange(intg);
-                    runtime.AddLogWay("_PartialIntegralWay1",
+                    runtime.AddLogWay("_PartialIntegralWay1", new Variable("a"));
+                    runtime.AddLogWay("_PartialIntegralWay2",
                         mf4, new Variable(t), diffable, other, diffedDiffable, intedOthr, mf);
                 }
                 af.AddItem(runtime, res1);
@@ -365,11 +366,20 @@ namespace FuncCalc.Expression
 
                 mf.AddItem(runtime, af);
 
-                runtime.AddLogWay("Way", mf);
-                if (runtime.Setting.DoOptimize)
-                    return mf.Optimise(runtime);
-                else
-                    return mf;
+                if (runtime.EnabledLogging) {
+                    AdditionFormula res = new Expression.AdditionFormula();
+                    if (runtime.Setting.DoOptimize)
+                        res.AddItem(runtime, mf.Optimise(runtime));
+                    else
+                        res.AddItem(runtime, mf);
+                    var c = IntegralConstant.Create(runtime);
+                    res.AddItem(runtime, c);
+
+                    runtime.AddLogWay("Way", res);
+                    runtime.AddLogCondition("IntegralConstant", c);
+                }
+
+                return mf;
             }
             else
                 throw new RuntimeException("3つ以上の合成関数の積分はまだ実装していません。", this);
@@ -438,6 +448,8 @@ namespace FuncCalc.Expression
                             sb.Append("}");
                         }
                         sb.Append(")");
+                        if (this.Count == 0)
+                            return "";
                         return sb.ToString();
                     }
 
