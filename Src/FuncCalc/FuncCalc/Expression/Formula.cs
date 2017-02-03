@@ -21,8 +21,8 @@ namespace FuncCalc.Expression {
 
         }
 
-        public IExpression[] Items {
-            get { return this._items.ToArray(); }
+        public List<IExpression> Items {
+            get { return this._items; }
         }
         public override Token Token
         {
@@ -32,7 +32,7 @@ namespace FuncCalc.Expression {
                     this._items.Last().Token as Token : 
                     this.token;
             }
-            protected internal set
+            set
             {
                 this.token = value;
             }
@@ -40,7 +40,7 @@ namespace FuncCalc.Expression {
         public Token EndToken
         {
             get;
-            internal set;
+            set;
         }
         public override ExpressionType Type
         {

@@ -4,29 +4,27 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{C375B73C-FCF9-4A78-9F53-8CC5ED2926D1}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FuncCalc.CUI</RootNamespace>
-    <AssemblyName>FuncCalc.CUI</AssemblyName>
+    <RootNamespace>FuncCalc.Lisp</RootNamespace>
+    <AssemblyName>FuncCalc.Lisp</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>..\..\binaries\debug\</OutputPath>
+    <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>..\..\binaries\release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -34,7 +32,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,14 +39,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Generators\EmptyGenerator.cs" />
+    <Compile Include="Generators\LispFormula.cs" />
+    <Compile Include="Generators\LispFunction.cs" />
+    <Compile Include="IGenerator.cs" />
+    <Compile Include="SyntaxAnalyzer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\FuncCalc.Lisp\FuncCalc.Lisp.csproj">
-      <Project>{eb8be681-bc1d-478e-a3ad-a3e191fcda56}</Project>
-      <Name>FuncCalc.Lisp</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FuncCalc\FuncCalc.csproj">
       <Project>{9088db81-e5de-44a6-b4ce-94944100e4bc}</Project>
       <Name>FuncCalc</Name>

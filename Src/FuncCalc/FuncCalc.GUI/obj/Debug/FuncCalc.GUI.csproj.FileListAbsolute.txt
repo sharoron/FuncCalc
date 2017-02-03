@@ -16,3 +16,8 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCal
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.csproj.GenerateResource.Cache
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.exe
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.GUI\obj\Debug\FuncCalc.GUI.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\Docs\INumber.Prioeity.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\Docs\limit.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\Docs\OperatorFuncs.txt
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.GUI.exe
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.GUI.pdb

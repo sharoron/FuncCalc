@@ -16,7 +16,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\..\binaries\debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -24,7 +24,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>..\..\binaries\release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -75,25 +75,26 @@
     <Compile Include="Expression\RPEFormula.cs" />
     <Compile Include="Expression\ValueType.cs" />
     <Compile Include="Expression\Variable.cs" />
-    <Compile Include="Interface\IBlock.cs" />
-    <Compile Include="Interface\IConstParameter.cs" />
-    <Compile Include="Interface\IDiff.cs" />
-    <Compile Include="Interface\IIntegrateWithParameters.cs" />
-    <Compile Include="Interface\IDiffWithParameters.cs" />
-    <Compile Include="Interface\IEval.cs" />
-    <Compile Include="Interface\IEvalWithParameters.cs" />
-    <Compile Include="Interface\IExpression.cs" />
-    <Compile Include="Interface\IFormula.cs" />
-    <Compile Include="Interface\IFunction.cs" />
-    <Compile Include="Interface\IFunctionOutput.cs" />
-    <Compile Include="Interface\IIntegratable.cs" />
-    <Compile Include="Interface\ILogger.cs" />
-    <Compile Include="Interface\IMulti.cs" />
+    <Compile Include="Interface\Expression\IBlock.cs" />
+    <Compile Include="Interface\Math\IConstParameter.cs" />
+    <Compile Include="Interface\Math\IDiff.cs" />
+    <Compile Include="Interface\Math\IIntegrateWithParameters.cs" />
+    <Compile Include="Interface\Math\IDiffWithParameters.cs" />
+    <Compile Include="Interface\Expression\IEval.cs" />
+    <Compile Include="Interface\Math\IEvalWithParameters.cs" />
+    <Compile Include="Interface\Expression\IExpression.cs" />
+    <Compile Include="Interface\Expression\IFormula.cs" />
+    <Compile Include="Interface\Plugin\IFunction.cs" />
+    <Compile Include="Interface\Plugin\ISyntaxAnalyzer.cs" />
+    <Compile Include="Interface\Runtime\IFunctionOutput.cs" />
+    <Compile Include="Interface\Math\IIntegratable.cs" />
+    <Compile Include="Interface\Runtime\ILogger.cs" />
+    <Compile Include="Interface\Expression\IMulti.cs" />
     <Compile Include="Interface\INumber.cs" />
-    <Compile Include="Interface\IOperator.cs" />
-    <Compile Include="Interface\IOptimizer.cs" />
-    <Compile Include="Interface\IOutput.cs" />
-    <Compile Include="Interface\IUnknownParameter.cs" />
+    <Compile Include="Interface\Expression\IOperator.cs" />
+    <Compile Include="Interface\Expression\IOptimizer.cs" />
+    <Compile Include="Interface\Runtime\IOutput.cs" />
+    <Compile Include="Interface\Expression\IUnknownParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Res.Designer.cs">
       <DependentUpon>Res.resx</DependentUpon>

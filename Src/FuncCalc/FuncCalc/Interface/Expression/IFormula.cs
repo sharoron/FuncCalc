@@ -10,7 +10,7 @@ namespace FuncCalc.Interface
     public interface IFormula : IExpression, IEval
     {
         void ExecuteAsParameter(RuntimeData runtime);
-        IExpression[] Items { get; }
+        List<IExpression> Items { get; }
         int Count { get; }
 
         void AddItem(RuntimeData runtime, IExpression exp);

@@ -123,7 +123,7 @@ namespace FuncCalc.Analyzer
                                             if (!(lindex <= rindex)) {
                                                 // #R * #L+
                                                 left = this.result.Items[lindex]; right = this.result.Items[rindex];
-                                                for (int j = lindex, k = 0; j < this.result.Items.Length; j++, k++) {
+                                                for (int j = lindex, k = 0; j < this.result.Items.Count; j++, k++) {
                                                     this.result.items.Insert(rindex + k, this.result.Items[j]);
                                                     this.result.items.RemoveAt(j + 1);
                                                 }

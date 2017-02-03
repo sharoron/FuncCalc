@@ -9,6 +9,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.CUI", "FuncCalc.CU
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.GUI", "FuncCalc.GUI\FuncCalc.GUI.csproj", "{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.Lisp", "FuncCalc.Lisp\FuncCalc.Lisp.csproj", "{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SyntaxAnalyzer", "SyntaxAnalyzer", "{D8171345-92BF-45F9-BDA4-9B1475119E0F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{6E80F92C-4F4D-4C9B-A16E-61EC0BB0696F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,8 +33,15 @@ Global
 		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{EB8BE681-BC1D-478E-A3AD-A3E191FCDA56} = {D8171345-92BF-45F9-BDA4-9B1475119E0F}
 	EndGlobalSection
 EndGlobal

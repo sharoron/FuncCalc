@@ -12,8 +12,10 @@ namespace FuncCalc.Runtime {
         private Spec spec = new Spec();
         private bool doOptimize = true;
         private bool isDebug = false;
+        private bool _ignoreBracketLevel = true;
         private List<IOptimizer> optimizers = new List<IOptimizer>();
         private ILogger _logger = new ConsoleLogger();
+        private Type _defaultSyntaxAnalyzer = typeof(Analyzer.SyntaxAnalyzer);
 
         // Initializer
         public RuntimeSetting() {
@@ -38,6 +40,15 @@ namespace FuncCalc.Runtime {
         {
             get { return this._logger; }
             set { this._logger = value; }
+        }
+        public bool IgnoreBracketLevel
+        {
+            get { return this._ignoreBracketLevel; }
+            set { this._ignoreBracketLevel = value; }
+        }
+        public Type DefaultSyntaxAnalyzer {
+            get { return this._defaultSyntaxAnalyzer; }
+            set { this._defaultSyntaxAnalyzer = value; }
         }
 
         // Public Methods

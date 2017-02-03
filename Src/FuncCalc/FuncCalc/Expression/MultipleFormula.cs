@@ -54,11 +54,11 @@ namespace FuncCalc.Expression
             }
         }
 
-        IExpression[] IFormula.Items
+        List<IExpression> IFormula.Items
         {
             get
             {
-                return this.items.ToArray<IExpression>();
+                return this.items.ToList<IExpression>();
             }
         }
 

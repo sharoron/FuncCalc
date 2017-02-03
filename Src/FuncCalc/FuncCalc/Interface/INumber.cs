@@ -35,7 +35,7 @@ namespace FuncCalc.Interface
 
         public virtual Token Token
         {
-            get; protected internal set;
+            get; set;
         }
         
         public virtual INumber ExecuteOperator(RuntimeData runtime, IOperator op, INumber left, INumber right) {

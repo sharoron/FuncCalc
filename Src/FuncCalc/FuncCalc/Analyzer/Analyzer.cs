@@ -16,7 +16,7 @@ namespace FuncCalc.Analyzer
         private bool doOptimize = true;
         private Token[] tokens = null;
         private IFormula formula = null;
-        
+
         private Analyzer() { }
         public Analyzer(string str) : this(str, new RuntimeSetting()) { }
         public Analyzer(string str, RuntimeSetting setting) {
@@ -51,9 +51,12 @@ namespace FuncCalc.Analyzer
             TokenAnaluzer ta = new FuncCalc.Analyzer.TokenAnaluzer(this.str, this.setting);
             this.tokens = ta.GetResult();
 
-            SyntaxAnalyzer sa = new FuncCalc.Analyzer.SyntaxAnalyzer(this.tokens, this.setting) {
-                DoNormalize = this.doOptimize
-            };
+            ISyntaxAnalyzer sa =
+                this.setting.DefaultSyntaxAnalyzer.GetConstructor(new Type[0]).Invoke(System.Reflection.BindingFlags.Default, null, new object[] { } , null)
+                as ISyntaxAnalyzer;
+            sa.Items = this.tokens;
+            sa.Setting = this.setting;
+
             this.formula = sa.GetResult() as IFormula;
 
             return this.formula;

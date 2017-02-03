@@ -16,6 +16,7 @@ namespace FuncCalc
 {
     class Program
     {
+        const bool LispMode = true;
 
         internal static string SaveDir = "";
 
@@ -30,6 +31,8 @@ namespace FuncCalc
             RuntimeData data = new Runtime.RuntimeData(setting);
             IFormula formula = null;
             Analyzer.Analyzer analyzer = null;
+
+            
 
             Console.WriteLine("============================");
             Console.WriteLine("    Func Calc ");
@@ -52,18 +55,25 @@ namespace FuncCalc
                 switch (c) {
                     case '1':
                         setting = new RuntimeSetting();
+                        if (LispMode) {
+                            Console.WriteLine("Lispモード");
+                            setting.DefaultSyntaxAnalyzer =
+                                typeof(FuncCalc.Lisp.SyntaxAnalyzer);
+                        }
+
                         data = new RuntimeData(setting);
                         Console.WriteLine("Initialized FormulaRuntime");
                         Console.WriteLine("Input formula");
                         Console.Write("> ");
                         try {
-                            analyzer = new Analyzer.Analyzer(Console.ReadLine());
+                            analyzer = new Analyzer.Analyzer(Console.ReadLine(), setting);
                             Stopwatch sw1 = Stopwatch.StartNew();
                             formula = analyzer.GetResult() as IFormula;
                             sw1.Stop();
                             Console.WriteLine("Success! Time : " + sw1.Elapsed.ToString());
                         }
                         catch (SyntaxException ex) {
+
                             Console.WriteLine("構文エラーが発生しました。計算式の書式のミスを確認してください。");
                             Console.WriteLine("エラー : " + ex.Message);
                             Console.WriteLine("トークン : {0}", ex.Token);

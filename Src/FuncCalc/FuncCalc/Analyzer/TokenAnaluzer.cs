@@ -17,13 +17,16 @@ namespace FuncCalc.Analyzer {
         private List<Token> res = null;
         private List<Token> brackets = null;
 
+        // 文字列型の解析用の変数
+        private bool isStrg = false;
+        private bool isescape = false;
+
         private Runtime.RuntimeSetting setting = null;
 
         private char[] operationChars = null;
         private char[] bracketChars = null;
 
         private TokenAnaluzer() : this(null, null) { }
-
         public TokenAnaluzer(string line, Runtime.RuntimeSetting setting) {
             this.str = line;
             this.setting = setting;
@@ -50,7 +53,7 @@ namespace FuncCalc.Analyzer {
             }
 
             // エラーチェックする
-            if (this.brackets.Count >= 1)
+            if (this.brackets.Count >= 1 && !this.setting.IgnoreBracketLevel)
                 throw new SyntaxException("対応するかっこが不足しています", this.brackets.Last());
 
             return res.ToArray();
@@ -84,6 +87,7 @@ namespace FuncCalc.Analyzer {
 
             TokenType t = TokenType.None;
             char c = this.str[this.index];
+            bool adding = true;
 
             // 制御文字(ソースコードとしての)
             if (c == '\n') {
@@ -102,14 +106,52 @@ namespace FuncCalc.Analyzer {
                 goto Finish;
             }
 
-               
+            // 文字列型
+            if (c == '\"') {
+                if (isescape) // エスケープ文字を挟んでいる場合
+                    t = TokenType.String;
+                else { // 文字列の開始または終了
+                    t = TokenType.String;
+                    isStrg = !isStrg;
+                    adding = false;
+                }
+                goto Finish;
+            }
+            if (isStrg) {
+                if (c == '\\') {
+                    if (isescape) {
+                        t = TokenType.String;
+                        isescape = false;
+                        goto Finish;
+                    }
+                    else {
+                        t = TokenType.String;
+                        isescape = true;
+                        adding = false;
+                        goto Finish;
+                    }
+                }
+                else {
+                    if (isescape) {
+                        switch (c) {
+                            case 'n': c = '\n'; break;
+                            case 'r': c = '\r'; break;
+                            case 't': c = '\t'; break;
+                            case '0': c = '\0'; break;
+                        }
+                        isescape = false;
+                    }
+                    t = TokenType.String;
+                    goto Finish;
+                }
+            }
 
             // 演算子
             if (this.operationChars.Contains(c)) {
                 t = TokenType.Operation;
                 goto Finish;
             }
-            
+
             // 数値
             if (this.type != TokenType.Member && ((c >= '0' && c <= '9') || c == '.')) {
                 t = TokenType.Number;
@@ -151,22 +193,22 @@ namespace FuncCalc.Analyzer {
 
 
 
-        Finish: // 処理終了
-            {
+            Finish: // 処理終了
 
-                if (this.type == TokenType.None) {
-                    this.type = t;
-                }
-                else if (this.type != t || t == TokenType.Syntax) {
-                    AddToken();
-                    this.type = t;
-                }
-                this.stock += c;
 
-                this.index++;
-                this.number++;
-                return;
+            if (this.type == TokenType.None) {
+                this.type = t;
             }
+            else if (this.type != t || t == TokenType.Syntax) {
+                AddToken();
+                this.type = t;
+            }
+            this.stock += c;
+            
+            this.index++;
+            this.number++;
+            return;
+            
         }
         private void AddToken() {
             this.stock = this.stock.Trim(' ', '\n', '\r', '\0');
@@ -184,11 +226,21 @@ namespace FuncCalc.Analyzer {
                     brackets.Add(t);
                 }
                 if (this.setting.Spec.EndBrackets.Contains(this.stock[0])) {
-                    if ((brackets[this.brackets.Count - 1].Text == "(" && c == ']') ||
-                        (brackets[this.brackets.Count - 1].Text == "[" && c == ')'))
-                        throw new SyntaxException(string.Format("'{0}'に対応するかっこがありません。",
-                            this.brackets[this.brackets.Count - 1].Text), t);
-                    brackets.RemoveAt(this.brackets.Count - 1);
+                    bool breakloop = false;
+                    for (;;) {
+                        if ((brackets[this.brackets.Count - 1].Text == "(" && c == ']') ||
+                            (brackets[this.brackets.Count - 1].Text == "[" && c == ')')) {
+                            if (!this.setting.IgnoreBracketLevel)
+                            throw new SyntaxException(string.Format("'{0}'に対応するかっこがありません。",
+                                this.brackets[this.brackets.Count - 1].Text), t);
+                        }
+                        else breakloop = true;
+
+                        brackets.RemoveAt(this.brackets.Count - 1);
+
+                        if (breakloop || brackets.Count == 0)
+                            break;
+                    }
                 }
             }
 

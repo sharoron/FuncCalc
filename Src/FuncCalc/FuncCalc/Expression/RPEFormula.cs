@@ -34,7 +34,7 @@ namespace FuncCalc.Expression
         }
 
         private RPEFormula() : this(null) { }
-        internal RPEFormula(Formula rawFormula) {
+        public RPEFormula(Formula rawFormula) {
 
             this.items = new List<IExpression>();
             this.rawFormula = rawFormula;
@@ -160,9 +160,9 @@ namespace FuncCalc.Expression
             runtime.OutputDebug();
         }
 
-        public IExpression[] Items
+        public List<IExpression> Items
         {
-            get { return this.items.ToArray(); }
+            get { return this.items; }
         }
         public override string ToString() {
             StringBuilder sb = new StringBuilder("[RPE](");

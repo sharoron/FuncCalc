@@ -20,9 +20,9 @@ namespace FuncCalc.Expression
             this.items = new List<Interface.IExpression>();
         }
         
-        public IExpression[] Items
+        public List<IExpression> Items
         {
-            get { return this.items.ToArray(); }
+            get { return this.items; }
         }
 
         public override Token Token
@@ -261,8 +261,14 @@ namespace FuncCalc.Expression
                 var res = function.Execute(runtime, param.ConvertAll<INumber>(a => {
                     if (function.DoEvaledParam)
                         return (a as IEval).Eval(runtime);
-                    else
-                        return a as INumber;
+                    else if (a is INumber)
+                        return a as INumber; 
+                    else {
+                        runtime.AddBlock(new Runtime.BlockData() { MoreScope = false });
+                        var a_res = (a as IEval).Eval(runtime);
+                        runtime.PopBlock();
+                        return a_res;
+                    }
                 }).ToArray());
                 if (runtime.Setting.IsDebug) {
                     StringBuilder sb = new StringBuilder("Func Eval Result : ");

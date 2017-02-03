@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 using FuncCalc.Expression;
 using FuncCalc.Interface;
 using FuncCalc.Exceptions;
+using FuncCalc.Runtime;
 
 namespace FuncCalc.Analyzer {
 
     /// <summary>
     ///  通常の数式(Formula)を逆ポーランド記法の式(RPEFormula)に変換します
     /// </summary>
-    public partial class SyntaxAnalyzer {
+    public partial class SyntaxAnalyzer :ISyntaxAnalyzer {
 
 
         private Formula result = null;
         private IExpression finalResult = null;
         private int index = 0;
         private Stack<Formula> formulas = null;
-        private bool doNormalize = true;
 
         private Token[] items = null;
         private Runtime.RuntimeSetting setting;
 
-        private SyntaxAnalyzer() { }
+        public SyntaxAnalyzer() { }
         public SyntaxAnalyzer(Token[] tokens, Runtime.RuntimeSetting setting) {
             this.items = tokens;
             this.setting = setting;
@@ -32,16 +32,13 @@ namespace FuncCalc.Analyzer {
 
         public Token[] Items {
             get { return this.items; }
+            set { this.items = value; }
         }
         public Runtime.RuntimeSetting Setting {
             get { return this.setting; }
+            set { this.setting = value; }
         }
-        /// <summary>最適化されたコードに変換を行うか設定/取得します。</summary>
-        public bool DoNormalize
-        {
-            get { return this.doNormalize; }
-            set { this.doNormalize = value; }
-        }
+
 
         public IExpression GetResult() {
             this.Initialize();
@@ -51,7 +48,7 @@ namespace FuncCalc.Analyzer {
             }
 
             this.finalResult = this.result;
-            if (this.doNormalize)
+            if (this.setting.DoOptimize)
                 this.Normalization();
 
             return this.finalResult;
@@ -79,7 +76,7 @@ namespace FuncCalc.Analyzer {
                 }
                 else if (this.setting.Spec.EndBrackets.Contains(t.Text[0])) {
                     IExpression f = this.formulas.Pop();
-                    if (this.doNormalize) {
+                    if (this.setting.DoOptimize) {
                         f = this.Normalization(f as Formula);
                         this.formulas.Peek().RemoveAt(this.formulas.Peek().Count - 1);
                         this.formulas.Peek().AddItem(null, f);
@@ -121,13 +118,16 @@ namespace FuncCalc.Analyzer {
             return result;
         }
         private IExpression TokenToExpression(Token t) {
+            return TokenToExpression(this.setting, t);
+        }
+        public static IExpression TokenToExpression(RuntimeSetting setting, Token t) {
 
             switch (t.Type) {
                 case TokenType.None:
                     throw new SyntaxException(string.Format("'{0}'のキーワードの役割を解析することができませんでした。", t.Text), t);
                 case TokenType.Operation:
 
-                    var eval = this.setting.GetOperator(t.Text, t, true);
+                    var eval = setting.GetOperator(t.Text, t, true);
 
                     return new Operator(t, eval);
                 case TokenType.Number:
