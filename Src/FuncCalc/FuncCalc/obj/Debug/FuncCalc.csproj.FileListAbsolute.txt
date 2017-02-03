@@ -9,3 +9,5 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Re
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csproj.GenerateResource.Cache
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.dll.CodeAnalysisLog.xml
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\bin\Debug\FuncCalc.dll.lastcodeanalysissucceeded

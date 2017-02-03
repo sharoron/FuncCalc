@@ -63,6 +63,13 @@ namespace FuncCalc.Expression
                 return false;
             }
         }
+        public override bool ContainsImaginalyNumber
+        {
+            get
+            {
+                return true;
+            }
+        }
 
         public override INumber Add(RuntimeData runtime, INumber val) {
 
@@ -71,6 +78,9 @@ namespace FuncCalc.Expression
                 res._val = this.Value + (val as ImaginaryNumber).Value;
                 return res;
             }
+
+            if (!(val is IConstParameter))
+                throw new NotImplementedException("複素数の四則計算は現在、実数と虚数しか対応していません。");
 
             AdditionFormula af = new Expression.AdditionFormula();
             af.AddItem(runtime, val);
@@ -135,6 +145,9 @@ namespace FuncCalc.Expression
                 Number res = Number.New(this.Value * (val as ImaginaryNumber).Value * -1);
                 return res;
             }
+
+            if (!(val is IConstParameter))
+                throw new NotImplementedException("複素数の四則計算は現在、実数と虚数しか対応していません。");
 
             MultipleFormula mf = new MultipleFormula();
             mf.AddItem(runtime, val);

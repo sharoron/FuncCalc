@@ -150,46 +150,56 @@ namespace FuncCalc.Expression
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
 
-            INumber res = null;
-            if (this.func is IIntegrateWithParameters) {
-                res = (this.func as IIntegrateWithParameters).Integrate(runtime, t, this.param);
+            // べき乗の指定があったら部分積分法で解く
+            if (!(this.Pow is Number && (this.Pow as Number).Value == 1)) {
 
-                // この段階ではpowのことは感がられていないので、pow部をここで処理する
-                if (!(this.Pow is Number && (this.Pow as Number).Value == 1)) {
-                    throw new NotImplementedException("べき乗が1ではない関数の積分はまだ未対応です");
+                throw new NotImplementedException("べき乗を含む関数式の積分はまだ未対応です。");
 
-                    // 以下、微分のコードのコピペ
-                    MultipleFormula mf = new MultipleFormula();
-                    mf.AddItem(runtime, res);
-                    INumber pow = this.Clone();
-                    pow.Pow = pow.Pow.Subtract(runtime, Number.New(1));
-                    mf.AddItem(runtime, pow);
 
-                    res = mf;
-                }
-
-                if (runtime.Setting.DoOptimize)
-                    res = res.Optimise(runtime);
             }
             else {
-                res = new FuncedINumber(
-                    runtime.Functions["intg"], new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
 
-                // たぶんpowの部分が怪しいのでチェックすること
-                Debugger.Break();
+                INumber res = null;
+                if (this.func is IIntegrateWithParameters) {
+                    res = (this.func as IIntegrateWithParameters).Integrate(runtime, t, this.param);
+
+                    // この段階ではpowのことは感がられていないので、pow部をここで処理する
+                    if (!(this.Pow is Number && (this.Pow as Number).Value == 1)) {
+                        throw new NotImplementedException("べき乗が1ではない関数の積分はまだ未対応です");
+
+                        // 以下、微分のコードのコピペ
+                        MultipleFormula mf = new MultipleFormula();
+                        mf.AddItem(runtime, res);
+                        INumber pow = this.Clone();
+                        pow.Pow = pow.Pow.Subtract(runtime, Number.New(1));
+                        mf.AddItem(runtime, pow);
+
+                        res = mf;
+                    }
+
+                    if (runtime.Setting.DoOptimize)
+                        res = res.Optimise(runtime);
+                }
+                else {
+                    res = new FuncedINumber(
+                        runtime.Functions["intg"], new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
+
+                    // たぶんpowの部分が怪しいのでチェックすること
+                    Debugger.Break();
+                }
+
+                //最終処理部
+                {
+                    // resが結果だけど、べき乗部分の処理をしていないかもしれないので要チェック
+
+                    Debugger.Break();
+                    if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
+                        runtime.Setting.Logger.AddWarning("関数式の積分の部分は1以外のべき乗の計算を考慮していないので、結果がおかしくなっている可能性があります。");
+
+                    return res;
+                }
+
             }
-
-            //最終処理部
-            {
-                // resが結果だけど、べき乗部分の処理をしていないかもしれないので要チェック
-
-                Debugger.Break();
-                if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
-                    runtime.Setting.Logger.AddWarning("関数式の積分の部分は1以外のべき乗の計算を考慮していないので、結果がおかしくなっている可能性があります。");
-
-                return res;
-            }
-
         }
 
 

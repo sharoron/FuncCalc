@@ -47,11 +47,11 @@
     <Compile Include="Analyzer\SyntaxAnalyzer\RPEToken.cs" />
     <Compile Include="Analyzer\TokenAnaluzer.cs" />
     <Compile Include="Analyzer\TokenType.cs" />
-    <Compile Include="Exceptions\FuncCalcException.cs" />
-    <Compile Include="Exceptions\FunctionExecutionCancelException.cs" />
-    <Compile Include="Exceptions\MathExecutionException.cs" />
-    <Compile Include="Exceptions\RuntimeException.cs" />
-    <Compile Include="Exceptions\SyntaxException.cs" />
+    <Compile Include="Analyzer\Exceptions\FuncCalcException.cs" />
+    <Compile Include="Analyzer\Exceptions\FunctionExecutionCancelException.cs" />
+    <Compile Include="Analyzer\Exceptions\MathExecutionException.cs" />
+    <Compile Include="Analyzer\Exceptions\RuntimeException.cs" />
+    <Compile Include="Analyzer\Exceptions\SyntaxException.cs" />
     <Compile Include="Expression\AdditionFormula.cs" />
     <Compile Include="Expression\Const\Array.cs" />
     <Compile Include="Expression\Condition.cs" />
@@ -113,6 +113,7 @@
     </Compile>
     <Compile Include="Runtime\BlockData.cs" />
     <Compile Include="Runtime\ConsoleLogger.cs" />
+    <Compile Include="Runtime\FCNumber.cs" />
     <Compile Include="Runtime\Func\Debug\test.cs" />
     <Compile Include="Runtime\Func\Debug\test2.cs" />
     <Compile Include="Runtime\Func\Differential.cs" />

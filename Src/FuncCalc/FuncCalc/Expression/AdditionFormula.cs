@@ -57,6 +57,17 @@ namespace FuncCalc.Expression
                 return false;
             }
         }
+        public override bool ContainsImaginalyNumber
+        {
+            get
+            {
+                for (int i = 0; i < this.items.Count; i++) {
+                    if (this.items[i] is ImaginaryNumber)
+                        return true;
+                }
+                return false;
+            }
+        }
 
         IExpression[] IFormula.Items
         {
@@ -121,6 +132,9 @@ namespace FuncCalc.Expression
 
             if (val is Number && (val as Number).Value == 1)
                 return this.Clone();
+
+            if (!(val is ImaginaryNumber) && val.ContainsImaginalyNumber)
+                throw new NotImplementedException("虚数を含む値をかけるのはまだ未対応です。");
 
             if (val is Number || val is Fraction) {
                 if (this.Pow is Number && (this.Pow as Number).Value == 1) {
@@ -227,6 +241,14 @@ namespace FuncCalc.Expression
                 return af;
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
+
+
+            if (!(this.Pow is Number && (this.Pow as Number).Value == 1)) {
+
+                throw new NotImplementedException("べき乗を含む積の式の積分はまだ未対応です。");
+            }
+
+
             AdditionFormula af = new Expression.AdditionFormula();
 
             for (int i = 0; i < this.items.Count; i++) {

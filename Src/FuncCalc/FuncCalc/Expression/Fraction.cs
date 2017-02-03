@@ -80,6 +80,15 @@ namespace FuncCalc.Expression
                     this.Numerator.InfinitelyDifferentiable;
             }
         }
+        public override bool ContainsImaginalyNumber
+        {
+            get
+            {
+                return
+                    this.Denominator.ContainsImaginalyNumber ||
+                    this.Numerator.ContainsImaginalyNumber;
+            }
+        }
 
         public override INumber Add(RuntimeData runtime, INumber val) {
 

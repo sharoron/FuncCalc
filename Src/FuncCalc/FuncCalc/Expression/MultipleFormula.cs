@@ -69,6 +69,17 @@ namespace FuncCalc.Expression
                 return this.items.Count;
             }
         }
+        public override bool ContainsImaginalyNumber
+        {
+            get
+            {
+                for (int i = 0; i < this.items.Count; i++) {
+                    if (this.items[i] is ImaginaryNumber)
+                        return true;
+                }
+                return false;
+            }
+        }
 
         public void AddItem(RuntimeData runtime, INumber val) {
             var v = val.Eval(runtime);
@@ -135,6 +146,10 @@ namespace FuncCalc.Expression
             if (val is Number && (val as Number).Value == 0) {
                 return Number.New(0);
             }
+
+            if (!(val is ImaginaryNumber) && val.ContainsImaginalyNumber)
+                throw new NotImplementedException("虚数を含む値をかけるのはまだ未対応です。");
+
 
             if (val is Number || val is Variable || val is Member) {
                 var me = this.Clone() as MultipleFormula;
@@ -288,6 +303,11 @@ namespace FuncCalc.Expression
             throw new NotImplementedException();
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
+
+            if (!(this.Pow is Number && (this.Pow as Number).Value == 1)) {
+
+                throw new NotImplementedException("べき乗を含む積の式の積分はまだ未対応です。");
+            }
 
             MultipleFormula mf = new MultipleFormula();
             List<INumber> intg = new List<INumber>();

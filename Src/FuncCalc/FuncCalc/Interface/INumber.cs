@@ -28,6 +28,10 @@ namespace FuncCalc.Interface
         public abstract int SortPriority { get; }
         public abstract bool InfinitelyDifferentiable { get; }
         public bool InfinitelyIntegrable { get; }
+        public virtual bool ContainsImaginalyNumber
+        {
+            get { return false; }
+        }
 
         public virtual Token Token
         {
