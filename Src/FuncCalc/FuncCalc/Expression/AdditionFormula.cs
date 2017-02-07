@@ -68,6 +68,10 @@ namespace FuncCalc.Expression
                 return false;
             }
         }
+        public bool DontSort
+        {
+            get; set;
+        }
 
         List<IExpression> IFormula.Items
         {
@@ -85,7 +89,7 @@ namespace FuncCalc.Expression
         }
         public void AddItem(RuntimeData runtime, INumber val) {
             var v = val.Eval(runtime);
-            if (v is Number && (val as Number).Value == 0) { }
+            if (v is Number && (v as Number).Value == 0) { }
             else if (v is AdditionFormula && 
                 (v.Pow is Number && (v.Pow as Number).Value == 1)) {
                 foreach (var item in (v as AdditionFormula).items) {
@@ -206,8 +210,13 @@ namespace FuncCalc.Expression
 
         public override string ToString() {
 
+
+            if (this.items.Count == 0)
+                return "0";
+
             // 文字列化する前にアイテムをソートしておく
-            FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
+            if (!this.DontSort)
+                FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
 
             StringBuilder sb = new StringBuilder("(");
             for (int i = 0; i < this.items.Count; i++) {
@@ -264,8 +273,12 @@ namespace FuncCalc.Expression
 
         public override string Output(OutputType type) {
 
+            if (this.items.Count == 0)
+                return "0";
+
             // 文字列化する前にアイテムをソートしておく
-            FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
+            if (!this.DontSort)
+                FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
 
             switch (type) {
                 case OutputType.Mathjax: {

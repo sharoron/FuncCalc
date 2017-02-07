@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Expression;
 using FuncCalc.Exceptions;
+using FuncCalc.Expression.Const;
 
 namespace FuncCalc.Runtime.Func.Trigonometric
 {
@@ -48,8 +49,30 @@ namespace FuncCalc.Runtime.Func.Trigonometric
         }
 
         public override INumber Execute(RuntimeData runtime, params INumber[] parameters) {
-            
-            if (parameters[0] is IConstParameter && false) {
+
+            // 特定の値
+            var cst = new INumber[,] {
+                // 0°
+                { Number.New(0), Number.New(0) },
+                // 30°
+                { new Fraction(Number.New(6), new Pi()), new Fraction(Number.New(2), Number.New(1)) },
+                // 45°
+                { new Fraction(Number.New(4), new Pi()), new Fraction(Number.New(2), Number.New(2).Power(runtime, new Fraction(Number.New(2), Number.New(1)))) },
+                // 60°
+                { new Fraction(Number.New(4), new Pi()), new Fraction(Number.New(2), Number.New(3).Power(runtime, new Fraction(Number.New(2), Number.New(1)))) },
+                // 90°
+                { new Fraction(Number.New(2), new Pi()), Number.New(1) },
+                // 180°
+                { new Pi(), Number.New(0) },
+
+            };
+            for (int i = 0; i < cst.LongLength / 2; i++) {
+                if (parameters[0].Equals(runtime, cst[i, 0]))
+                    return cst[i, 1];
+            }
+
+            // パラメータが定数なら早速値を求める
+            if (parameters[0] is IConstParameter) {
                 return new FloatNumber((decimal)System.Math.Sin((double)(parameters[0] as IConstParameter).ConstValue));
             }
 

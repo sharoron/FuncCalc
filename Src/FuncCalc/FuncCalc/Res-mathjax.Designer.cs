@@ -169,6 +169,33 @@ namespace FuncCalc {
         }
         
         /// <summary>
+        ///   f({0} = 0) = {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MaclaurinWay1 {
+            get {
+                return ResourceManager.GetString("MaclaurinWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   f({0})({1} = 0) = {2} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MaclaurinWay2 {
+            get {
+                return ResourceManager.GetString("MaclaurinWay2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   f({0}) \simeq {{1}} ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string MaclaurinWay3 {
+            get {
+                return ResourceManager.GetString("MaclaurinWay3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   {0}と{1}が独立した関係にある場合のみ成り立つ に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string UnrelationWith {

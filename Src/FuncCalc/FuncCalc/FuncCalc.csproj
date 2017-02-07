@@ -124,6 +124,7 @@
     <Compile Include="Runtime\Func\Math\ExGcd.cs" />
     <Compile Include="Runtime\Func\Math\Gcd.cs" />
     <Compile Include="Runtime\Func\Math\Logarithm.cs" />
+    <Compile Include="Runtime\Func\Expansion\MaclaurinExpansion.cs" />
     <Compile Include="Runtime\Func\Math\Maximum.cs" />
     <Compile Include="Runtime\Func\Math\Minimum.cs" />
     <Compile Include="Runtime\Func\Math\Random.cs" />

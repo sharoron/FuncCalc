@@ -98,6 +98,32 @@ namespace FuncCalc.Expression
 
             return false;
         }
+        public override INumber Clone() {
+            var res = this.MemberwiseClone() as FuncedINumber;
+
+            // res.Parametersのポインターを新しいものに変えておく
+            List<INumber> param = new List<Interface.INumber>();
+            param.AddRange(this.Parameters);
+
+            return res;
+        }
+        public override INumber Eval(RuntimeData runtime) {
+
+            // パラメータを評価してから実行する関数の場合、パラメータを評価する
+            if (this.Function.DoEvaledParam) {
+                List<INumber> prm = new List<INumber>();
+                prm.AddRange(this.param);
+                for (int i = 0; i < prm.Count; i++) {
+                    prm[i] = prm[i].Eval(runtime);
+                }
+
+                // 関数を実行する
+                return this.Function.Execute(runtime, prm.ToArray());
+            }else {
+                // パラメータを評価せずに実行する
+                return this.Function.Execute(runtime, this.param);
+            }
+        }
         public override INumber FinalEval(RuntimeData runtime) {
 
             var res = this.func.ForceExecute(runtime, param);

@@ -129,6 +129,15 @@
   <data name="IntegralConstant" xml:space="preserve">
     <value>{0}は積分定数</value>
   </data>
+  <data name="MaclaurinWay1" xml:space="preserve">
+    <value>f({0} = 0) = {1}</value>
+  </data>
+  <data name="MaclaurinWay2" xml:space="preserve">
+    <value>f({0})({1} = 0) = {2}</value>
+  </data>
+  <data name="MaclaurinWay3" xml:space="preserve">
+    <value>f({0}) ≈ {1} ...</value>
+  </data>
   <data name="UnrelationWith" xml:space="preserve">
     <value>{0}と{1}が独立した関係にある場合のみ成り立つ</value>
   </data>

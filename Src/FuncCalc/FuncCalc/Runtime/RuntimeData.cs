@@ -235,13 +235,15 @@ namespace FuncCalc.Runtime
         }
 
         public void AddLogCondition(string keyname, params IExpression[] parameter) {
-            this.setting.Logger.AddCondition(GetRes.Text("Res", "But") + GetResStr(keyname, parameter));
+            if (this.EnabledLogging)
+                this.setting.Logger.AddCondition(GetRes.Text("Res", "But") + GetResStr(keyname, parameter));
         }
         public void AddLogWay(string str) {
             this.setting.Logger.AddWay(str);
         }
         public void AddLogWay(string keyname, params IExpression[] parameter) {
-            this.AddLogWay(GetResStr(keyname, parameter));
+            if (this.EnabledLogging)
+                this.AddLogWay(GetResStr(keyname, parameter));
         }
         private string GetResStr(string keyname, params IExpression[] parameter) {
             string source = "Res-";

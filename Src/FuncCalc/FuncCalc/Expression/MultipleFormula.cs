@@ -53,6 +53,10 @@ namespace FuncCalc.Expression
                 return false;
             }
         }
+        public bool DontSort
+        {
+            get; set;
+        }
 
         List<IExpression> IFormula.Items
         {
@@ -300,7 +304,61 @@ namespace FuncCalc.Expression
         }
 
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            throw new NotImplementedException();
+
+            // アイテムがない場合は0を返す
+            if (this.items.Count == 0) {
+                return Number.New(0);
+            }
+            // アイテムが1つしかない場合はそれを微分する
+            if (this.items.Count == 1) {
+                return this.items[0].ExecuteDiff(runtime, t);
+            }
+
+            // アイテムが複数個ある場合は定数と変数を取り出し、場合によって合成関数の微分んを行う
+            // 参考: 合成関数の微分 
+            // 参考: 合成関数内に合成関数 http://note.chiebukuro.yahoo.co.jp/detail/n86698
+            INumber constant = Number.New(1);
+            List<INumber> funcs = new List<INumber>();
+            for (int i = 0; i < this.items.Count; i++) {
+                var item = this.items[i];
+
+                if (item is IConstParameter || item is ImaginaryNumber) {
+                    constant = constant.Multiple(runtime, item);
+                } else {
+                    funcs.Add(item);
+                }
+            }
+
+            AdditionFormula res = new AdditionFormula();
+            // 合成関数の微分を行う
+            for (int i = 0; i < funcs.Count; i++) {
+                INumber r = Number.New(1);
+                for (int j = 0; j < funcs.Count; j++) {
+                    if (i == j) {
+                        r = r.Multiple(runtime, funcs[j].ExecuteDiff(runtime, t));
+                    }else {
+                        r = r.Multiple(runtime, funcs[j]);
+                    }
+                }
+                res.AddItem(runtime, r);
+            }
+
+
+            // 最適化する
+            INumber resOpt = res;
+            if (runtime.Setting.DoOptimize)
+                resOpt = resOpt.Optimise(runtime);
+
+            // constantの状態を見て結果を返す
+            if (constant.Equals(runtime, Number.New(1))) {
+                return resOpt;
+            } else {
+                MultipleFormula mf = new MultipleFormula();
+                mf.AddItem(runtime, constant);
+                mf.AddItem(runtime, resOpt);
+                return mf;
+            }
+ 
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
 
@@ -422,6 +480,8 @@ namespace FuncCalc.Expression
                 if (!flag)
                     mf.AddItem(runtime, res);
             }
+            if (mf.items.Count == 0)
+                return Number.New(1);
             if (mf.items.Count == 1)
                 return mf.items[0];
             else
@@ -437,8 +497,12 @@ namespace FuncCalc.Expression
 
         public override string ToString() {
 
+            if (this.items.Count == 0)
+                return "1";
+
             // 文字列化する前にアイテムをソートしておく
-            FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
+            if (!this.DontSort)
+                FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
 
             StringBuilder sb = new StringBuilder();
             foreach (var item in this.items) {
@@ -453,9 +517,13 @@ namespace FuncCalc.Expression
 
 
         public override string Output(OutputType type) {
+            
+            if (this.items.Count == 0)
+                return "1";
 
             // 文字列化する前にアイテムをソートしておく
-            FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
+            if (!this.DontSort)
+                FuncCalc.Runtime.Support.SortFormula.Sort(this.items);
 
             switch (type) {
                 case OutputType.Mathjax: {

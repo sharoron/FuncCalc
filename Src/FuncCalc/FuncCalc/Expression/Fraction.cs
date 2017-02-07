@@ -245,6 +245,11 @@ namespace FuncCalc.Expression
                     );
             }
 
+            // 分子が0ならそのまま0を返す
+            if (me.Numerator.Equals(runtime, Number.New(0))) {
+                return Number.New(0);
+            }
+
             // 分母が0だったら無限を返す
             if (me.Denominator.Eval(runtime).Equals(runtime, Number.New(0)))
             {
