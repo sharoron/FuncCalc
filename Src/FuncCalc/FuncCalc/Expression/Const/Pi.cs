@@ -6,8 +6,12 @@ using System.Threading.Tasks;
 using FuncCalc.Interface;
 
 namespace FuncCalc.Expression.Const {
-    public class Pi : INumber, IConstParameter, IOutput {
+    public class Pi : INumber, IConstParameter, IConstant, IOutput {
 
+        public string Name
+        {
+            get { return "PI"; }
+        }
         public override ExpressionType Type {
             get { return ExpressionType.Number; }
         }

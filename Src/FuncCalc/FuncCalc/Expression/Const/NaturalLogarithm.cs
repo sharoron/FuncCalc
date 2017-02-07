@@ -8,10 +8,14 @@ using FuncCalc.Runtime;
 
 namespace FuncCalc.Expression.Const
 {
-    public class NaturalLogarithm : INumber, IConstParameter
+    public class NaturalLogarithm : INumber, IConstParameter, IConstant
     {
         public const decimal Val = 2.718281828459M;
 
+        public string Name
+        {
+            get { return "e"; }
+        }
         public override ExpressionType Type
         {
             get
@@ -64,8 +68,23 @@ namespace FuncCalc.Expression.Const
         public override string ToString() {
             return
                 string.Format("e{0}",
-                this.Pow is Number && (this.Pow as Number).Value != 1 ? 
+                !(this.Pow is Number) || (this.Pow as Number).Value != 1 ? 
                 "^" + this.Pow.ToString() : "");
+        }
+        public override string Output(OutputType type) {
+            switch (type) {
+                case OutputType.String:
+                    return this.ToString();
+                case OutputType.Mathjax: {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append("e");
+                        if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
+                            sb.Append("^{" + this.Pow.Output(type) + "}");
+                        return sb.ToString();
+                    }
+                default:
+                    throw new NotImplementedException();
+            }
         }
 
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {

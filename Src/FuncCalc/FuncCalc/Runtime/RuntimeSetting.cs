@@ -16,6 +16,7 @@ namespace FuncCalc.Runtime {
         private List<IOptimizer> optimizers = new List<IOptimizer>();
         private ILogger _logger = new ConsoleLogger();
         private Type _defaultSyntaxAnalyzer = typeof(Analyzer.SyntaxAnalyzer);
+        private Dictionary<string, INumber> _constant = new Dictionary<string, INumber>();
 
         // Initializer
         public RuntimeSetting() {
@@ -50,6 +51,10 @@ namespace FuncCalc.Runtime {
             get { return this._defaultSyntaxAnalyzer; }
             set { this._defaultSyntaxAnalyzer = value; }
         }
+        public Dictionary<string, INumber> Constants
+        {
+            get { return this._constant; }
+        }
 
         // Public Methods
         public IOperator GetOperator(string op, Token t, bool throwExc) {
@@ -73,6 +78,7 @@ namespace FuncCalc.Runtime {
         // Private Methods
         private void Initialize() {
             this.LoadOptimizer();
+            this.LoadConstant();
         }
         private void LoadOptimizer() {
             System.Reflection.Assembly asm = typeof(RuntimeData).Assembly;
@@ -83,6 +89,18 @@ namespace FuncCalc.Runtime {
 
                     var func = asm.CreateInstance(t.FullName) as IOptimizer;
                     this.optimizers.Add(func);
+                }
+            }
+        }
+        private void LoadConstant() {
+            System.Reflection.Assembly asm = typeof(RuntimeData).Assembly;
+
+            foreach (Type t in asm.GetTypes()) {
+                if (t.IsClass && t.IsPublic && !t.IsAbstract &&
+                    t.GetInterface(typeof(IConstant).FullName) != null) {
+
+                    var cst = asm.CreateInstance(t.FullName) as IConstant;
+                    this._constant.Add(cst.Name, cst as INumber);
                 }
             }
         }

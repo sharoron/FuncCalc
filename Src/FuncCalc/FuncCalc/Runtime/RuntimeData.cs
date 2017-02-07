@@ -80,6 +80,12 @@ namespace FuncCalc.Runtime
             this.blocks.RemoveAt(this.blocks.Count - 1);
         }
         public bool ContainsKey(string name, bool moreScope =false) {
+
+            // 定数の中から調べる
+            if (this.setting.Constants.ContainsKey(name))
+                return true;
+
+            // 変数の中から調べる
             for (int i = this.blocks.Count - 1; i >= 0; i--) {
                 if (this.blocks[i].ContainsKey(name))
                     return true;
@@ -95,6 +101,12 @@ namespace FuncCalc.Runtime
             return this.GetData(t, false);
         }
         public INumber GetData(Token t, bool moreScope) {
+
+            // 定数が定義されている場合はそれを返す
+            if (this.setting.Constants.ContainsKey(t.Text)) {
+                return this.setting.Constants[t.Text].Clone();
+            }
+
             for (int i = this.blocks.Count - 1; i >= 0; i--) {
                 if (this.blocks[i].ContainsKey(t.Text)) {
                     var res = this.blocks[i].GetData(t.Text);
@@ -111,6 +123,10 @@ namespace FuncCalc.Runtime
 
         }
         public void SetVariable(RuntimeData runtime, Variable v, INumber value) {
+
+            // 定数に代入することはできない
+            if (this.setting.Constants.ContainsKey(v.Name))
+                throw new SyntaxException("定数に代入することはできません。", v);
 
             if ((v is Variable && value is Variable && (v as Variable).Name == (value as Variable).Name)) {
                 // x = xみたいに同じ名前の変数をそのまんま入れようとしてたら無視する
