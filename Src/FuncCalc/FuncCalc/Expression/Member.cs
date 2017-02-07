@@ -161,5 +161,20 @@ namespace FuncCalc.Expression
 
 
         }
+
+        public override string Output(OutputType type) {
+            switch (type) {
+                case OutputType.String:
+                    return this.ToString();
+                case OutputType.Mathjax:
+                    if (this.Pow is Number && (this.Pow as Number).Value == 1)
+                        return this.Text;
+                    else
+                        return string.Format("{0}^{{1}}",
+                            this.Text, this.Pow.Output(type));
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

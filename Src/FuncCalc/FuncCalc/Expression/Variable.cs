@@ -218,5 +218,24 @@ namespace FuncCalc.Expression
                 this.Name,
                 ((!(this.Pow is Number) || (this.Pow as Number).Value != 1)) ? "^" + this.Pow.ToString() : "");
         }
+        public override string Output(OutputType type) {
+            switch (type) {
+                case OutputType.String:
+                    return this.ToString();
+                case OutputType.Mathjax: {
+                        StringBuilder sb = new StringBuilder();
+                        sb.Append(this.Name);
+
+                        if (!(this.Multi is Number && (this.Multi as Number).Value == 1))
+                            sb.Insert(0, this.Multi.Output(type));
+                        if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
+                            sb.Append("^{" + this.Pow.Output(type) + "}");
+
+                        return sb.ToString();
+                    }
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }

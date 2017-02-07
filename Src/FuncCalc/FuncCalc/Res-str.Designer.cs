@@ -97,6 +97,33 @@ namespace FuncCalc {
         }
         
         /// <summary>
+        ///   f({0} = 0) = {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _MaclaurinWay1 {
+            get {
+                return ResourceManager.GetString("_MaclaurinWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   f({0})({1} = 0) = {2} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _MaclaurinWay2 {
+            get {
+                return ResourceManager.GetString("_MaclaurinWay2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   f({0}) ≈ {1} ... に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _MaclaurinWay3 {
+            get {
+                return ResourceManager.GetString("_MaclaurinWay3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   部分積分法を使用 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _PartialIntegralWay1 {
@@ -169,29 +196,11 @@ namespace FuncCalc {
         }
         
         /// <summary>
-        ///   f({0} = 0) = {1} に類似しているローカライズされた文字列を検索します。
+        ///   マクローリン展開を使用して近似を求める に類似しているローカライズされた文字列を検索します。
         /// </summary>
-        public static string MaclaurinWay1 {
+        public static string MaclaurinWay0 {
             get {
-                return ResourceManager.GetString("MaclaurinWay1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   f({0})({1} = 0) = {2} に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string MaclaurinWay2 {
-            get {
-                return ResourceManager.GetString("MaclaurinWay2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   f({0}) ≈ {1} ... に類似しているローカライズされた文字列を検索します。
-        /// </summary>
-        public static string MaclaurinWay3 {
-            get {
-                return ResourceManager.GetString("MaclaurinWay3", resourceCulture);
+                return ResourceManager.GetString("MaclaurinWay0", resourceCulture);
             }
         }
         

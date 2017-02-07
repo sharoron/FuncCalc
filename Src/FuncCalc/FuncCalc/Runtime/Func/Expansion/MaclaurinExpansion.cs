@@ -60,14 +60,15 @@ namespace FuncCalc.Runtime.Func.Expansion
 
             AdditionFormula res = new AdditionFormula() { DontSort = true };
             INumber formula = f;
-            
+
+            runtime.AddLogWay("MaclaurinWay0");
 
             // f(0)を求める
             runtime.AddBlock(new BlockData() { MoreScope = false });
             runtime.SetVariable(runtime, v, Number.New(0));
             var f0 = formula.Eval(runtime);
             res.AddItem(f0);
-            runtime.AddLogWay("MaclaurinWay1", v, f0);
+            runtime.AddLogWay("_MaclaurinWay1", v, f0);
             runtime.PopBlock();
 
             INumber den = Number.New(1);
@@ -81,7 +82,7 @@ namespace FuncCalc.Runtime.Func.Expansion
                 // f(i + 1)'(0)を求める
                 runtime.SetVariable(runtime, v, Number.New(0));
                 var diffF = formula.Eval(runtime);
-                runtime.AddLogWay("MaclaurinWay2", Number.New(i + 1), v, diffF);
+                runtime.AddLogWay("_MaclaurinWay2", Number.New(i + 1), v, diffF);
 
                 // このタイミングでBlockを新しくする。じゃないとその先にあるvを0として評価してしまう
                 runtime.PopBlock();
@@ -96,7 +97,7 @@ namespace FuncCalc.Runtime.Func.Expansion
 
             }
 
-            runtime.AddLogWay("MaclaurinWay3", v, res);
+            runtime.AddLogWay("_MaclaurinWay3", v, res);
 
             return res;
         }
