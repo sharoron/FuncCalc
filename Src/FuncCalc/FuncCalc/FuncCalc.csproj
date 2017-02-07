@@ -134,6 +134,7 @@
     <Compile Include="Runtime\Func\Math\Solution.cs" />
     <Compile Include="Runtime\Func\Math\SquareRootInt.cs" />
     <Compile Include="Runtime\Func\Math\SquareRoot.cs" />
+    <Compile Include="Runtime\Func\Math\to2.cs" />
     <Compile Include="Runtime\Func\pow.cs" />
     <Compile Include="Runtime\Func\Runtime\DeleteFunction.cs" />
     <Compile Include="Runtime\Func\Runtime\DeleteVariable.cs" />

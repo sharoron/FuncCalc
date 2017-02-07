@@ -11,6 +11,7 @@ using FuncCalc.Interface;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
+using System.Reflection;
 
 namespace FuncCalc
 {
@@ -31,8 +32,7 @@ namespace FuncCalc
             RuntimeData data = new Runtime.RuntimeData(setting);
             IFormula formula = null;
             Analyzer.Analyzer analyzer = null;
-
-            
+        
 
             Console.WriteLine("============================");
             Console.WriteLine("    Func Calc ");
@@ -60,7 +60,7 @@ namespace FuncCalc
                             setting.DefaultSyntaxAnalyzer =
                                 typeof(FuncCalc.Lisp.SyntaxAnalyzer);
                         }
-                        setting.AcceptBitLength = 1024;
+                        setting.AcceptBitLength = 4096;
 
                         data = new RuntimeData(setting);
                         Console.WriteLine("Initialized FormulaRuntime");
@@ -100,7 +100,7 @@ namespace FuncCalc
                         break;
 
                     case '2':
-                        foreach (var func in data.Functions) {
+                        foreach (var func in data.Setting.Functions) {
                             StringBuilder param = new StringBuilder();
                             foreach (var p in func.Value.Parameter) {
                                 if (param.Length != 0)
@@ -145,13 +145,16 @@ namespace FuncCalc
                         else {
                             Console.WriteLine("Input Addition Formula:");
                             Console.Write(" >");
+                            Stopwatch sw3 = Stopwatch.StartNew();
                             Analyzer.Analyzer anal = new Analyzer.Analyzer(
                                 Console.ReadLine(), setting);
                             Console.WriteLine("Success!");
                             var d = anal.GetResult();
                             var dres = d.Eval(data);
+                            sw3.Stop();
                             Console.WriteLine("Done. (ReturnVal: " +
                                 (dres == null ? "null" : dres.ToString()) + ")");
+                            Console.WriteLine("Time : " + sw3.Elapsed.ToString());
                         }
                         break;
                     case '6':

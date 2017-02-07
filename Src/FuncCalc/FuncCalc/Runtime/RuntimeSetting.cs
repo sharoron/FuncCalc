@@ -2,6 +2,7 @@
 using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -89,14 +90,27 @@ namespace FuncCalc.Runtime {
         public IExpression GetExpression(string formula) {
             return Analyzer.Analyzer.Compile(formula, this);
         }
+        public void LoadPlugin(Assembly asm) {
+
+            this.LoadFunctions(asm);
+            this.LoadOptimizer(asm);
+            this.LoadConstant(asm);
+        }
 
         // Private Methods
         private void Initialize() {
             var me = typeof(RuntimeSetting).Assembly;
+            LoadPlugin(me);
 
-            this.LoadFunctions(me);
-            this.LoadOptimizer(me);
-            this.LoadConstant(me);
+            // 標準フォルダ(./fc-lib)の中にあるアセンブリを読み込む
+            var dll = (new DirectoryInfo(new FileInfo(me.Location).Directory.FullName + "\\fc-lib")).GetFiles().Where(i=>i.Extension.ToLower()==".dll");
+            foreach (var item in dll) {
+                try {
+                    Assembly asm = Assembly.LoadFile(item.FullName);
+                    this.LoadPlugin(asm);
+                }
+                catch { }
+            }
         }
         private void LoadFunctions(Assembly asm) {
             foreach (Type t in asm.GetTypes()) {

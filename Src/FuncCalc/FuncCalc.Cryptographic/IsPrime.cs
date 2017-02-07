@@ -107,11 +107,10 @@ namespace FuncCalc.Cryptographic
 
         private BigInteger Gcd(RuntimeData runtime, BigInteger v1, BigInteger v2) {
             return (
-                runtime.Functions.Where(k => k.Key == "gcd")
-                .First()
-                .Value.Execute(runtime,
-                Number.New(runtime, v1),
-                Number.New(runtime, v2)) as Number).Value;
+                runtime.GetFunc("gcd")
+                .Execute(runtime,
+                    Number.New(runtime, v1),
+                    Number.New(runtime, v2)) as Number).Value;
         }
 
     }

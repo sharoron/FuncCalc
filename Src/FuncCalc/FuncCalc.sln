@@ -16,6 +16,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{6E80F92C-4F4D-4C9B-A16E-61EC0BB0696F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuncCalc.Cryptographic", "FuncCalc.Cryptographic\FuncCalc.Cryptographic.csproj", "{4B0DDBFF-AE00-456A-A76D-2521F98F4913}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C375B73C-FCF9-4A78-9F53-8CC5ED2926D1} = {C375B73C-FCF9-4A78-9F53-8CC5ED2926D1}
+		{C439575E-2DD2-47C1-BFE7-CDBF750E00CF} = {C439575E-2DD2-47C1-BFE7-CDBF750E00CF}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

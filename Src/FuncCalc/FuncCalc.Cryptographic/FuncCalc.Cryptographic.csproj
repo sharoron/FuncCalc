@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="genKey.cs" />
     <Compile Include="IsPrime.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -47,6 +48,7 @@
     <ProjectReference Include="..\FuncCalc\FuncCalc.csproj">
       <Project>{9088db81-e5de-44a6-b4ce-94944100e4bc}</Project>
       <Name>FuncCalc</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
