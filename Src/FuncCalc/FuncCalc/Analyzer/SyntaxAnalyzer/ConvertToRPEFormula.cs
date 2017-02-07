@@ -58,7 +58,8 @@ namespace FuncCalc.Analyzer
                                 i < 0) break;
                             IExpression exp = this.items[i];
 
-                            if (exp.Token.Type == TokenType.Operation &&
+                            if (exp.Token != null &&
+                                exp.Token.Type == TokenType.Operation &&
                                 exp.Token.Text == op.Key.Text) {
 
                                 //演算子の条件に適しているか確認する

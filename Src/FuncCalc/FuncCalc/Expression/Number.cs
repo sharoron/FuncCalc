@@ -4,6 +4,7 @@ using FuncCalc.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,10 +13,10 @@ namespace FuncCalc.Expression
     public class Number : INumber, IExpression, IConstParameter
     {
 
-        private long _value = 0;
+        private BigInteger _value = 0;
 
         private Number() { }
-        public Number(Token t) {
+        private Number(Token t) {
             this.Token = t;
             this._value = long.Parse(t.Text);
         }
@@ -23,8 +24,11 @@ namespace FuncCalc.Expression
         {
             this._value = value;
         }
+        public Number(BigInteger value) {
+            this._value = value;
+        }
 
-        public long Value
+        public BigInteger Value
         {
             get
             {
@@ -37,7 +41,7 @@ namespace FuncCalc.Expression
         }
         public decimal ConstValue
         {
-            get { return this.Value; }
+            get { return (decimal)this.Value; }
         }
         public override ExpressionType Type
         {
@@ -68,7 +72,7 @@ namespace FuncCalc.Expression
 
             if (val is Number) {
                 if (this.Pow.Equals(runtime, val.Pow))
-                    return Number.New(this.Value + (val as Number).Value);
+                    return Number.New(runtime, this.Value + (val as Number).Value);
                 else {
                     AdditionFormula af = new Expression.AdditionFormula();
                     af.AddItem(runtime, this);
@@ -84,7 +88,7 @@ namespace FuncCalc.Expression
 
             if (v is Number) {
                 if (this.Pow.Equals(runtime, val.Pow))
-                    return Number.New(this.Value - (val as Number).Value);
+                    return Number.New(runtime, this.Value - (val as Number).Value);
                 else {
                     AdditionFormula af = new Expression.AdditionFormula();
                     af.AddItem(runtime, this);
@@ -106,7 +110,13 @@ namespace FuncCalc.Expression
 
             if (v is Number) {
                 if (this.Pow.Equals(runtime, val.Pow)) {
-                    return Number.New(this.Value * (v as Number).Value);
+                    if ((this.Value.ToByteArray().Length +
+                        (v as Number).Value.ToByteArray().Length - 1)
+                        * sizeof(byte) >
+                        runtime.Setting.AcceptBitLength)
+                        throw new RuntimeException("このかけ算は許可された範囲桁数を超える可能性があるため、計算できません。", val);
+
+                    return Number.New(runtime, this.Value * (v as Number).Value);
                 } else {
                     MultipleFormula mf = new MultipleFormula();
                     mf.AddItem(runtime, this);
@@ -132,7 +142,7 @@ namespace FuncCalc.Expression
             if (v is Number) {
                 if (this.Pow.Equals(runtime, val.Pow)) {
                     if (this.Value % (v as Number).Value == 0) // 割り切れるなら数値として返す
-                        return Number.New(this.Value / (v as Number).Value);
+                        return Number.New(runtime, this.Value / (v as Number).Value);
                     else // 割り切れないなら分数として返す
                         return new Fraction(v, this);
                 } else {
@@ -150,28 +160,25 @@ namespace FuncCalc.Expression
         }
         public override INumber Power(RuntimeData runtime, INumber val) {
             var me = this.Clone() as Number;
+            me.Pow = me.Pow.Multiple(runtime, val);
+            me.Pow = me.Pow.Optimise(runtime);
 
-            if (val is Number && (val as Number).Value < 0) {
+            if (me.Pow is Number && (me.Pow as Number).Value < 0) {
                 return new Fraction(
-                    Number.New(this.Value).Power(runtime, val.Multiple(runtime, Number.New(-1))) , 
+                    Number.New(runtime, this.Value).Power(runtime, me.Pow.Multiple(runtime, Number.New(-1))) , 
                     Number.New(1));
             }
 
-            if (val is Number) {
+            if (me.Pow is Number) {
                 if ((val as Number).Value >= 1) {
-                    var res = me.Value;
-                    for (int i = 0; i < (val as Number).Value - 1; i++) {
-                        me.Value *= res;
-                    }
-                    me.Pow = Number.New(1);
-                    return me;
+                    // Powに代入する
                 }
                 else if ((val as Number).Value == 0)
                     return Number.New(1);
-                else 
-                    return new Fraction(me.Power(runtime, Number.New((val as Number).Value * -1)), Number.New(1));
+                else
+                    throw new FuncCalcException("上部にすでに同等のコードが存在しているにも関わらずこのコードが呼び出されました。");
             }
-            me.Pow = val;
+
             return me;
         }
         public override bool Equals(RuntimeData runtime, INumber val) {
@@ -199,9 +206,29 @@ namespace FuncCalc.Expression
             return base.Integrate(runtime, t);
         }
 
+        public static Number New(RuntimeData runtime, Token t) {
+            BigInteger bi = BigInteger.Parse(t.Text);
+
+            return Number.New(runtime.Setting, bi);
+        }
+        public static Number New(RuntimeSetting setting, Token t) {
+            BigInteger bi = BigInteger.Parse(t.Text);
+
+            return Number.New(setting, bi);
+        }
         public static Number New(long val) {
             return new Number(val);
         }
+        public static Number New(RuntimeData runtime, BigInteger val) {
+            return Number.New(runtime.Setting, val);
+        }
+        public static Number New(RuntimeSetting setting, BigInteger val) {
+            if (val.ToByteArray().Length * sizeof(byte) > setting.AcceptBitLength)
+                throw new RuntimeException("これ以上の桁の値の演算は許可されていません。");
+
+            return new Number(val);
+        }
+        
         public override string ToString() {
             return 
                 string.Format("{0}{1}", 

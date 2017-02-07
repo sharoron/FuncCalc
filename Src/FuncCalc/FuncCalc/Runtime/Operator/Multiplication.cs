@@ -55,7 +55,7 @@ namespace FuncCalc.Runtime.Operator
                 return Number.New(0);
 
             if (left is Number && right is Number) {
-                return Number.New((left as Number).Value * (right as Number).Value);
+                return Number.New(runtime, (left as Number).Value * (right as Number).Value);
             }
 
             return left.Multiple(runtime, right);

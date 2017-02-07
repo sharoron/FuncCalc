@@ -131,7 +131,7 @@ namespace FuncCalc.Analyzer {
 
                     return new Operator(t, eval);
                 case TokenType.Number:
-                    return new Number(t);
+                    return Number.New(setting, t);
                 case TokenType.String:
                     return new Expression.String(t);
                 case TokenType.Member:

@@ -60,6 +60,7 @@ namespace FuncCalc
                             setting.DefaultSyntaxAnalyzer =
                                 typeof(FuncCalc.Lisp.SyntaxAnalyzer);
                         }
+                        setting.AcceptBitLength = 1024;
 
                         data = new RuntimeData(setting);
                         Console.WriteLine("Initialized FormulaRuntime");

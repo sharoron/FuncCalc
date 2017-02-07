@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Expression;
 using FuncCalc.Exceptions;
+using System.Numerics;
 
 namespace FuncCalc.Runtime.Func
 {
@@ -52,10 +53,10 @@ namespace FuncCalc.Runtime.Func
 
             if (left is Number && right is Number) {
                 // ユークリッドの互除法を使用して求める
-                long l = (left as Number).Value, r = (right as Number).Value;
+                BigInteger l = (left as Number).Value, r = (right as Number).Value;
 
                 // 引用 : http://arc360.info/algo/privatekey.html
-                long x1, x2, y1, y2, z1, z2, q, t;
+                BigInteger x1, x2, y1, y2, z1, z2, q, t;
                 x1 = 1;
                 y1 = 0;
                 z1 = l;
@@ -89,16 +90,16 @@ namespace FuncCalc.Runtime.Func
                 {
                     Console.WriteLine("({0},{1})", x2 - r, y2 + l);
                     var res = new Expression.Array();
-                    res.Items[0].Add(Number.New(x2 - r));
-                    res.Items[0].Add(Number.New(y2 + l));
+                    res.Items[0].Add(Number.New(runtime, x2 - r));
+                    res.Items[0].Add(Number.New(runtime, y2 + l));
                     return res;
                 }
                 else
                 {
                     Console.WriteLine("({0},{1})", x2, y2);
                     var res = new Expression.Array();
-                    res.Items[0].Add(Number.New(x2));
-                    res.Items[0].Add(Number.New(y2));
+                    res.Items[0].Add(Number.New(runtime, x2));
+                    res.Items[0].Add(Number.New(runtime, y2));
                     return res;
                 }
 

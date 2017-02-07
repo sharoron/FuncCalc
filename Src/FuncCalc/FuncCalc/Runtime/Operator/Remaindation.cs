@@ -46,7 +46,7 @@ namespace FuncCalc.Runtime.Operator
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
             
             if (left is Number && right is Number) {
-                return Number.New((left as Number).Value % (right as Number).Value);
+                return Number.New(runtime, (left as Number).Value % (right as Number).Value);
             }
 
             throw new NotImplementedException();

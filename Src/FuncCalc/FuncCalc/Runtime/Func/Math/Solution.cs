@@ -91,9 +91,11 @@ namespace FuncCalc.Runtime.Func
                 var res = CheckMulti(runtime, varname, item, out pow);
 
                 if (pow is Number) {
-                    long p = (pow as Number).Value;
-                    if (p > int.MaxValue)
+                    long p = (long)(pow as Number).Value;
+                    if ((pow as Number).Value > int.MaxValue)
                         throw new RuntimeException("int.MaxValueを超えるべき乗を含む式の解決はできません。");
+                    if ((pow as Number).Value >= 5)
+                        throw new RuntimeException("5次以上の方程式の解の公式はないため、解を解決することはできません。");
                     int ip = (int)p;
 
                     if (!keisu.ContainsKey(ip))

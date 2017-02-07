@@ -17,6 +17,7 @@ namespace FuncCalc.Runtime {
         private ILogger _logger = new ConsoleLogger();
         private Type _defaultSyntaxAnalyzer = typeof(Analyzer.SyntaxAnalyzer);
         private Dictionary<string, INumber> _constant = new Dictionary<string, INumber>();
+        private int _acceptBitLength = 64;
 
         // Initializer
         public RuntimeSetting() {
@@ -54,6 +55,11 @@ namespace FuncCalc.Runtime {
         public Dictionary<string, INumber> Constants
         {
             get { return this._constant; }
+        }
+        public int AcceptBitLength
+        {
+            get { return this._acceptBitLength; }
+            set { this._acceptBitLength = value; }
         }
 
         // Public Methods

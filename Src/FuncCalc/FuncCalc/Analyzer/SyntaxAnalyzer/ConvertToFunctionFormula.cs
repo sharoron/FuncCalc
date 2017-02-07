@@ -51,7 +51,8 @@ namespace FuncCalc.Analyzer
                     this.AddFuncFormula();
                     return;
                 }
-                if (exp.Token.Type == TokenType.Operation && 
+                if (exp.Token != null &&
+                    exp.Token.Type == TokenType.Operation && 
                     exp.Token.Text == this.setting.Spec.ScopeOperator) {
 
                     this.AddFuncFormula();

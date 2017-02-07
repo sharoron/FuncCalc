@@ -32,6 +32,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Numerics" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -127,6 +128,7 @@
     <Compile Include="Runtime\Func\Math\Logarithm.cs" />
     <Compile Include="Runtime\Func\Expansion\MaclaurinExpansion.cs" />
     <Compile Include="Runtime\Func\Math\Maximum.cs" />
+    <Compile Include="Runtime\Func\Math\IsPrime.cs" />
     <Compile Include="Runtime\Func\Math\Minimum.cs" />
     <Compile Include="Runtime\Func\Math\Random.cs" />
     <Compile Include="Runtime\Func\Math\Solution.cs" />

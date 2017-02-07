@@ -168,7 +168,7 @@ namespace FuncCalc.Expression {
 
         public override string ToString() {
 
-            string startBracket = this.Token.Text;
+            string startBracket = this.Token?.Text;
             string endBracket = "";
             if (startBracket == "(") endBracket = ")";
             else if (startBracket == "[") endBracket = "]";

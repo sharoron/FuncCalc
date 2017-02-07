@@ -93,7 +93,7 @@ namespace FuncCalc.Expression
                 if (pow.Value == 0) return Number.New(1);
                 if (pow.Value < 0) { // 乗数がマイナスだったら
                     var res = this.Clone();
-                    res = res.Power(runtime, Number.New(pow.Value * -1));
+                    res = res.Power(runtime, Number.New(runtime, pow.Value * -1));
                     return new Fraction(res, Number.New(1));
                 }
                 if (pow.Value % 2 == 0) { // 乗数が偶数だったら
@@ -104,7 +104,7 @@ namespace FuncCalc.Expression
                     }
                 }else {
                     MultipleFormula mf = new MultipleFormula();
-                    mf.AddItem(runtime, Number.New(this.Value).Power(runtime, Number.New(pow.Value - 1)));
+                    mf.AddItem(runtime, Number.New(this.Value).Power(runtime, Number.New(runtime, pow.Value - 1)));
                     mf.AddItem(runtime, this);
                     return mf;
                 }

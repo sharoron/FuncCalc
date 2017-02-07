@@ -42,15 +42,21 @@ namespace FuncCalc.Runtime.Func.Math
 
                 // 答えが虚数になるもの
                 if ((double)(val as Number).Value < 0) {
-                    var ires = this.Execute(runtime, Number.New((val as Number).Value * -1));
+                    if ((val as Number).Value * -1 > long.MaxValue)
+                        throw new RuntimeException("long.MaxValueを超える値の平方根を求めることはできません。");
+
+                    var ires = this.Execute(runtime, Number.New(runtime, (val as Number).Value * -1));
                     if (ires is Number) {
-                        return new ImaginaryNumber((ires as Number).Value);
+                        return new ImaginaryNumber((long)(ires as Number).Value);
                     }else {
                         return ires;
                     }
                 }
 
-                var res = System.Math.Sqrt((val as Number).Value);
+                if ((val as Number).Value > long.MaxValue)
+                    throw new RuntimeException("long.MaxValueを超える値の平方根を求めることはできません。");
+                
+                var res = System.Math.Sqrt((double)(val as Number).Value);
 
                 if (res - (long)res == 0d) {
                     return Number.New((long)res);
@@ -81,7 +87,7 @@ namespace FuncCalc.Runtime.Func.Math
                 if ((double)(val as Number).Value < 0)
                     throw new RuntimeException("現在、虚数には対応していません。", parameters[0]);
 
-                var res = System.Math.Sqrt((val as Number).Value);
+                var res = System.Math.Sqrt((double)(val as Number).Value);
 
                 if (res - (long)res == 0d) {
                     return Number.New((long)res);
