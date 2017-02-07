@@ -4,6 +4,7 @@ using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace FuncCalc.Runtime.Func.Math
@@ -54,7 +55,7 @@ namespace FuncCalc.Runtime.Func.Math
                 }
 
                 if ((val as Number).Value > long.MaxValue)
-                    throw new RuntimeException("long.MaxValueを超える値の平方根を求めることはできません。");
+                    throw new RuntimeException("long.MaxValueを超える値の平方根を求める場合はsqrtIntを使用してください。");
                 
                 var res = System.Math.Sqrt((double)(val as Number).Value);
 

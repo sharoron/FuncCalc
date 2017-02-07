@@ -132,6 +132,7 @@
     <Compile Include="Runtime\Func\Math\Minimum.cs" />
     <Compile Include="Runtime\Func\Math\Random.cs" />
     <Compile Include="Runtime\Func\Math\Solution.cs" />
+    <Compile Include="Runtime\Func\Math\SquareRootInt.cs" />
     <Compile Include="Runtime\Func\Math\SquareRoot.cs" />
     <Compile Include="Runtime\Func\pow.cs" />
     <Compile Include="Runtime\Func\Runtime\DeleteFunction.cs" />
