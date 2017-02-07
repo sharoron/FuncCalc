@@ -51,12 +51,12 @@ namespace FuncCalc.Runtime.Func
                 Variable v = parameters[0] as Variable;
                 if (v == null) v = new Variable((parameters[0] as Member).Token);
 
-                if (!runtime.Functions.ContainsKey(v.Name))
+                if (!runtime.ContainsFunc(v.Name))
                     throw new RuntimeException(string.Format("関数 '{0}' は見つかりませんでした。", parameters[0]));
                 if (!(runtime.GetFunc(v, false) is UserDefineFunction))
                     throw new RuntimeException("さdelfunc関数で削除できるのはユーザー定義関数のみです。", parameters[9]);
 
-                runtime.Functions.Remove(v.Name);
+                runtime.UserFunctions.Remove(v.Name);
 
             }
 

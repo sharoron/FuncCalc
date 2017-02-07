@@ -79,17 +79,17 @@ namespace FuncCalc.Runtime.Operator
 
                 UserDefineFunction f = new UserDefineFunction(name, right, paramName.ToArray());
 
-                if (runtime.Functions.ContainsKey(name)) {
-                    var func = runtime.Functions[name];
+                if (runtime.UserFunctions.ContainsKey(name)) {
+                    var func = runtime.UserFunctions[name];
                     if (func is UserDefineFunction)
-                        runtime.Functions.Remove(name);
+                        runtime.UserFunctions.Remove(name);
                     else
                         throw new RuntimeException(string.Format("'{0}' はすでに定義されています。", name), left);
 
-                    runtime.Functions.Add(name, f);
+                    runtime.UserFunctions.Add(name, f);
                 }
                 else
-                    runtime.Functions.Add(name, f);
+                    runtime.UserFunctions.Add(name, f);
 
                 return right;
             }

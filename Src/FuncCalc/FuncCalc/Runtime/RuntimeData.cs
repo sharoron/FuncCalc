@@ -5,6 +5,7 @@ using FuncCalc.Runtime.Func.Runtime;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -14,29 +15,15 @@ namespace FuncCalc.Runtime
     {
         private RuntimeSetting setting = null;
         private List<BlockData> blocks = null;
-        private Dictionary<string, IFunction> funcs = null;
+        private Dictionary<string, IFunction> ufunc = null;
 
         private RuntimeData() { }
         public RuntimeData(RuntimeSetting setting) {
             this.setting = setting;
             this.blocks = new List<Runtime.BlockData>();
-            this.funcs = new Dictionary<string, IFunction>();
+            this.ufunc = new Dictionary<string, IFunction>();
 
             this.blocks.Add(new BlockData());
-
-            LoadFunctions();
-        }
-        private void LoadFunctions() {
-            System.Reflection.Assembly asm = typeof(RuntimeData).Assembly;
-
-            foreach (Type t in asm.GetTypes()) {
-                if (t.IsClass && t.IsPublic && !t.IsAbstract &&
-                    t.IsSubclassOf(typeof(IFunction))) {
-
-                    var func = asm.CreateInstance(t.FullName) as IFunction;
-                    this.funcs.Add(func.Name, func);
-                }
-            }
         }
 
         public RuntimeSetting Setting
@@ -47,10 +34,7 @@ namespace FuncCalc.Runtime
         {
             get { return this.blocks[this.blocks.Count - 1]; }
         }
-        public Dictionary<string, IFunction> Functions
-        {
-            get { return this.funcs; }
-        }
+
         public BlockData[] Blocks
         {
             get { return this.blocks.ToArray(); }
@@ -62,6 +46,13 @@ namespace FuncCalc.Runtime
         public bool EnabledLogging
         {
             get { return true; }
+        }
+        public Dictionary<string, IFunction> UserFunctions
+        {
+            get
+            {
+                return this.ufunc;
+            }
         }
 
 
@@ -95,7 +86,9 @@ namespace FuncCalc.Runtime
             return false;
         }
         public bool ContainsFunc(string name) {
-            return this.funcs.ContainsKey(name);
+            return
+                this.ufunc.ContainsKey(name) ||
+                (this.setting.Functions.Where(i => i.Key == name).Count() >= 1);
         }
         public INumber GetData(Token t) {
             return this.GetData(t, false);
@@ -197,7 +190,7 @@ namespace FuncCalc.Runtime
                 if (name is IFunction)
                     return name as IFunction;
                 else
-                    return this.funcs[name.Token.Text];
+                    return GetFunc(name.Token.Text);
             }
             else {
                 string nm = "";
@@ -206,8 +199,11 @@ namespace FuncCalc.Runtime
                 else
                     nm = name.Token.Text;
 
+                if (this.ufunc.ContainsKey(nm))
+                    return this.ufunc[nm];
+
                 foreach (var item in
-                    (from f in this.funcs where f.Key == nm select f)) {
+                    (from f in this.setting.Functions where f.Key == nm select f)) {
                     bool flag = item.Value.Parameter.Length == parameters.Length;
                     for (int i = 0; i < item.Value.Parameter.Length; i++) {
                         if (parameters.Length <= i) {
@@ -231,6 +227,15 @@ namespace FuncCalc.Runtime
                 throw new SyntaxException(string.Format("'{0}({1})'は見つかりませんでした。", nm, sb), name, new KeyNotFoundException());
             }
         }
+        public IFunction GetFunc(string name) {
+            if (ufunc.ContainsKey(name))
+                return this.ufunc[name];
+            var f = this.setting.Functions.Where(i => i.Key == name);
+            if (f.Count() >= 1)
+                return f.First().Value;
+            else
+                throw new RuntimeException(string.Format("'{0}'関数は見つかりませんでした。", name));
+        }
         public bool IsConstValue(INumber num) {
             return FuncCalc.Runtime.Func.Differential.IsConstValue(this, num);
         }
@@ -243,7 +248,7 @@ namespace FuncCalc.Runtime
                 }
             }
             Console.WriteLine("ユーザー定義関数:");
-            foreach (var func in this.Functions) {
+            foreach (var func in this.ufunc) {
                 if (func.Value is UserDefineFunction) {
                     Console.WriteLine("  {0}", func.Value);
                 }

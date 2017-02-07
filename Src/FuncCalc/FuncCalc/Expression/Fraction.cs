@@ -270,9 +270,8 @@ namespace FuncCalc.Expression
             if (me.Numerator is Number && me.Denominator is Number)
             {
                 // 最大公約数を求めて分母分子を割る
-                var func = runtime.Functions.Where(
-                    f => f.Key == "gcd" && f.Value.Parameter[0] == ExpressionType.Number && f.Value.Parameter[1] == ExpressionType.Number);
-                var res = func.First().Value.Execute(runtime, me.Denominator, me.Numerator);
+                var func = runtime.GetFunc("gcd");
+                var res = func.Execute(runtime, me.Denominator, me.Numerator);
                 me.Denominator = me.Denominator.Divide(runtime, res);
                 me.Numerator = me.Numerator.Divide(runtime, res);
             }
@@ -478,7 +477,7 @@ namespace FuncCalc.Expression
                 mf.AddItem(runtime, res.Numerator);
                 mf.AddItem(runtime, new Fraction(res.Denominator.Pow, Number.New(1)));
                 mf.AddItem(runtime,  new FuncedINumber(
-                    runtime.Functions["log"], 
+                    runtime.GetFunc("log"), 
                     new INumber[] { new NaturalLogarithm(), res.Denominator }));
                 if (runtime.Setting.DoOptimize)
                     return mf.Optimise(runtime);

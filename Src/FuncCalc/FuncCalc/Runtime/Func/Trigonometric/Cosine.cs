@@ -86,7 +86,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
 
         public INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters) {
             
-            var res = new FuncedINumber(runtime.Functions["sin"], parameters);
+            var res = new FuncedINumber(runtime.GetFunc("sin"), parameters);
 
             MultipleFormula mf = new Expression.MultipleFormula();
             mf.AddItem(runtime, Number.New(-1));
@@ -113,7 +113,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
 
                 MultipleFormula mf = new Expression.MultipleFormula();
                 mf.AddItem(runtime, new Fraction(prmDiff, Number.New(1)));
-                mf.AddItem(runtime, new FuncedINumber(runtime.Functions["sin"], parameters));
+                mf.AddItem(runtime, new FuncedINumber(runtime.GetFunc("sin"), parameters));
 
                 if (runtime.EnabledLogging) {
                     runtime.AddLogWay("_DisplacementIntegralWay1",
@@ -131,8 +131,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             }
 
             return
-                new FuncedINumber(runtime.Functions["sin"], parameters)
-                ;
+                new FuncedINumber(runtime.GetFunc("sin"), parameters);
         }
 
     }

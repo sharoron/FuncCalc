@@ -81,17 +81,15 @@ namespace FuncCalc.Runtime.Func
                 return af;
             }
             else if (formula is Variable && // 微分しようとした変数がユーザー定義関数だった場合
-                runtime.Functions.ContainsKey((formula as Variable).Name) &&
-                runtime.Functions[(formula as Variable).Name] is UserDefineFunction) {
+                runtime.UserFunctions.ContainsKey((formula as Variable).Name)) {
 
-                var f = runtime.Functions[(formula as Variable).Name] as UserDefineFunction;
+                var f = runtime.UserFunctions[(formula as Variable).Name] as UserDefineFunction;
                 return this.Execute(runtime, param0, f.Formula.Eval(runtime));
             }
             else if (formula is Member && // 微分しようとした変数がユーザー定義関数だった場合
-                runtime.Functions.ContainsKey((formula as Member).Text) &&
-                runtime.Functions[(formula as Member).Text] is UserDefineFunction) {
+                runtime.UserFunctions.ContainsKey((formula as Member).Text)) {
 
-                var f = runtime.Functions[(formula as Member).Text] as UserDefineFunction;
+                var f = runtime.UserFunctions[(formula as Member).Text] as UserDefineFunction;
                 return this.Execute(runtime, param0, f.Formula.Eval(runtime));
             }
             else if (formula is MultipleFormula) {

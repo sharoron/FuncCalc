@@ -89,7 +89,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
 
         public INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters) {
             
-            var res = new FuncedINumber(runtime.Functions["cos"], parameters);
+            var res = new FuncedINumber(runtime.GetFunc("cos"), parameters);
 
             var vaDiff = parameters[0].ExecuteDiff(runtime, t);
             if (vaDiff .Equals(runtime, Number.New(0))) {
@@ -115,7 +115,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
                 
                 MultipleFormula mf = new Expression.MultipleFormula();
                 mf.AddItem(runtime, new Fraction(prmDiff, Number.New(1)));
-                mf.AddItem(runtime, new FuncedINumber(runtime.Functions["cos"], parameters));
+                mf.AddItem(runtime, new FuncedINumber(runtime.GetFunc("cos"), parameters));
                 mf.AddItem(runtime, Number.New(-1));
 
                 if (runtime.EnabledLogging) { 
@@ -134,7 +134,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             }
 
             return
-                new FuncedINumber(runtime.Functions["cos"], parameters)
+                new FuncedINumber(runtime.GetFunc("cos"), parameters)
                 .Multiple(runtime, Number.New(-1));
 
         }

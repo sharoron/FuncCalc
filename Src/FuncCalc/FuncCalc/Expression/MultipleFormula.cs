@@ -398,7 +398,7 @@ namespace FuncCalc.Expression
                         mmf.AddItem(runtime, intg[i]);
                     }
                     mf.AddItem(runtime, new FuncedINumber(
-                        runtime.Functions["intg"], new INumber[] { new Variable(t), mmf }));
+                        runtime.GetFunc("intg"), new INumber[] { new Variable(t), mmf }));
                     return mf;
                 }
 

@@ -195,7 +195,7 @@ namespace FuncCalc.Expression
                 }
                 else {
                     res = new FuncedINumber(
-                        runtime.Functions["diff"], new INumber[] { new Variable(new Token(t, Analyzer.TokenType.Member)), this });
+                        runtime.GetFunc("diff"), new INumber[] { new Variable(new Token(t, Analyzer.TokenType.Member)), this });
                 }
             }
 

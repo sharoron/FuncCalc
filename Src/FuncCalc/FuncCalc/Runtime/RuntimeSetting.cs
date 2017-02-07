@@ -3,6 +3,7 @@ using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,7 @@ namespace FuncCalc.Runtime {
         private Type _defaultSyntaxAnalyzer = typeof(Analyzer.SyntaxAnalyzer);
         private Dictionary<string, INumber> _constant = new Dictionary<string, INumber>();
         private int _acceptBitLength = 64;
+        private List<KeyValuePair<string, IFunction>> funcs = new List<KeyValuePair<string, IFunction>>();
 
         // Initializer
         public RuntimeSetting() {
@@ -56,6 +58,13 @@ namespace FuncCalc.Runtime {
         {
             get { return this._constant; }
         }
+        public List<KeyValuePair<string, IFunction>> Functions
+        {
+            get
+            {
+                return this.funcs;
+            }
+        }
         public int AcceptBitLength
         {
             get { return this._acceptBitLength; }
@@ -83,12 +92,23 @@ namespace FuncCalc.Runtime {
 
         // Private Methods
         private void Initialize() {
-            this.LoadOptimizer();
-            this.LoadConstant();
-        }
-        private void LoadOptimizer() {
-            System.Reflection.Assembly asm = typeof(RuntimeData).Assembly;
+            var me = typeof(RuntimeSetting).Assembly;
 
+            this.LoadFunctions(me);
+            this.LoadOptimizer(me);
+            this.LoadConstant(me);
+        }
+        private void LoadFunctions(Assembly asm) {
+            foreach (Type t in asm.GetTypes()) {
+                if (t.IsClass && t.IsPublic && !t.IsAbstract &&
+                    t.IsSubclassOf(typeof(IFunction))) {
+
+                    var func = asm.CreateInstance(t.FullName) as IFunction;
+                    this.funcs.Add(new KeyValuePair<string, IFunction>(func.Name, func));
+                }
+            }
+        }
+        private void LoadOptimizer(Assembly asm) {
             foreach (Type t in asm.GetTypes()) {
                 if (t.IsClass && t.IsPublic && !t.IsAbstract &&
                     t.IsSubclassOf(typeof(IOptimizer))) {
@@ -98,8 +118,7 @@ namespace FuncCalc.Runtime {
                 }
             }
         }
-        private void LoadConstant() {
-            System.Reflection.Assembly asm = typeof(RuntimeData).Assembly;
+        private void LoadConstant(Assembly asm) {
 
             foreach (Type t in asm.GetTypes()) {
                 if (t.IsClass && t.IsPublic && !t.IsAbstract &&

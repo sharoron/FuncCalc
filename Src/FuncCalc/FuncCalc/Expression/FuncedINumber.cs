@@ -156,7 +156,7 @@ namespace FuncCalc.Expression
             }
             else {
                 res = new FuncedINumber(
-                    runtime.Functions["diff"], new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
+                    runtime.GetFunc("diff"), new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
 
                 // たぶんpowの部分が怪しいのでチェックすること
                 Debugger.Break();
@@ -208,7 +208,7 @@ namespace FuncCalc.Expression
                 }
                 else {
                     res = new FuncedINumber(
-                        runtime.Functions["intg"], new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
+                        runtime.GetFunc("intg"), new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
 
                     // たぶんpowの部分が怪しいのでチェックすること
                     Debugger.Break();

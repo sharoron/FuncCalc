@@ -50,17 +50,15 @@ namespace FuncCalc.Runtime.Func.Trigonometric
                 // sin(x)の値を取得して、結果がFuncedINumberじゃないときは 
                 // sin(x) / cos(x)で結果を求める
                 var sin =
-                    runtime.Functions.Where(i => i.Key == "sin")
-                    .First()
-                    .Value.Execute(runtime, parameters);
+                    runtime.GetFunc("sin")
+                    .Execute(runtime, parameters);
                 if (sin is FuncedINumber) {
                     return new FuncedINumber(this, parameters);
                 }
                 else {
                     var cos =
-                        runtime.Functions.Where(i => i.Key == "cos")
-                        .First()
-                        .Value.Execute(runtime, parameters);
+                        runtime.GetFunc("cos")
+                        .Execute(runtime, parameters);
 
                     // cosが0になる時があるので、その時はエラーを返す
                     if (cos.Equals(runtime, Number.New(0)))
@@ -81,8 +79,8 @@ namespace FuncCalc.Runtime.Func.Trigonometric
         public INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters) {
 
             Fraction res = new Expression.Fraction(
-                new FuncedINumber(runtime.Functions["cos"], parameters),
-                new FuncedINumber(runtime.Functions["sin"], parameters)
+                new FuncedINumber(runtime.GetFunc("cos"), parameters),
+                new FuncedINumber(runtime.GetFunc("sin"), parameters)
                 );
 
             return res.ExecuteDiff(runtime, t);
