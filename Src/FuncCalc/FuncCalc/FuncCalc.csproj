@@ -73,6 +73,7 @@
     <Compile Include="Expression\Operator.cs" />
     <Compile Include="Expression\Results.cs" />
     <Compile Include="Expression\RPEFormula.cs" />
+    <Compile Include="Expression\String.cs" />
     <Compile Include="Expression\ValueType.cs" />
     <Compile Include="Expression\Variable.cs" />
     <Compile Include="Interface\Expression\IBlock.cs" />

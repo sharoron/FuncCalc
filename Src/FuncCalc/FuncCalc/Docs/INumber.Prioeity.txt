@@ -17,4 +17,5 @@ FunctionFormula	3000
 RPEFormula		3000
 Condition		5000
 IntegralConstant9000
+String			9500
 LineBreak		10000

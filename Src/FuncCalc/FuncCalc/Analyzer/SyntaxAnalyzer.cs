@@ -133,7 +133,7 @@ namespace FuncCalc.Analyzer {
                 case TokenType.Number:
                     return new Number(t);
                 case TokenType.String:
-                    throw new NotImplementedException("/Analyzer/SyntaxAnalyzer : 文字列は未対応です");
+                    return new Expression.String(t);
                 case TokenType.Member:
                     return new Member(t);
                 case TokenType.Syntax:

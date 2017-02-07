@@ -16,7 +16,7 @@ namespace FuncCalc
 {
     class Program
     {
-        const bool LispMode = true;
+        const bool LispMode = false;
 
         internal static string SaveDir = "";
 

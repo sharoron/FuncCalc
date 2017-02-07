@@ -14,3 +14,4 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\Docs\limit.txt
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\Docs\OperatorFuncs.txt
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csprojResolveAssemblyReference.cache

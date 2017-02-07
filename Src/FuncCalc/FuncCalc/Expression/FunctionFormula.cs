@@ -113,6 +113,12 @@ namespace FuncCalc.Expression
 
             for (int i = 0; i < this.items.Count; i++) {
                 IExpression ex = this.items[i];
+
+                if (ex is String) {
+                    func = ex;
+                    nextFlag = false;
+                    continue;
+                }
                 
                 if (ex is Member && 
                     ((nextFlag && func != null) || (!nextFlag && func == null))) {
