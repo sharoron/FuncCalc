@@ -161,7 +161,10 @@ namespace FuncCalc.Expression
                             for (; runtime.NowBlock.Stack.Length != 0; )
                             {
                                 var it = runtime.NowBlock.Pop(); if (it is LineBreak) continue;
-                                if (!(it is INumber)) throw new RuntimeException("インデックス指定で値型(INumber)以外のパラメータを指定することはできません。", it); 
+                                if (!(it is INumber)) throw new RuntimeException("インデックス指定で値型(INumber)以外のパラメータを指定することはできません。", it);
+
+                                if ((func as IFunction).DoEvaledParam) it = (it as IEval).Eval(runtime);
+
                                 prm.Insert(0, it as INumber);
                             }
                             res = (func as IEvalWithParameters).Execute(runtime, prm.ToArray()) as IExpression;
