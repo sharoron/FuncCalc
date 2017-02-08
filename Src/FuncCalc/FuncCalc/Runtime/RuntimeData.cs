@@ -16,10 +16,13 @@ namespace FuncCalc.Runtime
         private RuntimeSetting setting = null;
         private List<BlockData> blocks = null;
         private Dictionary<string, IFunction> ufunc = null;
+        private int _data_id = -1;
+        private int _anonymous_id = 0;
 
         private RuntimeData() { }
-        public RuntimeData(RuntimeSetting setting) {
+        public RuntimeData(RuntimeSetting setting, int id) {
             this.setting = setting;
+            this._data_id = id;
             this.blocks = new List<Runtime.BlockData>();
             this.ufunc = new Dictionary<string, IFunction>();
 
@@ -253,6 +256,9 @@ namespace FuncCalc.Runtime
                     Console.WriteLine("  {0}", func.Value);
                 }
             }
+        }
+        public string GetAnonymousId() {
+            return string.Format("._anony_{0}_{1}", this._data_id, this._anonymous_id++);
         }
 
         public void AddLogCondition(string keyname, params IExpression[] parameter) {

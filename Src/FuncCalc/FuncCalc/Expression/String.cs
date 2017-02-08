@@ -23,20 +23,17 @@ namespace FuncCalc.Expression
                 return false;
             }
         }
-
         public override int SortPriority
         {
             get
             {
                 return 9500;
             }
-        }
-        
+        }      
         public Token Token
         {
             get; internal set;
         }
-
         public override ExpressionType Type
         {
             get
@@ -44,7 +41,6 @@ namespace FuncCalc.Expression
                 return ExpressionType.String;
             }
         }
-
         public override ValueType ValueType
         {
             get
@@ -56,19 +52,18 @@ namespace FuncCalc.Expression
         public override INumber Add(RuntimeData runtime, INumber val) {
             throw new NotImplementedException();
         }
-
+        public override INumber Multiple(RuntimeData runtime, INumber val) {
+            throw new RuntimeException("文字列を微分することはできません。", this);
+        }
         public override bool CanJoin(RuntimeData runtime, INumber val) {
             throw new NotImplementedException();
         }
-
         public override bool Equals(RuntimeData runtime, INumber val) {
             throw new NotImplementedException();
         }
-
         public INumber Eval(RuntimeData runtime) {
             return this;
         }
-
         public INumber Execute(RuntimeData runtime, params INumber[] parameters) {
             List<ExpressionType> types = new List<Expression.ExpressionType>();
             for (int i = 0; i < parameters.Length; i++) {
@@ -78,12 +73,7 @@ namespace FuncCalc.Expression
             var func = runtime.GetFunc(new Member(this.Token), true, types.ToArray());
             return func.Execute(runtime, parameters);
         }
-
         public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            throw new RuntimeException("文字列を微分することはできません。", this);
-        }
-
-        public override INumber Multiple(RuntimeData runtime, INumber val) {
             throw new RuntimeException("文字列を微分することはできません。", this);
         }
 

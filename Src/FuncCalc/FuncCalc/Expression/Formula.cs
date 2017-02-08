@@ -29,7 +29,7 @@ namespace FuncCalc.Expression {
             get
             {
                 return this.token == null ? 
-                    this._items.Last().Token as Token : 
+                    (this._items.Count == 0 ? null : this._items.Last().Token as Token) : 
                     this.token;
             }
             set
@@ -116,10 +116,31 @@ namespace FuncCalc.Expression {
         }
         public override INumber Eval(RuntimeData runtime) {
             if (this.Count == 0) {
-                return null;
+
+                // カッコの種類によってはオブジェクトを行う
+                if (this.token == null)
+                    return null;
+                else if (this.token.Text == "{")
+                    return new DynamicObject() { Token = this.token };
+                else if (this.token.Text == "[")
+                    return new Array() { Token = this.token };
+                else
+                    return null;
             }
             else if (this.Count == 1) {
-                return (this.Items[0] as IEval).Eval(runtime);
+
+
+                // カッコの種類によってはオブジェクトを行う
+                if (this.token == null)
+                    return (this.Items[0] as IEval).Eval(runtime);
+                else if (this.token.Text == "[") {
+                    var res = new Array() { Token = this.token };
+                    res.Items[0].Add((this.Items[0] as IEval).Eval(runtime));
+                    return res;
+                }
+                else
+                    return (this.Items[0] as IEval).Eval(runtime);
+
             }
             else if (this.Items.Where(i => i is LineBreak).Count() >= 1) {
 
@@ -132,12 +153,15 @@ namespace FuncCalc.Expression {
                 Formula f = new Expression.Formula();
                 IEval res = null;
                 Array res_a = null;
+                DynamicObject res_o = null;
                 // 配列形式のフォーマットなら配列形式で返す
                 if (this.token != null && this.token.Text == "[") res_a = new Array();
+                if (this.token != null && this.token.Text == "{" && false) res_o = new DynamicObject();
 
                 for (int i = 0; i < this._items.Count; i++) {
                     if (this._items[i] is LineBreak) {
-                        if ((this._items[i] as LineBreak).Token.Text == "," && res_a == null)
+                        if ((this._items[i] as LineBreak).Token.Text == "," && 
+                            (res_a == null && res_o == null) && false)
                             throw new SyntaxException(string.Format("不正な文字です。 '{0}' 関数ではないものを関数のように扱っている可能性があります。",
                                 this._items[i].Token.Text), this._items[i]);
                         if (runtime.Setting.IsDebug) {
@@ -148,6 +172,9 @@ namespace FuncCalc.Expression {
                         res = ea.ConvertToRPE().Eval(runtime);
 
                         if (res_a != null) res_a.Items[0].Add(res as INumber); // '配列' 部の処理
+                        if (res_o != null) {
+                            Debugger.Break();
+                        }
 
                         f._items.Clear();
                     }
@@ -155,10 +182,12 @@ namespace FuncCalc.Expression {
                         f._items.Add(this._items[i]);
                 }
 
-                if (res_a == null)
-                    return res as INumber;
-                else // 配列作成でこの式を読んでいる場合は配列として返す
-                    return res_a as INumber; 
+                if (res_a != null) // 配列作成でこの式を読んでいる場合は配列として返す
+                    return res_a as INumber;
+                if (res_o != null) // オブジェクト作成でこの式を(ry
+                    return res_o as INumber;
+                else
+                    return res as INumber; 
             }
             else { // This.Items.Countが2以上のときじゃないと逆ポーランド式に変換ｓれない
                 SyntaxAnalyzer.ConvertToRPEFormula ea = new Analyzer.SyntaxAnalyzer.ConvertToRPEFormula(this, runtime.Setting);
@@ -172,6 +201,7 @@ namespace FuncCalc.Expression {
             string endBracket = "";
             if (startBracket == "(") endBracket = ")";
             else if (startBracket == "[") endBracket = "]";
+            else if (startBracket == "{") endBracket = "}";
             else startBracket = null;
 
             string str = "";

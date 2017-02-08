@@ -29,7 +29,7 @@ namespace FuncCalc
 
 
             RuntimeSetting setting = new RuntimeSetting();
-            RuntimeData data = new Runtime.RuntimeData(setting);
+            RuntimeData data = setting.CreateNewRuntimedata();
             IFormula formula = null;
             Analyzer.Analyzer analyzer = null;
         
@@ -62,7 +62,7 @@ namespace FuncCalc
                         }
                         setting.AcceptBitLength = 4096;
 
-                        data = new RuntimeData(setting);
+                        data = setting.CreateNewRuntimedata();
                         Console.WriteLine("Initialized FormulaRuntime");
                         Console.WriteLine("Input formula");
                         Console.Write("> ");
@@ -183,6 +183,52 @@ namespace FuncCalc
                     case '9': return;
                     case 'w':
                         ToWritingMode(data);
+                        break;
+                    case 'c': {
+                            setting = new RuntimeSetting();
+                            if (LispMode) {
+                                Console.WriteLine("Lispモード");
+                                setting.DefaultSyntaxAnalyzer =
+                                    typeof(FuncCalc.Lisp.SyntaxAnalyzer);
+                            }
+                            setting.AcceptBitLength = 4096;
+
+                            data = setting.CreateNewRuntimedata();
+                        }
+                        for (;;) {
+                            try {
+                                Console.Write(" > ");
+                                string line = Console.ReadLine();
+                                if (string.IsNullOrEmpty(line)) break;
+                                analyzer = new Analyzer.Analyzer(
+                                    line, setting);
+                                var d = analyzer.GetResult();
+                                var dres = d.Eval(data);
+                                Console.WriteLine((dres == null ? "null" : dres.ToString()));
+                            }
+                            catch (SyntaxException ex) {
+
+                                Console.WriteLine("構文エラーが発生しました。計算式の書式のミスを確認してください。");
+                                Console.WriteLine("エラー : " + ex.Message);
+                                Console.WriteLine("トークン : {0}", ex.Token);
+                                Console.Write("場所 : ");
+                                ConsoleColor cc = Console.BackgroundColor;
+                                if (analyzer.Tokens == null)
+                                    Console.WriteLine("トークン情報がありませんでした");
+                                else
+                                    foreach (var t in analyzer.Tokens) {
+                                        if (t != ex.Token) Console.BackgroundColor = cc;
+                                        else Console.BackgroundColor = ConsoleColor.Red;
+                                        Console.Write(t.Text);
+                                    }
+                                Console.BackgroundColor = cc; Console.WriteLine();
+                            }
+                            catch (RuntimeException ex) {
+                                Console.WriteLine("実行エラーが発生しました。");
+                                Console.WriteLine("エラー : " + ex.Message);
+                                Console.WriteLine("トークン : {0}", ex.Token);
+                            }
+                        }
                         break;
                     default:
                         continue;

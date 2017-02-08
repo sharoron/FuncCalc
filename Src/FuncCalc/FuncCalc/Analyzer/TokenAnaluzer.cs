@@ -23,7 +23,7 @@ namespace FuncCalc.Analyzer {
 
         private Runtime.RuntimeSetting setting = null;
 
-        private char[] operationChars = null;
+        private string[] operationChars = null;
         private char[] bracketChars = null;
 
         private TokenAnaluzer() : this(null, null) { }
@@ -75,7 +75,10 @@ namespace FuncCalc.Analyzer {
                         opChar.Add(key.Text[i]);
                 }
             }
-            this.operationChars = opChar.ToArray();
+            List<string> operators = new List<string>();
+            operators.AddRange(opChar.ConvertAll<string>(i=> i.ToString()));
+            operators.Add(this.setting.Spec.ScopeOperator);
+            this.operationChars = operators.ToArray();
 
             List<char> brackets = new List<char>();
             brackets.AddRange(this.setting.Spec.StartBrackets);
@@ -103,6 +106,7 @@ namespace FuncCalc.Analyzer {
             }
             if (c == ' ') {
                 t = TokenType.Syntax;
+                adding = false;
                 goto Finish;
             }
 
@@ -147,7 +151,7 @@ namespace FuncCalc.Analyzer {
             }
 
             // 演算子
-            if (this.operationChars.Contains(c)) {
+            if (this.operationChars.Where(i=> i.StartsWith(c.ToString())).Count() >= 1) {
                 t = TokenType.Operation;
                 goto Finish;
             }
@@ -203,7 +207,8 @@ namespace FuncCalc.Analyzer {
                 AddToken();
                 this.type = t;
             }
-            this.stock += c;
+            if (adding)
+                this.stock += c;
             
             this.index++;
             this.number++;

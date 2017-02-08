@@ -9,20 +9,20 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Runtime.Operator
 {
-    public class Substitution : IOperator
+    public class SubstitutionSubtraction : IOperator
     {
         public string Name
         {
             get
             {
-                return "代入";
+                return "減算して代入";
             }
         }
         public string Text
         {
             get
             {
-                return "=";
+                return "-=";
             }
         }
         public bool RequireLeftParameter
@@ -46,8 +46,10 @@ namespace FuncCalc.Runtime.Operator
 
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
 
+            var res = left.Eval(runtime).Subtract(runtime, right);
+
             if (left is IMember) {
-                (left as IMember).Set(runtime, right.Eval(runtime));
+                (left as IMember).Set(runtime, res);
                 return right;
             }
 
@@ -55,19 +57,8 @@ namespace FuncCalc.Runtime.Operator
                 !(left is FunctionFormula)) {
                 throw new SyntaxException("代入は変数にのみ行えます。", left);
             }
-            
-            Variable v = null;
-            if (left is Variable)
-                v = left as Variable;
-            else if (left is Member)
-                v = new Variable((left as Member).Token);
-            else if (left is FunctionFormula && (left as FunctionFormula).Count == 1)
-                v = new Variable(((left as FunctionFormula).Items[0] as Member).Token);
-            else throw new NotImplementedException();
 
-            var res = right.Eval(runtime);
-            runtime.SetVariable(runtime, v, res);
-            return res;
+            return runtime.Setting.GetOperator("=", null, false).Execute(runtime, left, res);
         }
     }
 }

@@ -70,12 +70,18 @@ namespace FuncCalc.Expression
 
             var v = val.Eval(runtime);
 
-            if (v is Variable &&
-                (v as Variable).Name == this.Name) {
-                var me = this.Clone() as Variable;
-                me.multi = me.multi.Multiple(runtime, (v as Variable).multi);
-                me.Pow = me.Pow.Add(runtime, (v as Variable).Pow);
-                return me;
+            if (v is Variable) {
+                if ((v as Variable).Name == this.Name) {
+                    var me = this.Clone() as Variable;
+                    me.multi = me.multi.Multiple(runtime, (v as Variable).multi);
+                    me.Pow = me.Pow.Add(runtime, (v as Variable).Pow);
+                    return me;
+                } else {
+                    MultipleFormula mf = new MultipleFormula();
+                    mf.AddItem(runtime, this);
+                    mf.AddItem(runtime, v);
+                    return mf;
+                }
             }
             if (v is Number && (v as Number).Value == 1)
                 return this;
@@ -152,8 +158,8 @@ namespace FuncCalc.Expression
             return false;
         }
         public override INumber Eval(RuntimeData runtime) {
-            if (runtime.ContainsKey(this.Token.Text)) {
-                var res = runtime.GetData(this.Token);
+            if (runtime.ContainsKey(this.Token.Text, runtime.NowBlock.MoreScope)) {
+                var res = runtime.GetData(this.Token, runtime.NowBlock.MoreScope);
                 res = res.Multiple(runtime, this.multi);
                 res = res.Power(runtime, this.Pow);
                 if (res == this)

@@ -60,6 +60,7 @@
     <Compile Include="Expression\Const\InfinityValue.cs" />
     <Compile Include="Expression\Const\NaturalLogarithm.cs" />
     <Compile Include="Expression\Const\Pi.cs" />
+    <Compile Include="Expression\DynamicObject.cs" />
     <Compile Include="Expression\ExpressionType.cs" />
     <Compile Include="Expression\FloatNumber.cs" />
     <Compile Include="Expression\Formula.cs" />
@@ -79,6 +80,9 @@
     <Compile Include="Expression\Variable.cs" />
     <Compile Include="Interface\Expression\IBlock.cs" />
     <Compile Include="Interface\Expression\IConstant.cs" />
+    <Compile Include="Interface\Expression\Member\IMember.cs" />
+    <Compile Include="Interface\Expression\Member\IObject.cs" />
+    <Compile Include="Interface\Expression\Member\IProperty.cs" />
     <Compile Include="Interface\Math\IConstParameter.cs" />
     <Compile Include="Interface\Math\IDiff.cs" />
     <Compile Include="Interface\Math\IIntegrateWithParameters.cs" />
@@ -87,7 +91,7 @@
     <Compile Include="Interface\Math\IEvalWithParameters.cs" />
     <Compile Include="Interface\Expression\IExpression.cs" />
     <Compile Include="Interface\Expression\IFormula.cs" />
-    <Compile Include="Interface\Plugin\IFunction.cs" />
+    <Compile Include="Interface\Expression\Member\IFunction.cs" />
     <Compile Include="Interface\Plugin\ISyntaxAnalyzer.cs" />
     <Compile Include="Interface\Runtime\IFunctionOutput.cs" />
     <Compile Include="Interface\Math\IIntegratable.cs" />
@@ -127,6 +131,7 @@
     <Compile Include="Runtime\Func\Math\Gcd.cs" />
     <Compile Include="Runtime\Func\Math\Logarithm.cs" />
     <Compile Include="Runtime\Func\Expansion\MaclaurinExpansion.cs" />
+    <Compile Include="Runtime\Func\Math\Lcm.cs" />
     <Compile Include="Runtime\Func\Math\Maximum.cs" />
     <Compile Include="Runtime\Func\Math\IsPrime.cs" />
     <Compile Include="Runtime\Func\Math\Minimum.cs" />
@@ -139,10 +144,18 @@
     <Compile Include="Runtime\Func\Runtime\DeleteFunction.cs" />
     <Compile Include="Runtime\Func\Runtime\DeleteVariable.cs" />
     <Compile Include="Runtime\Func\Runtime\Evaluation.cs" />
+    <Compile Include="Runtime\Func\Runtime\Loop.cs" />
+    <Compile Include="Runtime\Func\Runtime\Print.cs" />
     <Compile Include="Runtime\Func\Runtime\UserDefineFunction.cs" />
     <Compile Include="Runtime\Func\Trigonometric\Cosine.cs" />
     <Compile Include="Runtime\Func\Trigonometric\Sine.cs" />
     <Compile Include="Runtime\Func\Trigonometric\Tangent.cs" />
+    <Compile Include="Runtime\Member\DynamicObjectProperty.cs" />
+    <Compile Include="Runtime\Operator\BitNot.cs" />
+    <Compile Include="Runtime\Operator\Not.cs" />
+    <Compile Include="Runtime\Operator\Or.cs" />
+    <Compile Include="Runtime\Operator\And.cs" />
+    <Compile Include="Runtime\Operator\Scope.cs" />
     <Compile Include="Runtime\Operator\Addition.cs" />
     <Compile Include="Runtime\Operator\ConditionDefine.cs" />
     <Compile Include="Runtime\Operator\DecrementLeft.cs" />
@@ -160,6 +173,13 @@
     <Compile Include="Runtime\Operator\OutputFinalEval.cs" />
     <Compile Include="Runtime\Operator\Power.cs" />
     <Compile Include="Runtime\Operator\Remaindation.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionOr.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionAnd.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionMod.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionDivite.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionMultiple.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionSubtraction.cs" />
+    <Compile Include="Runtime\Operator\SubstitutionAdd.cs" />
     <Compile Include="Runtime\Operator\Substitution.cs" />
     <Compile Include="Runtime\Operator\Subtraction.cs" />
     <Compile Include="Runtime\Optimizer\Trigonometric.cs" />
@@ -200,6 +220,11 @@
       <LastGenOutput>Res-mathjax.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\crypt.fc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

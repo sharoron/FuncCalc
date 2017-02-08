@@ -61,7 +61,8 @@ namespace FuncCalc.Expression
         public override INumber Eval(RuntimeData runtime) {
             if (runtime.ContainsKey(this.Text)) {
                 var res = runtime.GetData(this.Token).Eval(runtime).Clone();
-                res = res.Power(runtime, this.Pow);
+                if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
+                    res = res.Power(runtime, this.Pow);
                 return res;
             }
 

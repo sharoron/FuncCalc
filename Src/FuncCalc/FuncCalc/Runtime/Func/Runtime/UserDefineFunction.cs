@@ -58,7 +58,7 @@ namespace FuncCalc.Runtime.Func.Runtime {
             }
 
 
-            runtime.AddBlock(new BlockData());
+            runtime.AddBlock(new BlockData() { MoreScope = true });
 
             for (int i = 0; i < parameters.Length; i++) {
                 var exp = parameters[i];
@@ -72,6 +72,18 @@ namespace FuncCalc.Runtime.Func.Runtime {
 
             return res;
 
+        }
+        public override INumber Get(RuntimeData runtime) {
+            return this.formula as INumber;
+        }
+        public override void Set(RuntimeData runtime, INumber value) {
+            throw new RuntimeException("ユーザー定義関数に再度代入することはできません。", this);
+        }
+        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+            if (!(this.formula is INumber))
+                throw new RuntimeException("ユーザー定義関数に定義されている式は値(INumber)ではありません。", this);
+
+            return (this.formula as INumber).ExecuteDiff(runtime, t);
         }
 
         public override string ToString() {

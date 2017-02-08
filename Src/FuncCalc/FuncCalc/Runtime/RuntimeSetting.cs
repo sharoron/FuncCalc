@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 namespace FuncCalc.Runtime {
     public class RuntimeSetting {
 
+        private int _data_id = -1;
         private Spec spec = new Spec();
         private bool doOptimize = true;
         private bool isDebug = false;
@@ -84,7 +85,7 @@ namespace FuncCalc.Runtime {
                 return null;
         }
         public RuntimeData CreateNewRuntimedata() {
-            RuntimeData data = new Runtime.RuntimeData(this);
+            RuntimeData data = new Runtime.RuntimeData(this, ++this._data_id);
             return data;
         }
         public IExpression GetExpression(string formula) {
@@ -103,14 +104,17 @@ namespace FuncCalc.Runtime {
             LoadPlugin(me);
 
             // 標準フォルダ(./fc-lib)の中にあるアセンブリを読み込む
-            var dll = (new DirectoryInfo(new FileInfo(me.Location).Directory.FullName + "\\fc-lib")).GetFiles().Where(i=>i.Extension.ToLower()==".dll");
-            foreach (var item in dll) {
-                try {
-                    Assembly asm = Assembly.LoadFile(item.FullName);
-                    this.LoadPlugin(asm);
+            try {
+                var dll = (new DirectoryInfo(new FileInfo(me.Location).Directory.FullName + "\\fc-lib")).GetFiles().Where(i => i.Extension.ToLower() == ".dll");
+                foreach (var item in dll) {
+                    try {
+                        Assembly asm = Assembly.LoadFile(item.FullName);
+                        this.LoadPlugin(asm);
+                    }
+                    catch { }
                 }
-                catch { }
             }
+            catch { }
         }
         private void LoadFunctions(Assembly asm) {
             foreach (Type t in asm.GetTypes()) {

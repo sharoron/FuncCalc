@@ -1,0 +1,17 @@
+﻿
+crypt = () => {
+	res = {};
+	r1 = genKey(128);
+	r2 = genKey(128);
+	
+	n = r1 * r2;
+	L = lcm(r1 - 1, r2 - 1);
+
+	flag = 1;
+	loop(flag, { 
+		rnd = rand(c);
+		flag 
+	});
+
+
+}

@@ -44,7 +44,7 @@ namespace FuncCalc.GUI
 
             try {
                 Analyzer.Analyzer anal = new Analyzer.Analyzer(form);
-                Runtime.RuntimeData d = new Runtime.RuntimeData(anal.Setting);
+                Runtime.RuntimeData d = anal.Setting.CreateNewRuntimedata();
                 var f = anal.GetResult();
                 var res = f.Eval(d).Optimise(d);
 

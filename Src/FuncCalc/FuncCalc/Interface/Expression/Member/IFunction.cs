@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Interface
 {
-    public abstract class IFunction : IExpression, IEvalWithParameters {
-        public abstract string Name { get; }
+    public abstract class IFunction : IMember, IExpression, IEvalWithParameters {
+        public override abstract string Name { get; }
         public virtual string Description { get { return null; } }
         public abstract ExpressionType[] Parameter { get; }
         public abstract ExpressionType ReturnType { get; }

@@ -51,13 +51,13 @@ namespace FuncCalc.Analyzer
                     this.AddFuncFormula();
                     return;
                 }
-                if (exp.Token != null &&
-                    exp.Token.Type == TokenType.Operation && 
-                    exp.Token.Text == this.setting.Spec.ScopeOperator) {
+                //if (exp.Token != null &&
+                //    exp.Token.Type == TokenType.Operation && 
+                //    exp.Token.Text == this.setting.Spec.ScopeOperator) {
 
-                    this.AddFuncFormula();
-                    return;
-                }
+                //    this.AddFuncFormula();
+                //    return;
+                //}
                 if (flag && exp is IFormula) {
                     this.AddFuncFormula();
                     return;
