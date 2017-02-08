@@ -20,6 +20,10 @@ namespace FuncCalc
         const bool LispMode = false;
 
         internal static string SaveDir = "";
+        internal static RuntimeSetting setting = new RuntimeSetting();
+        internal static RuntimeData data = setting.CreateNewRuntimedata();
+        internal static IFormula formula = null;
+        internal static Analyzer.Analyzer analyzer = null;
 
         public static void Main(string[] args) {
 
@@ -28,10 +32,6 @@ namespace FuncCalc
                 Directory.CreateDirectory(SaveDir);
 
 
-            RuntimeSetting setting = new RuntimeSetting();
-            RuntimeData data = setting.CreateNewRuntimedata();
-            IFormula formula = null;
-            Analyzer.Analyzer analyzer = null;
         
 
             Console.WriteLine("============================");
@@ -184,6 +184,27 @@ namespace FuncCalc
                     case 'w':
                         ToWritingMode(data);
                         break;
+                    case 'l': {
+                            {
+                                setting = new RuntimeSetting();
+                                if (LispMode) {
+                                    Console.WriteLine("Lispモード");
+                                    setting.DefaultSyntaxAnalyzer =
+                                        typeof(FuncCalc.Lisp.SyntaxAnalyzer);
+                                }
+                                setting.AcceptBitLength = 4096;
+
+                                data = setting.CreateNewRuntimedata();
+                            }
+                            var files = (new DirectoryInfo("./source")).GetFiles();
+                            for (int i = 0; i < files.Length; i++) {
+                                Console.WriteLine("{0,3}: {1}", i, files[i].Name);
+                            }
+                            Console.Write("Index > ");
+                            using (StreamReader sr = new StreamReader(files[int.Parse(Console.ReadLine())].FullName)) {
+                                ExecuteFormula(sr.ReadToEnd());
+                            }
+                        } break;
                     case 'c': {
                             setting = new RuntimeSetting();
                             if (LispMode) {
@@ -195,40 +216,8 @@ namespace FuncCalc
 
                             data = setting.CreateNewRuntimedata();
                         }
-                        for (;;) {
-                            try {
-                                Console.Write(" > ");
-                                string line = Console.ReadLine();
-                                if (string.IsNullOrEmpty(line)) break;
-                                analyzer = new Analyzer.Analyzer(
-                                    line, setting);
-                                var d = analyzer.GetResult();
-                                var dres = d.Eval(data);
-                                Console.WriteLine((dres == null ? "null" : dres.ToString()));
-                            }
-                            catch (SyntaxException ex) {
-
-                                Console.WriteLine("構文エラーが発生しました。計算式の書式のミスを確認してください。");
-                                Console.WriteLine("エラー : " + ex.Message);
-                                Console.WriteLine("トークン : {0}", ex.Token);
-                                Console.Write("場所 : ");
-                                ConsoleColor cc = Console.BackgroundColor;
-                                if (analyzer.Tokens == null)
-                                    Console.WriteLine("トークン情報がありませんでした");
-                                else
-                                    foreach (var t in analyzer.Tokens) {
-                                        if (t != ex.Token) Console.BackgroundColor = cc;
-                                        else Console.BackgroundColor = ConsoleColor.Red;
-                                        Console.Write(t.Text);
-                                    }
-                                Console.BackgroundColor = cc; Console.WriteLine();
-                            }
-                            catch (RuntimeException ex) {
-                                Console.WriteLine("実行エラーが発生しました。");
-                                Console.WriteLine("エラー : " + ex.Message);
-                                Console.WriteLine("トークン : {0}", ex.Token);
-                            }
-                        }
+                        Console.Write(" > ");
+                        ExecuteFormula(Console.ReadLine());
                         break;
                     default:
                         continue;
@@ -237,6 +226,39 @@ namespace FuncCalc
 
             }
 
+        }
+
+        static void ExecuteFormula(string line) {
+
+            try {
+                if (string.IsNullOrEmpty(line)) return;
+                analyzer = new Analyzer.Analyzer(
+                    line, setting);
+                var d = analyzer.GetResult();
+                var dres = d.Eval(data);
+                Console.WriteLine((dres == null ? "null" : dres.ToString()));
+            }
+            catch (FuncCalcException ex) {
+                if (ex is SyntaxException)
+                    Console.WriteLine("Syntax Error!");
+                else
+                    Console.WriteLine("Runtime Error");
+
+                Console.WriteLine("エラー : " + ex.Message);
+                Console.WriteLine("トークン : {0} [Line: {1}, Num: {2}, Index: {3}]", ex.Token,
+                    ex.Token.Line, ex.Token.Number, ex.Token.Index);
+                Console.Write("場所 : ");
+                ConsoleColor cc = Console.BackgroundColor;
+                if (analyzer.Tokens == null)
+                    Console.WriteLine("トークン情報がありませんでした");
+                else
+                    foreach (var t in analyzer.Tokens) {
+                        if (t != ex.Token) Console.BackgroundColor = cc;
+                        else Console.BackgroundColor = ConsoleColor.Red;
+                        Console.Write(t.Text);
+                    }
+                Console.BackgroundColor = cc; Console.WriteLine();
+            }
         }
 
         static void OutputFormula(RuntimeData runtime, IFormula f, int level) {

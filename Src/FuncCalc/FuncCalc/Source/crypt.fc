@@ -1,17 +1,25 @@
 ﻿
 crypt = () => {
 	res = {};
-	r1 = genKey(128);
-	r2 = genKey(128);
+	length = 128;
+
+	p = genKey(length);
+	q = genKey(length);
+
+	print("p       : " + p);
+	print("q       : " + q);
 	
-	n = r1 * r2;
-	L = lcm(r1 - 1, r2 - 1);
+	n = p * q;
+	L = lcm(p - 1, q - 1);
 
-	flag = 1;
-	loop(flag, { 
-		rnd = rand(c);
-		flag 
-	});
+	flag = 1; public = -1;
+	loop(!(gcd(L, public)), { public = randC(length); });
 
+	private = exgcd(L, public);
+	private = max(private[0], private[1]);
+
+	print("L       : " + L);
+	print("Public  : " + public);
+	print("Private : " + private);
 
 }

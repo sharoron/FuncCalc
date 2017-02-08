@@ -1,4 +1,5 @@
-﻿using FuncCalc.Interface;
+﻿using FuncCalc.Expression;
+using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Runtime.Operator
 {
-    public class Addition : IOperator
+    public class And : IOperator
     {
         public string Name
         {
             get
             {
-                return "加算";
+                return "論理積";
             }
         }
         public string Text
         {
             get
             {
-                return "+";
+                return "&";
             }
         }
         public bool RequireLeftParameter
@@ -43,7 +44,10 @@ namespace FuncCalc.Runtime.Operator
         }
 
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
-            return left.Add(runtime, right);
+            
+            Number l = left as Number, r = right as Number;
+
+            return Number.New(runtime, l.Value & r.Value);
         }
     }
 }

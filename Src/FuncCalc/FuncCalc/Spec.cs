@@ -25,6 +25,12 @@ namespace FuncCalc {
             { new Division(), 2000 },           // /    除算
             { new Addition(), 1000 },           // +    加算
             { new Subtraction(), 1000 },        // -    減算
+            { new Equal(), 800},                // ==   ビットごとの論理積
+            { new EqualNot(), 800},             // !=   ビットごとの論理積
+            { new BiggerThan(), 800},           // >    ビットごとの論理積
+            { new SmallerThan(), 800},          // <    ビットごとの論理積
+            { new OrMore(), 800},               // >=   ビットごとの論理積
+            { new OrLess(), 800},               // <=   ビットごとの論理積
             { new And(), 750},                  // &    ビットごとの論理積
             { new Or(), 750},                   // |    ビットごとの論理和
             { new BitNot(), 750},               // ~    ビットごとの否定

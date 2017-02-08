@@ -3,33 +3,32 @@ using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace FuncCalc.Runtime.Operator
 {
-    public class Not : IOperator
+    public class Equal : IOperator
     {
         public string Name
         {
             get
             {
-                return "否定";
+                return "等しい";
             }
         }
         public string Text
         {
             get
             {
-                return "|";
+                return "==";
             }
         }
         public bool RequireLeftParameter
         {
             get
             {
-                return false;
+                return true;
             }
         }
         public bool RequireRightParameter
@@ -45,13 +44,7 @@ namespace FuncCalc.Runtime.Operator
         }
 
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
-
-            IConstParameter num = (right as Number).FinalEval(runtime) as IConstParameter;
-
-            if (num == null) return Number.New(0);
-            if (num.ConstValue == 0) return Number.New(1);
-            else return Number.New(0);
-                        
+            return left.Equals(runtime, right) ? Number.New(1) : Number.New(0);
         }
     }
 }

@@ -44,6 +44,13 @@ namespace FuncCalc.Runtime.Func.Math
                 throw new RuntimeException("パラメータは値である必要があります。",
                     l is IConstParameter ? r : l);
 
+            if (l is Number && r is Number) {
+                if ((l as Number).Value < (r as Number).Value)
+                    return l;
+                else
+                    return r;
+            }
+
             if ((l as IConstParameter).ConstValue > (r as IConstParameter).ConstValue)
                 return parameters[1];
             else

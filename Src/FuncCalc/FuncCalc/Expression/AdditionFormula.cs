@@ -167,6 +167,16 @@ namespace FuncCalc.Expression
             return false;
         }
         public override INumber Eval(RuntimeData runtime) {
+
+            // Stringが含まれている
+            if (this.items.Where(i=>i is Expression.String).Count() >= 1) {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < this.items.Count; i++) {
+                    sb.Append(this.items[i].Output(runtime.Setting.Logger.OutputType));
+                }
+                return new Expression.String(new Token(sb.ToString(), Analyzer.TokenType.String));
+            }
+
             AdditionFormula af = new Expression.AdditionFormula();
             for (int i = 0; i < this.items.Count; i++) {
                 var res = this.items[i].Eval(runtime);

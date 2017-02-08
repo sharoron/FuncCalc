@@ -92,36 +92,7 @@ namespace FuncCalc.Analyzer {
             char c = this.str[this.index];
             bool adding = true;
 
-            // 制御文字(ソースコードとしての)
-            if (c == '\n') {
-                this.line++;
-                this.number = 1;
-                this.index++;
-                return;
-            }
-            if (c == '\r' || c == '\n') {
-                this.number++;
-                this.index++;
-                return;
-            }
-            if (c == ' ') {
-                t = TokenType.Syntax;
-                adding = false;
-                goto Finish;
-            }
-
-            // 文字列型
-            if (c == '\"') {
-                if (isescape) // エスケープ文字を挟んでいる場合
-                    t = TokenType.String;
-                else { // 文字列の開始または終了
-                    t = TokenType.String;
-                    isStrg = !isStrg;
-                    adding = false;
-                }
-                goto Finish;
-            }
-            if (isStrg) {
+            if (isStrg && c != '\"') {
                 if (c == '\\') {
                     if (isescape) {
                         t = TokenType.String;
@@ -148,6 +119,36 @@ namespace FuncCalc.Analyzer {
                     t = TokenType.String;
                     goto Finish;
                 }
+            }
+
+            // 制御文字(ソースコードとしての)
+            if (c == '\n') {
+                this.line++;
+                this.number = 1;
+                this.index++;
+                return;
+            }
+            if (c == '\r' || c == '\n') {
+                this.number++;
+                this.index++;
+                return;
+            }
+            if (c == ' ' || c == '\t') {
+                t = TokenType.Syntax;
+                adding = false;
+                goto Finish;
+            }
+
+            // 文字列型
+            if (c == '\"') {
+                if (isescape) // エスケープ文字を挟んでいる場合
+                    t = TokenType.String;
+                else { // 文字列の開始または終了
+                    t = TokenType.String;
+                    isStrg = !isStrg;
+                    adding = false;
+                }
+                goto Finish;
             }
 
             // 演算子
@@ -191,7 +192,7 @@ namespace FuncCalc.Analyzer {
                 }
             }
 
-
+            
             throw new SyntaxException(string.Format("不正な文字です '{0}'", c),
                 new Token(c.ToString(), TokenType.Unknown, this.line, this.number, this.index));
 
@@ -233,6 +234,8 @@ namespace FuncCalc.Analyzer {
                 if (this.setting.Spec.EndBrackets.Contains(this.stock[0])) {
                     bool breakloop = false;
                     for (;;) {
+                        if (this.brackets.Count == 0)
+                            throw new SyntaxException("カッコが多すぎます。", t);
                         if ((brackets[this.brackets.Count - 1].Text == "(" && c == ']') ||
                             (brackets[this.brackets.Count - 1].Text == "[" && c == ')')) {
                             if (!this.setting.IgnoreBracketLevel)

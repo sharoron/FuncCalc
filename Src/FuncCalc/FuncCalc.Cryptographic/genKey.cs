@@ -64,9 +64,9 @@ namespace FuncCalc.Cryptographic
                 // 乱数を生成する
                 byte[] buffer = new byte[(int)(length / 8)];
                 r.NextBytes(buffer);
-                
+
                 // 最終ビットを確実に1にしておく
-                // buffer[buffer.Length - 1] |= 128;
+                buffer[buffer.Length - 1] &= 64 + 32 + 16 + 8 + 4 + 2 + 1;
 
                 // FuncCalcで取り扱える型にする
                 BigInteger bi = new BigInteger(buffer);

@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Runtime.Operator
 {
-    public class And : IOperator
+    public class EqualNot : IOperator
     {
         public string Name
         {
             get
             {
-                return "論理積";
+                return "等しくない";
             }
         }
         public string Text
         {
             get
             {
-                return "&";
+                return "!=";
             }
         }
         public bool RequireLeftParameter
@@ -44,10 +44,7 @@ namespace FuncCalc.Runtime.Operator
         }
 
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
-
-            Number l = left as Number, r = right as Number;
-
-            return Number.New(runtime, l.Value & r.Value);
+            return !left.Equals(runtime, right) ? Number.New(1) : Number.New(0);
         }
     }
 }
