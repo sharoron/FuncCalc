@@ -87,20 +87,12 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             return param;
         }
 
-        public INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters) {
+        public INumber Differentiate(RuntimeData runtime, DifferentialData ddata, INumber[] parameters) {
             
             var res = new FuncedINumber(runtime.GetFunc("cos"), parameters);
 
-            var vaDiff = parameters[0].ExecuteDiff(runtime, t);
-            if (vaDiff .Equals(runtime, Number.New(0))) {
-                return res;
-            }
-
-            MultipleFormula mf = new MultipleFormula();
-            mf.AddItem(runtime, vaDiff);
-            mf.AddItem(runtime, res);
-            return mf;
-
+            ddata.AddParam(parameters[0]);
+            return res;
         }
 
         public INumber Integrate(RuntimeData runtime, string t, INumber[] parameters) {
@@ -108,7 +100,7 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             // パラメータ内に関数を含む場合は部分積分法で積分する必要がある
             if (runtime.IsFunctionINumber(parameters[0], t)) {
 
-                var prmDiff = parameters[0].ExecuteDiff(runtime, t);
+                var prmDiff = parameters[0].Differentiate(runtime, t);
                 if ((prmDiff.InfinitelyDifferentiable && this.InfinitelyIntegrable) || 
                     (prmDiff.InfinitelyIntegrable && this.InfinitelyDifferentiable))
                     throw new RuntimeException("パラメータを微分した結果が無限回微分可能関数または無限回積分可能関数の場合、積分を行うことはできません。", this);

@@ -217,7 +217,12 @@ namespace FuncCalc
                             data = setting.CreateNewRuntimedata();
                         }
                         Console.Write(" > ");
-                        ExecuteFormula(Console.ReadLine());
+                        string line = "";
+                        while (!string.IsNullOrEmpty(
+                            line = Console.ReadLine())) {
+                            ExecuteFormula(line);
+                            Console.Write(" > ");
+                        }
                         break;
                     default:
                         continue;

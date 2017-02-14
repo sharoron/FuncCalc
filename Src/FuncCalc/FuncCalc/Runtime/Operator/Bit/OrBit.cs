@@ -8,20 +8,20 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Runtime.Operator
 {
-    public class Or : IOperator
+    public class OrBit : IOperator
     {
         public string Name
         {
             get
             {
-                return "論理和";
+                return "ビット論理和";
             }
         }
         public string Text
         {
             get
             {
-                return "||";
+                return "|";
             }
         }
         public bool RequireLeftParameter
@@ -46,7 +46,7 @@ namespace FuncCalc.Runtime.Operator
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
             Number l = left as Number, r = right as Number;
 
-            return Number.New(runtime, l.Value != 0 || r.Value != 0 ? 1 : 0);
+            return Number.New(runtime, l.Value | r.Value);
         }
     }
 }

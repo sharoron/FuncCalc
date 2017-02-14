@@ -134,46 +134,26 @@ namespace FuncCalc.Expression
         public override string ToString() {
             return this.Output(OutputType.String);
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
 
-            INumber res = null;
+            var res = ddata.CheckPow(this) as FuncedINumber;
             if (this.func is IDiffWithParameters) {
-                res = (this.func as IDiffWithParameters).ExecuteDiff(runtime, t, this.param);
-
-                // この段階ではpowのことは感がられていないので、pow部をここで処理する
-                if (!(this.Pow is Number && (this.Pow as Number).Value == 1)) {
-                    MultipleFormula mf = new MultipleFormula();
-                    mf.AddItem(runtime, res);
-                    INumber pow = this.Clone();
-                    pow.Pow = pow.Pow.Subtract(runtime, Number.New(1));
-                    mf.AddItem(runtime, pow);
-
-                    res = mf;
-                }
+                var fres = (this.func as IDiffWithParameters).Differentiate(runtime, ddata, this.param);
+                fres.Pow = res.Pow;
 
                 if (runtime.Setting.DoOptimize)
-                    res = res.Optimise(runtime);
+                    return fres.Optimise(runtime);
+                else
+                    return fres;
             }
             else {
-                res = new FuncedINumber(
-                    runtime.GetFunc("diff"), new INumber[] { new Variable(new FuncCalc.Token(t, Analyzer.TokenType.Member)), this });
-
-                // たぶんpowの部分が怪しいのでチェックすること
-                Debugger.Break();
+                var fres = new FuncedINumber(
+                    runtime.GetFunc("diff"), new INumber[] { new Variable(new FuncCalc.Token(ddata.T, Analyzer.TokenType.Member)), this });
+                fres.Pow = res.Pow;
+                return fres;
             }
-
-            //最終処理部
-            {
-                var mf = Runtime.Func.Differential.DiffPow(runtime, t, this);
-                if (mf != null) {
-                    mf.AddItem(runtime, res);
-                    return mf;
-                }
-                else
-                    return res;
-            }
-
         }
+
         public override INumber Integrate(RuntimeData runtime, string t) {
 
             // べき乗の指定があったら部分積分法で解く

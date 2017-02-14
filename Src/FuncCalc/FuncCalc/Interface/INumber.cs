@@ -17,7 +17,7 @@ namespace FuncCalc.Interface
         {
             get {
                 if (this._pow == null)
-                    return Number.New(1);
+                    return this._pow = Number.New(1);
                 else
                     return this._pow;
             }
@@ -37,7 +37,21 @@ namespace FuncCalc.Interface
         {
             get; set;
         }
-        
+        public bool IsOne
+        {
+            get
+            {
+                return Number.IsOne(this);
+            }
+        }
+        public bool IsZero
+        {
+            get
+            {
+                return Number.IsZero(this);
+            }
+        }
+
         public virtual INumber ExecuteOperator(RuntimeData runtime, IOperator op, INumber left, INumber right) {
             throw new NotImplementedException();
         }
@@ -103,7 +117,17 @@ namespace FuncCalc.Interface
             }
         }
 
-        public abstract INumber ExecuteDiff(RuntimeData runtime, string t);
+        // *------------------------*
+        // *     微分積分
+        // *------------------------*
+        public INumber Differentiate(RuntimeData runtime, string t) {
+            DifferentialData ddata = new Runtime.DifferentialData(runtime) {
+                T = t
+            };
+            var res = this.Differentiate(runtime, ddata);
+            return ddata.Result.Multiple(runtime, res);
+        }
+        public abstract INumber Differentiate(RuntimeData runtime, DifferentialData ddata);
         public virtual INumber Integrate(RuntimeData runtime, string t) {
             if (this is IConstParameter) {
                 MultipleFormula mf = new Expression.MultipleFormula();

@@ -86,6 +86,12 @@ namespace FuncCalc.Expression
         }
 
         public void AddItem(RuntimeData runtime, INumber val) {
+            //  FuncedINumberを評価すると無限ループになりかねない
+            if (val is FuncedINumber) {
+                this.items.Add(val);
+                return;
+            }
+
             var v = val.Eval(runtime);
 
             if (v is Number && (v as Number).Value == 1)
@@ -303,16 +309,26 @@ namespace FuncCalc.Expression
             return false;
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
 
-            // アイテムがない場合は0を返す
+            // アイテムがない場合は1を微分することにする
             if (this.items.Count == 0) {
-                return Number.New(0);
+                if (ddata.IsFunction(this.Pow)) {
+                    var num = Number.New(1);
+                    num.Pow = this.Pow;
+                    return num.Differentiate(runtime, ddata);
+                }
+                else
+                    return Number.New(0);
             }
             // アイテムが1つしかない場合はそれを微分する
             if (this.items.Count == 1) {
-                return this.items[0].ExecuteDiff(runtime, t);
+                var num = this.items[0].Clone();
+                num = num.Power(runtime, this.Pow);
+                return num.Differentiate(runtime, ddata);
             }
+
+            var res = ddata.CheckPow(this);
 
             // アイテムが複数個ある場合は定数と変数を取り出し、場合によって合成関数の微分んを行う
             // 参考: 合成関数の微分 
@@ -324,41 +340,45 @@ namespace FuncCalc.Expression
 
                 if (item is IConstParameter || item is ImaginaryNumber) {
                     constant = constant.Multiple(runtime, item);
-                } else {
+                }
+                else {
                     funcs.Add(item);
                 }
             }
 
-            AdditionFormula res = new AdditionFormula();
+            AdditionFormula fres = new AdditionFormula();
             // 合成関数の微分を行う
             for (int i = 0; i < funcs.Count; i++) {
                 INumber r = Number.New(1);
                 for (int j = 0; j < funcs.Count; j++) {
                     if (i == j) {
-                        r = r.Multiple(runtime, funcs[j].ExecuteDiff(runtime, t));
-                    }else {
+                        r = r.Multiple(runtime, funcs[j].Differentiate(runtime, ddata));
+                    }
+                    else {
                         r = r.Multiple(runtime, funcs[j]);
                     }
                 }
-                res.AddItem(runtime, r);
+                fres.AddItem(runtime, r);
             }
 
 
             // 最適化する
-            INumber resOpt = res;
+            INumber resOpt = fres;
             if (runtime.Setting.DoOptimize)
                 resOpt = resOpt.Optimise(runtime);
 
             // constantの状態を見て結果を返す
             if (constant.Equals(runtime, Number.New(1))) {
+                resOpt.Pow = res.Pow;
                 return resOpt;
-            } else {
+            }
+            else {
                 MultipleFormula mf = new MultipleFormula();
                 mf.AddItem(runtime, constant);
                 mf.AddItem(runtime, resOpt);
+                mf.Pow = res.Pow;
                 return mf;
             }
- 
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
 
@@ -426,7 +446,7 @@ namespace FuncCalc.Expression
                 // -intg(f' * intg(g))
                 {
                     MultipleFormula mf3 = new MultipleFormula();
-                    mf3.AddItem(runtime, diffedDiffable = diffable.ExecuteDiff(runtime, t));
+                    mf3.AddItem(runtime, diffedDiffable = diffable.Differentiate(runtime, t));
                     mf3.AddItem(runtime, other.Integrate(runtime, t));
                     res2 = mf3.Integrate(runtime, t).Multiple(runtime, Number.New(-1));
                 }

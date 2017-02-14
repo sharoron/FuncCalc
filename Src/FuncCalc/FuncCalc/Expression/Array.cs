@@ -121,9 +121,9 @@ namespace FuncCalc.Expression
         {
             throw new NotImplementedException();
         }
-        public override INumber ExecuteDiff(Runtime.RuntimeData runtime, string t)
+        public override INumber Differentiate(Runtime.RuntimeData runtime, DifferentialData ddata)
         {
-            throw new NotImplementedException();
+            throw new RuntimeException("行列式を微分するのはまだ未対応です。", this);
         }
 
         public INumber Execute(Runtime.RuntimeData runtime, params INumber[] parameters)

@@ -196,6 +196,15 @@ namespace FuncCalc {
         }
         
         /// <summary>
+        ///   対数微分法を使用して{0}を解く に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string LogarithmDiffWay1 {
+            get {
+                return ResourceManager.GetString("LogarithmDiffWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   マクローリン展開を使用して近似を求める に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string MaclaurinWay0 {

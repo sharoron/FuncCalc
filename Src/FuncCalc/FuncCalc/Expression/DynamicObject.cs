@@ -73,12 +73,18 @@ namespace FuncCalc.Expression
             }
         }
         public override INumber Add(RuntimeData runtime, INumber val) {
+            if (val is Number && (val as Number).Value == 0)
+                return this;
+
             throw new RuntimeException("dynamicオブジェクトに対して計算をすることはできません。", this);
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             throw new RuntimeException("dynamicオブジェクトに対して計算をすることはできません。", this);
         }
         public override INumber Multiple(RuntimeData runtime, INumber val) {
+            if (val is Number && (val as Number).Value == 1)
+                return this;
+
             throw new RuntimeException("dynamicオブジェクトに対して計算をすることはできません。", this);
         }
         public override bool CanJoin(RuntimeData runtime, INumber val) {
@@ -86,6 +92,12 @@ namespace FuncCalc.Expression
         }
         public override bool Equals(RuntimeData runtime, INumber val) {
             return this == val;
+        }
+        public override INumber Power(RuntimeData runtime, INumber val) {
+            if (val is Number && (val as Number).Value == 1)
+                return this;
+
+            return base.Power(runtime, val);
         }
 
         #endregion

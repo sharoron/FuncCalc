@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Runtime;
+using FuncCalc.Exceptions;
 
 namespace FuncCalc.Expression
 {
@@ -48,8 +49,8 @@ namespace FuncCalc.Expression
             throw new NotImplementedException();
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            throw new NotImplementedException();
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            throw new RuntimeException("条件式を微分するのはまだ未対応です。", this);
         }
 
         public override INumber Multiple(RuntimeData runtime, INumber val) {

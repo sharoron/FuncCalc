@@ -240,7 +240,9 @@ namespace FuncCalc.Runtime
                 throw new RuntimeException(string.Format("'{0}'関数は見つかりませんでした。", name));
         }
         public bool IsConstValue(INumber num) {
-            return FuncCalc.Runtime.Func.Differential.IsConstValue(this, num);
+            return 
+                (num is IConstParameter || num is ImaginaryNumber) && 
+                IsConstValue(num.Pow);
         }
         public void OutputDebug() {
             Console.WriteLine("変数");

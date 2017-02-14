@@ -125,8 +125,11 @@ namespace FuncCalc.Expression
             }
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             throw new RuntimeException("無限を微分することはできません。");
+        }
+        public override INumber Integrate(RuntimeData runtime, string t) {
+            throw new RuntimeException("無限を積分することはできません。", this);
         }
     }
 }

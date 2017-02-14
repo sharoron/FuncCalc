@@ -244,20 +244,18 @@ namespace FuncCalc.Expression
             runtime.NowBlock.Push(this);
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            AdditionFormula af = new AdditionFormula();
-            for (int i = 0; i < this.items.Count; i++) {
-                var res = this.items[i].Eval(runtime).ExecuteDiff(runtime, t);
-                af.AddItem(runtime, res);
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            AdditionFormula af = ddata.CheckPow(this) as AdditionFormula;
+
+            List<INumber> items = af.items;
+            for (int i = 0; i < items.Count; i++) {
+                if (ddata.IsFunction(items[i]))
+                    runtime.AddLogWay("AF式中に関数式発見。要確認");
+                af.items[i] = af.items[i].Differentiate(runtime, ddata.T);
             }
 
-            var pow = Runtime.Func.Differential.DiffPow(runtime, t, this);
-            if (pow != null) {
-                pow.AddItem(runtime, af);
-                return pow;
-            }
-            else
-                return af;
+            return af;
+            
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
 

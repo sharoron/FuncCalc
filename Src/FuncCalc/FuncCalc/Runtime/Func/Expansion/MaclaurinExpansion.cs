@@ -77,7 +77,7 @@ namespace FuncCalc.Runtime.Func.Expansion
                 // formulaを微分し、varに0を代入する
                 // 要約: f(i + 1)'を求める
                 runtime.AddBlock(new BlockData() { MoreScope = false });
-                formula = formula.ExecuteDiff(runtime, v.Name);
+                formula = formula.Differentiate(runtime, v.Name);
 
                 // f(i + 1)'(0)を求める
                 runtime.SetVariable(runtime, v, Number.New(0));

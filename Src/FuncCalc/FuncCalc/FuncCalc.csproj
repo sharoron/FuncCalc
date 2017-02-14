@@ -62,7 +62,7 @@
     <Compile Include="Expression\Const\Pi.cs" />
     <Compile Include="Expression\DynamicObject.cs" />
     <Compile Include="Expression\ExpressionType.cs" />
-    <Compile Include="Expression\FloatNumber.cs" />
+    <Compile Include="Expression\Const\FloatNumber.cs" />
     <Compile Include="Expression\Formula.cs" />
     <Compile Include="Expression\Fraction.cs" />
     <Compile Include="Expression\FuncedINumber.cs" />
@@ -121,6 +121,7 @@
     </Compile>
     <Compile Include="Runtime\BlockData.cs" />
     <Compile Include="Runtime\ConsoleLogger.cs" />
+    <Compile Include="Runtime\DifferentialData.cs" />
     <Compile Include="Runtime\FCNumber.cs" />
     <Compile Include="Runtime\Func\Debug\test.cs" />
     <Compile Include="Runtime\Func\Debug\test2.cs" />
@@ -151,6 +152,8 @@
     <Compile Include="Runtime\Func\Trigonometric\Sine.cs" />
     <Compile Include="Runtime\Func\Trigonometric\Tangent.cs" />
     <Compile Include="Runtime\Member\DynamicObjectProperty.cs" />
+    <Compile Include="Runtime\Operator\Bit\AndBit.cs" />
+    <Compile Include="Runtime\Operator\Bit\OrBit.cs" />
     <Compile Include="Runtime\Operator\Condition\OrLess.cs" />
     <Compile Include="Runtime\Operator\Condition\OrMore.cs" />
     <Compile Include="Runtime\Operator\Condition\BiggerThan.cs" />

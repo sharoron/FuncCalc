@@ -88,7 +88,7 @@ namespace FuncCalc.Runtime.Func
 
                 if (y2 < 0)
                 {
-                    Console.WriteLine("({0},{1})", x2 - r, y2 + l);
+                    // Console.WriteLine("({0},{1})", x2 - r, y2 + l);
                     var res = new Expression.Array();
                     res.Items[0].Add(Number.New(runtime, x2 - r));
                     res.Items[0].Add(Number.New(runtime, y2 + l));
@@ -96,7 +96,7 @@ namespace FuncCalc.Runtime.Func
                 }
                 else
                 {
-                    Console.WriteLine("({0},{1})", x2, y2);
+                    // Console.WriteLine("({0},{1})", x2, y2);
                     var res = new Expression.Array();
                     res.Items[0].Add(Number.New(runtime, x2));
                     res.Items[0].Add(Number.New(runtime, y2));

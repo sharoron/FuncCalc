@@ -79,11 +79,11 @@ namespace FuncCalc.Runtime.Func.Runtime {
         public override void Set(RuntimeData runtime, INumber value) {
             throw new RuntimeException("ユーザー定義関数に再度代入することはできません。", this);
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             if (!(this.formula is INumber))
                 throw new RuntimeException("ユーザー定義関数に定義されている式は値(INumber)ではありません。", this);
 
-            return (this.formula as INumber).ExecuteDiff(runtime, t);
+            return (this.formula as INumber).Differentiate(runtime, ddata);
         }
 
         public override string ToString() {

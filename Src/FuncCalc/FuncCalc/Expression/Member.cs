@@ -107,8 +107,9 @@ namespace FuncCalc.Expression
                 this.Pow is Number && (this.Pow as Number).Value == 1 ? "" : "^" + this.Pow.ToString());
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            return new Variable(this.Token).ExecuteDiff(runtime, t);
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            // Variableと同じ特性なのでVariableになげる
+            return this.GetVariable(runtime).Differentiate(runtime, ddata);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
             

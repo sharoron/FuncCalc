@@ -73,7 +73,7 @@ namespace FuncCalc.Expression
             var func = runtime.GetFunc(new Member(this.Token), true, types.ToArray());
             return func.Execute(runtime, parameters);
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             throw new RuntimeException("文字列を微分することはできません。", this);
         }
 

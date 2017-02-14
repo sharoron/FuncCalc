@@ -60,8 +60,8 @@ namespace FuncCalc.Interface
         public override bool Equals(RuntimeData runtime, INumber val) {
             return this == val;
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            return this.Get(runtime).ExecuteDiff(runtime, t);
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            return this.Get(runtime).Differentiate(runtime, ddata);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
             return this.Get(runtime).Integrate(runtime, t);

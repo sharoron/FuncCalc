@@ -362,18 +362,8 @@ namespace FuncCalc.Expression
             return base.Output(type);
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-
-            MultipleFormula mf = Runtime.Func.Differential.DiffPow(runtime, t, this);
-
-            var res = this.Eval(runtime).ExecuteDiff(runtime, t);
-            if (mf != null) {
-                mf.AddItem(runtime, res);
-                return mf;
-            }
-            else
-                return res;
-
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            return this.Eval(runtime).Differentiate(runtime, ddata);
         }
     }
 }

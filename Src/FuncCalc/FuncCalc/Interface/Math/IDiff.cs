@@ -15,7 +15,7 @@ namespace FuncCalc.Interface
     {
         bool InfinitelyDifferentiable { get; }
 
-        INumber ExecuteDiff(RuntimeData runtime, string t);
+        INumber Differentiate(RuntimeData runtime, DifferentialData ddata);
         
     }
 }

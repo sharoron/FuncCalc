@@ -123,9 +123,9 @@ namespace FuncCalc.Expression
                 this.Value == (val as ImaginaryNumber).Value;
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             // 参考 http://takeno.iee.niit.ac.jp/~shige/math/lecture/basic3/quotef4/node8.html
-            return Number.New(0);
+            return ddata.DifferentiateConstant(this);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
             // 参考 https://oshiete.goo.ne.jp/qa/2664611.html

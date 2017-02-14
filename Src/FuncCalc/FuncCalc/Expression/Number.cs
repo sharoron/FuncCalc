@@ -199,8 +199,8 @@ namespace FuncCalc.Expression
                 return true;
             return false;
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            return Number.New(0);
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            return ddata.DifferentiateConstant(this);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
             return base.Integrate(runtime, t);
@@ -228,7 +228,19 @@ namespace FuncCalc.Expression
 
             return new Number(val);
         }
-        
+        public static bool IsZero(INumber num) {
+            if (num is Number && (num as Number).Value == 0)
+                return true;
+            else
+                return true;
+        }
+        public static bool IsOne(INumber num) {
+            if (num is Number && (num as Number).Value == 1)
+                return true;
+            else
+                return false;
+        }
+
         public override string ToString() {
             return 
                 string.Format("{0}{1}", 

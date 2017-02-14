@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using FuncCalc.Expression;
+using System.Diagnostics;
 
 namespace FuncCalc.Runtime.Func.Runtime
 {
@@ -40,8 +41,9 @@ namespace FuncCalc.Runtime.Func.Runtime
 
         public override INumber Execute(RuntimeData runtime, params INumber[] parameters) {
 
-            runtime.Setting.Logger.AddInfo(parameters[0].Output(runtime.Setting.Logger.OutputType));
-
+            string str = parameters[0].Output(runtime.Setting.Logger.OutputType);
+            runtime.Setting.Logger.AddInfo(str);
+            
             return null;
         }
     }

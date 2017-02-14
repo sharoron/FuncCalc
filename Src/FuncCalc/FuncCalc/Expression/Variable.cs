@@ -159,7 +159,7 @@ namespace FuncCalc.Expression
         }
         public override INumber Eval(RuntimeData runtime) {
             if (runtime.ContainsKey(this.Token.Text, runtime.NowBlock.MoreScope)) {
-                var res = runtime.GetData(this.Token, runtime.NowBlock.MoreScope);
+                var res = runtime.GetData(this.Token, runtime.NowBlock.MoreScope).Clone();
                 res = res.Multiple(runtime, this.multi);
                 res = res.Power(runtime, this.Pow);
                 if (res == this)
@@ -184,34 +184,53 @@ namespace FuncCalc.Expression
             return res;
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-
-            INumber res = null;
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            
             if (runtime.ContainsKey(this.Name)) {
-                res = this.Eval(runtime).ExecuteDiff(runtime, t);
+                return this.Eval(runtime).Differentiate(runtime, ddata);   
             }
             else {
-                if (this.Name == t) {
+                // this.Multiの内容が1じゃないなら合成関数を作ってそこで微分する
+                if (!Number.IsOne(this.multi)) {
+                    MultipleFormula mf = new Expression.MultipleFormula();
+                    var clone = this.Clone() as Variable;
+                    clone.multi = Number.New(1);
+                    mf.AddItem(runtime, clone);
+                    mf.AddItem(runtime, this.multi);
+                    return mf.Differentiate(runtime, ddata);
+                }
+                if (ddata.IsFunction(this.Pow)) {
+                    // (変数)^(変数)なので対数微分法を使用して微分することになる
+                    return ddata.LogarithmicDifferentiate(this);
+                }
+
+                // ここから先は確実に(変数)^(定数)
+                if (this.Name == ddata.T) {
                     if (!(this.multi is IConstParameter))
                         throw new NotImplementedException();
+                    var pow = this.Pow;
                     var me = this.Clone();
                     me.Pow = me.Pow.Subtract(runtime, Number.New(1));
+                    me = me.Multiple(runtime, pow);
+
                     me = me.Optimise(runtime);
-                    res = me;
+                    return me;
                 }
                 else {
-                    res = new FuncedINumber(
-                        runtime.GetFunc("diff"), new INumber[] { new Variable(new Token(t, Analyzer.TokenType.Member)), this });
+                    MultipleFormula res = new MultipleFormula();
+                    var diffY = new FuncedINumber(
+                        runtime.GetFunc("diff"), new INumber[] { new Variable(new Token(ddata.T, Analyzer.TokenType.Member)), this });
+                    if (this.Pow.IsOne)
+                        return diffY;
+                    
+                    var clone = this.Clone();
+                    clone.Pow = clone.Pow.Subtract(runtime, Number.New(1));
+                    res.AddItem(runtime, this.Pow);
+                    res.AddItem(runtime, clone);
+                    res.AddItem(runtime, diffY);
+                    return res;
                 }
             }
-
-            var mf = Runtime.Func.Differential.DiffPow(runtime, t, this);
-            if (mf != null) {
-                mf.AddItem(runtime, res);
-                return mf;
-            }
-            else
-                return res;
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
             return (new Member(this.Token) { Pow = this.Pow }).Integrate(runtime, t);

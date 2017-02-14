@@ -75,7 +75,7 @@ namespace FuncCalc.Runtime
         }
         public FCNumber Differentiate(string t = "x") {
             return new FuncCalc.Runtime.FCNumber(this.runtime,
-                this.parent.ExecuteDiff(this.runtime, t));
+                this.parent.Differentiate(this.runtime, t));
         }
         public FCNumber Integrate(string t = "x") {
             return new FuncCalc.Runtime.FCNumber(this.runtime,

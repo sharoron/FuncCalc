@@ -21,7 +21,7 @@ namespace FuncCalc.Runtime.Operator
         {
             get
             {
-                return "&";
+                return "&&";
             }
         }
         public bool RequireLeftParameter
@@ -47,7 +47,7 @@ namespace FuncCalc.Runtime.Operator
             
             Number l = left as Number, r = right as Number;
 
-            return Number.New(runtime, l.Value & r.Value);
+            return Number.New(runtime, l.Value != 0 && r.Value != 0 ? 1 : 0);
         }
     }
 }

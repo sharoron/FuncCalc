@@ -76,14 +76,14 @@ namespace FuncCalc.Runtime.Func.Trigonometric
             return param;
         }
 
-        public INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters) {
+        public INumber Differentiate(RuntimeData runtime, DifferentialData ddata, INumber[] parameters) {
 
             Fraction res = new Expression.Fraction(
                 new FuncedINumber(runtime.GetFunc("cos"), parameters),
                 new FuncedINumber(runtime.GetFunc("sin"), parameters)
                 );
 
-            return res.ExecuteDiff(runtime, t);
+            return res.Differentiate(runtime, ddata);
 
         }
     }

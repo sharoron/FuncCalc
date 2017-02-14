@@ -33,7 +33,7 @@ namespace FuncCalc.Interface
         public override INumber Multiple(RuntimeData runtime, INumber val) {
             throw new RuntimeException("IObject型に対して四則計算を行うことはできません。", this);
         }
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             throw new RuntimeException("IObject型を微分することはできません。", this);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {

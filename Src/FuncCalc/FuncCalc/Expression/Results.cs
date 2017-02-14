@@ -43,7 +43,16 @@ namespace FuncCalc.Expression {
                 return false;
             }
         }
+        public override INumber Clone() {
+            var res = this.MemberwiseClone() as Results;
 
+            // itemsの内容を複製する
+            List<INumber> items = new List<Interface.INumber>();
+            items.AddRange(this.items);
+            res.items = items;
+
+            return res;
+        }
 
         public override INumber Add(Runtime.RuntimeData runtime, INumber val) {
             throw new NotImplementedException();
@@ -58,11 +67,12 @@ namespace FuncCalc.Expression {
         public override bool CanJoin(Runtime.RuntimeData runtime, INumber val) {
             throw new NotImplementedException();
         }
-        public override INumber ExecuteDiff(Runtime.RuntimeData runtime, string t) {
-            throw new NotImplementedException();
+        public override INumber Differentiate(Runtime.RuntimeData runtime, DifferentialData ddata) {
+            throw new NotImplementedException("Resultsの微分はまだ未対応です。");
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
-            throw new NotImplementedException();
+            throw new NotImplementedException("Resultsの積分はまだ未対応です。");
+
         }
 
         public override string ToString() {

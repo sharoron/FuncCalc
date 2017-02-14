@@ -92,8 +92,8 @@ namespace FuncCalc.Expression
             }
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            return Number.New(0);
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            return ddata.DifferentiateConstant(this);
         }
     }
 }

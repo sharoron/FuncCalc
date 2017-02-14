@@ -1,25 +1,22 @@
 ﻿
-crypt = () => {
-	res = {};
-	length = 128;
+res = {};
+res.length = 128;
 
-	p = genKey(length);
-	q = genKey(length);
+res.p = genKey(res.length);
+res.q = genKey(res.length);
 
-	print("p       : " + p);
-	print("q       : " + q);
+print("p       : " + res.p);
+print("q       : " + res.q);
 	
-	n = p * q;
-	L = lcm(p - 1, q - 1);
+res.n = res.p * res.q;
+res.L = lcm(res.p - 1, res.q - 1);
 
-	flag = 1; public = -1;
-	loop(!(gcd(L, public)), { public = randC(length); });
+res.flag = 1; res.public = -1;
+loop(gcd(res.L, res.public) != 1 || res.public >= res.L, { res.public = randC(res.length); });
 
-	private = exgcd(L, public);
-	private = max(private[0], private[1]);
+res.private = exgcd(res.L, res.public);
+res.private = max(res.private[0], res.private[1]);
 
-	print("L       : " + L);
-	print("Public  : " + public);
-	print("Private : " + private);
-
-}
+print("L       : " + res.L);
+print("Public  : " + res.public);
+print("Private : " + res.private);

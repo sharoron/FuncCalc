@@ -37,7 +37,7 @@ namespace FuncCalc.Runtime.Func
             }
         }
         public override INumber Execute(RuntimeData runtime, params INumber[] parameters) {
-            INumber left = parameters[0], right = parameters[1];
+            INumber left = parameters[0].Eval(runtime), right = parameters[1].Eval(runtime);
 
             // 無効パラメータはここで弾く
             if (left is Fraction || left is AdditionFormula || left is MultipleFormula ||

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Interface;
+using FuncCalc.Runtime;
 
 namespace FuncCalc.Expression.Const {
     public class Pi : INumber, IConstParameter, IConstant, IOutput {
@@ -50,8 +51,8 @@ namespace FuncCalc.Expression.Const {
         public override bool CanJoin(Runtime.RuntimeData runtime, INumber val) {
             return false;
         }
-        public override INumber ExecuteDiff(Runtime.RuntimeData runtime, string t) {
-            return Number.New(0);
+        public override INumber Differentiate(Runtime.RuntimeData runtime, DifferentialData ddata) {
+            return ddata.DifferentiateConstant(this);
         }
 
         #region IConstParameter メンバー

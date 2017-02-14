@@ -190,7 +190,8 @@ namespace FuncCalc.Expression {
                     return res as INumber; 
             }
             else { // This.Items.Countが2以上のときじゃないと逆ポーランド式に変換ｓれない
-                SyntaxAnalyzer.ConvertToRPEFormula ea = new Analyzer.SyntaxAnalyzer.ConvertToRPEFormula(this, runtime.Setting);
+                SyntaxAnalyzer.ConvertToRPEFormula ea = new Analyzer.SyntaxAnalyzer.ConvertToRPEFormula(
+                    this, runtime.Setting);
                 return ea.ConvertToRPE().Eval(runtime);
             }
         }
@@ -269,21 +270,8 @@ namespace FuncCalc.Expression {
             return base.Output(type);
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-
-            var pow = Runtime.Func.Differential.DiffPow(runtime, t, this);
-
-            runtime.Setting.Logger.AddWarning("Formula型の表現を直接微分はバグってる可能性あり");
-            Debugger.Break();
-
-            var res = this.Eval(runtime).ExecuteDiff(runtime, t);
-            if (pow != null) {
-                pow.AddItem(runtime, res);
-                return pow;
-            }
-            else {
-                return res;
-            }
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            return this.Eval(runtime).Differentiate(runtime, ddata);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
 

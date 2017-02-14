@@ -50,6 +50,14 @@ namespace FuncCalc.Runtime.Func
 
         public override INumber Execute(RuntimeData runtime, params INumber[] parameters) {
 
+            // log(x) ただしx > 0なのでおかしい値なら弾く
+            if (parameters[1].ValueType == Expression.ValueType.Minus || 
+                parameters[1].IsZero)
+                throw new RuntimeException("logの中身は0より大きい必要があります。", parameters[1]);
+            // log_n(1) => 0 但しnは任意の値
+            if (parameters[1].IsOne)
+                return Number.New(0);
+
             var param0 = parameters[0];
 
             if (param0 is Variable || param0 is Member) {
@@ -149,55 +157,54 @@ namespace FuncCalc.Runtime.Func
         }
 
 
-        public INumber ExecuteDiff(RuntimeData runtime, string t, INumber[] parameters) {
+        public INumber Differentiate(RuntimeData runtime, DifferentialData ddata, INumber[] parameters) {
 
             // log(xy) => log(x) + log(y)
             if (parameters[1] is MultipleFormula) {
                 AdditionFormula af = new Expression.AdditionFormula();
                 foreach (var item in (parameters[1] as MultipleFormula).Items) {
-                    af.AddItem(runtime, this.ExecuteDiff(runtime, t, new INumber[] { parameters[0], item }));
+                    DifferentialData newDdata = new FuncCalc.Runtime.DifferentialData(runtime) {
+                        T =  ddata.T
+                    };
+                    af.AddItem(runtime, this.Differentiate(runtime, newDdata, new INumber[] { parameters[0], item }));
                 }
                 return af;
             }
+            // log ( x / y )みたいに中身に分数が入っている
             if (parameters[1] is Fraction) {
                 AdditionFormula af = new Expression.AdditionFormula();
                 Fraction f = parameters[1] as Fraction;
-                af.AddItem(runtime, this.ExecuteDiff(runtime, t, new INumber[] { parameters[0], f.Numerator}));
-                af.AddItem(runtime, this.ExecuteDiff(runtime, t, new INumber[] { parameters[0], f.Denominator }).Multiple(runtime, Number.New(-1)));
+                DifferentialData newDdata1 = new DifferentialData(runtime) { T = ddata.T };
+                DifferentialData newDdata2 = new DifferentialData(runtime) { T = ddata.T };
+                af.AddItem(runtime, this.Differentiate(runtime, newDdata1, new INumber[] { parameters[0], f.Numerator}));
+                af.AddItem(runtime, this.Differentiate(runtime, newDdata2, new INumber[] { parameters[0], f.Denominator }).Multiple(runtime, Number.New(-1)));
                 return af;
             }
+
+            // log_n(1) => 0 ただしnは任意の値
+            // なので (log_n(1))' => 0
+            if (parameters[1].IsOne)
+                return Number.New(0);
+
+            // parameters[1]の微分を答えの中にかけておく
+            ddata.AddParam(parameters[1]);
 
             // 普通のlogの微分
             if (parameters[0] is NaturalLogarithm) {
                 NaturalLogarithm e = parameters[0] as NaturalLogarithm;
-                if (e.Pow.Equals(runtime, Number.New(1))) {
-                    var prm = parameters[1].ExecuteDiff(runtime, t);
-                    if (prm.Equals(runtime, Number.New(0)) || 
-                        prm.Equals(runtime, Number.New(1))) {
-                        return new Fraction(
-                            parameters[1], Number.New(1));
-                    }
-                    else {
-                        MultipleFormula mf = new Expression.MultipleFormula();
-                        mf.AddItem(runtime, prm);
-                        mf.AddItem(runtime, new Fraction(
-                            parameters[1], Number.New(1)));
-                        return mf;
-                    }
+                if (e.Pow.IsOne) {
+                    return new Fraction(
+                        parameters[1], Number.New(1));
                 }
             }
-            else if (!FuncCalc.Runtime.Func.Differential.IsConstValue(runtime, parameters[0])) {
+            else if (ddata.IsFunction(parameters[0])) {
                 throw new RuntimeException("底に定数以外が含まれたlogの微分を行うことはできません。");
             }
-
-            INumber param1Diff = parameters[1].ExecuteDiff(runtime, t);
-            if (param1Diff.Equals(runtime, Number.New(0)))
-                param1Diff = Number.New(1);
-
+            
             MultipleFormula den = new MultipleFormula();
             den.AddItem(runtime, parameters[1]);
             den.AddItem(runtime, new FuncedINumber(this, new INumber[] { new NaturalLogarithm() , parameters[0] }));
-            Fraction res = new Fraction(den, param1Diff);
+            Fraction res = new Fraction(den, Number.New(1));
 
             return res;
         }

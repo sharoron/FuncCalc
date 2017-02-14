@@ -18,24 +18,26 @@ namespace FuncCalc {
             { new IncrementRight(), 5000 },     // ++   インクリメント
             { new DecrementLeft(), 5000 },      // --   デクリメント
             { new DecrementRight(), 5000 },     // --   デクリメント
-            { new Diff(), 5000 },               // '    微分
+            { new Not(), 4750},                 // !    否定
+            { new Diff(), 4500 },               // '    微分
+            { new BitNot(), 4500},              // ~    ビットごとの否定
             { new Power(), 4000 },              // ^    累乗
             { new Remaindation(), 3000 },       // %    余り
             { new Multiplication(), 2000 },     // *    乗算
             { new Division(), 2000 },           // /    除算
             { new Addition(), 1000 },           // +    加算
             { new Subtraction(), 1000 },        // -    減算
-            { new Equal(), 800},                // ==   ビットごとの論理積
-            { new EqualNot(), 800},             // !=   ビットごとの論理積
-            { new BiggerThan(), 800},           // >    ビットごとの論理積
-            { new SmallerThan(), 800},          // <    ビットごとの論理積
-            { new OrMore(), 800},               // >=   ビットごとの論理積
-            { new OrLess(), 800},               // <=   ビットごとの論理積
-            { new And(), 750},                  // &    ビットごとの論理積
-            { new Or(), 750},                   // |    ビットごとの論理和
-            { new BitNot(), 750},               // ~    ビットごとの否定
-            { new Not(), 750},                  // !    否定
-            { new Lamda(), 500},                // ->   ラムダ式
+            { new Equal(), 800},                // ==   等しい
+            { new EqualNot(), 800},             // !=   等しくない
+            { new BiggerThan(), 800},           // >    より大きい
+            { new SmallerThan(), 800},          // <    より小さい
+            { new OrMore(), 800},               // >=   以上
+            { new OrLess(), 800},               // <=   以下
+            { new AndBit(), 775},               // &    ビットごとの論理積
+            { new OrBit(), 750},                // |    ビットごとの論理和
+            { new And(), 600},                  // &&   論理積
+            { new Or(), 550},                   // ||   論理和
+            { new Lamda(), 500},                // =>   ラムダ式
             { new Substitution(), 200},         // =   変数への代入
             { new SubstitutionAdd(), 200},      // +=   加算して代入
             { new SubstitutionSubtraction(), 200},// -= 減算して代入

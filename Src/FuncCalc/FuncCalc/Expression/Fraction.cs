@@ -398,8 +398,8 @@ namespace FuncCalc.Expression
             me.Denominator = me.Denominator.FinalEval(runtime);
             me.Numerator = me.Numerator.FinalEval(runtime);
 
-            if (FuncCalc.Runtime.Func.Differential.IsConstValue(runtime, me.Denominator) &&
-                FuncCalc.Runtime.Func.Differential.IsConstValue(runtime, me.Numerator)) {
+            if (runtime.IsConstValue(me.Denominator) &&
+                runtime.IsConstValue(me.Numerator)) {
                 var res = 
                     (me.Numerator.FinalEval(runtime) as IConstParameter).ConstValue / 
                     (me.Denominator.FinalEval(runtime) as IConstParameter).ConstValue;
@@ -428,31 +428,30 @@ namespace FuncCalc.Expression
             return base.Output(type);
         }
 
-        public override INumber ExecuteDiff(RuntimeData runtime, string t) {
-            if (Runtime.Func.Differential.IsConstValue(runtime, this.Denominator)) {
-                var res = this.Numerator.ExecuteDiff(runtime, t);
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            var res = ddata.CheckPow(this) as Fraction;
+
+            if (!ddata.IsFunction(this.Denominator)) {
+                res.Numerator = this.Numerator.Differentiate(runtime, ddata);
                 return res;
             } else {
                 AdditionFormula af = new Expression.AdditionFormula();
                 {
                     MultipleFormula mf = new Expression.MultipleFormula();
-                    mf.AddItem(runtime, this.Numerator.ExecuteDiff(runtime, t));
+                    mf.AddItem(runtime, this.Numerator.Differentiate(runtime, ddata));
                     mf.AddItem(runtime, this.Denominator);
                     af.AddItem(runtime, mf);
                 }
                 {
                     MultipleFormula mf = new Expression.MultipleFormula();
                     mf.AddItem(runtime, Number.New(-1));
-                    mf.AddItem(runtime, this.Denominator.ExecuteDiff(runtime, t));
+                    mf.AddItem(runtime, this.Denominator.Differentiate(runtime, ddata));
                     mf.AddItem(runtime, this.Numerator);
                     af.AddItem(mf);
                 }
-                Fraction f = new Expression.Fraction(
-                    this.Denominator.Power(runtime, Number.New(2)),
-                    af
-                    );
-                return f;
-                
+                res.Denominator = this.Denominator.Power(runtime, Number.New(2));
+                res.Numerator = af;
+                return res;
             }
         }
         public override INumber Integrate(RuntimeData runtime, string t) {

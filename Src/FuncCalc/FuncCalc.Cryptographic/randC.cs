@@ -55,27 +55,29 @@ namespace FuncCalc.Cryptographic
                 throw new RuntimeException("指定されたビット数は許可されたビット数を上回っています。" +
                     runtime.Setting.AcceptBitLength + "ビット以下にしてください。", parameters[0]);
 
+            var length = (int)(parameters[0] as Number).Value;
+
             // 乱数を生成する
             Number res = null;
-            for (;;) {
-                var length = (parameters[0] as Number).Value;
-                Random r = new Random();
+            byte[] buffer = new byte[length / 8 + (length % 8 > 0 ? 1 : 0)];
+            using (System.Security.Cryptography.RNGCryptoServiceProvider rng =
+                new System.Security.Cryptography.RNGCryptoServiceProvider()) {
+                for (;;) {
 
-                // 乱数を生成する
-                byte[] buffer = new byte[(int)(length / 8)];
-                r.NextBytes(buffer);
+                    // 乱数を生成する
+                    rng.GetBytes(buffer);
 
-                buffer[buffer.Length - 1] &= 64 + 32 + 16 + 8 + 4 + 2 + 1;
+                    buffer[buffer.Length - 1] &= 64 + 32 + 16 + 8 + 4 + 2 + 1;
 
-                // FuncCalcで取り扱える型にする
-                BigInteger bi = new BigInteger(buffer);
-                res = Number.New(runtime, bi);
+                    // FuncCalcで取り扱える型にする
+                    BigInteger bi = new BigInteger(buffer);
+                    res = Number.New(runtime, bi);
 
+                    return res;
 
-
-                return res;
-
+                }
             }
+
         }
     }
 }

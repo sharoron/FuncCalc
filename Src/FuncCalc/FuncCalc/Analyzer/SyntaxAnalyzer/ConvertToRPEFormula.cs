@@ -140,8 +140,8 @@ namespace FuncCalc.Analyzer
                                                     (this.items[i - 1] as RPEToken).Expression;
                                                 this.items.RemoveAt(i - 1);
                                                 i--;
-                                            }
-
+                                            } 
+                                            
                                         }
                                     }
                                     else {
