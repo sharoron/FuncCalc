@@ -97,6 +97,33 @@ namespace FuncCalc {
         }
         
         /// <summary>
+        ///   対数微分法を使用して微分を解く。 y = {0} とすると に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _LogDiffWay1 {
+            get {
+                return ResourceManager.GetString("_LogDiffWay1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   log y = log {{0}} = {1} log {{2}} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _LogDiffWay2 {
+            get {
+                return ResourceManager.GetString("_LogDiffWay2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   \frac {y&apos;} {y} = {0} なので y&apos; = {1} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string _LogDiffWay3 {
+            get {
+                return ResourceManager.GetString("_LogDiffWay3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   f({0} = 0) = {1} に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string _MaclaurinWay1 {

@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace FuncCalc.Runtime
@@ -286,7 +287,7 @@ namespace FuncCalc.Runtime
                 default:
                     throw new NotImplementedException();
             }
-            
+
             string str = GetRes.Text(source, keyname);
 
             switch (this.LogType) {
@@ -297,6 +298,18 @@ namespace FuncCalc.Runtime
             }
 
             List<object> prm = new List<object>();
+            Dictionary<int, List<int>> index = new Dictionary<int, List<int>>();
+            for (int i = 0; i < parameter.Length; i++) {
+                if (!index.ContainsKey(i))
+                    index.Add(i, new List<int>());
+
+                for (int id = 0; ;) {
+                    if ((id = str.IndexOf("{" + i + "}", id + 1)) == -1)
+                        break;
+                    index[i].Add(id);
+                }
+            }
+
             for (int i = 0; i < parameter.Length; i++) {
                 if (parameter[i] is IOutput) {
                     string st = "";
@@ -313,7 +326,18 @@ namespace FuncCalc.Runtime
                             break;
                     }
 
-                    str = str.Replace("{" + i + "}", st);
+                    foreach (var item in index[i]) {
+                        str = str.Remove(item, 2 + i.ToString().Length);
+                        str = str.Insert(item, st);
+
+                        for (int k = 0; k < index.Count; k++) {
+                            if (i == k) continue;
+                            for (int m = 0; m < index[k].Count; m++) {
+                                if (index[k][m] > item)
+                                    index[k][m] += st.Length - 3;
+                            }
+                        }
+                    }
                 }
                 else
                     prm.Add(parameter[i].ToString());

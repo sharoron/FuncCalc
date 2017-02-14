@@ -10,14 +10,15 @@ namespace FuncCalc.Interface
 {
     public abstract class INumber : IEval, IExpression, IOutput, IDiff, IIntegratable
     {
-        private INumber _pow = null;
+        internal INumber _pow = null;
 
 
         public virtual INumber Pow
         {
             get {
+                // this._powがnullの時にthis._powに代入しようとすると無限ループに
                 if (this._pow == null)
-                    return this._pow = Number.New(1);
+                    return Number.New(1);
                 else
                     return this._pow;
             }

@@ -1,4 +1,5 @@
 ﻿using FuncCalc.Expression;
+using FuncCalc.Expression.Const;
 using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
@@ -153,11 +154,35 @@ namespace FuncCalc.Runtime
 
         /// <summary>対数微分法を利用して微分する</summary>
         public INumber LogarithmicDifferentiate(INumber val) {
-            this.RData.AddLogWay("LogarithmDiffWay1", val);
 
             // 参考: http://mathtrain.jp/logbibun
 
-            throw new NotImplementedException();
+            var res = val.Clone();
+            res.Pow = Number.New(1);
+            var pow = val.Pow;
+
+            this.RData.AddLogWay("_LogDiffWay1", val);
+            this.RData.AddLogWay("_LogDiffWay2", 
+                val, res, val.Pow);
+            
+            // u = x^yとすると
+
+            // log x
+            res = (new FuncedINumber(this.RData.GetFunc("log"),
+                new[] { new NaturalLogarithm(), res }));
+            // (ylogx)'
+            res = pow.Multiple(this.RData, res).Differentiate(this.RData, this.T);
+            if (this.Setting.DoOptimize)
+                res = res.Optimise(this.RData);
+
+            var result = res.Multiple(this.RData, val);
+            if (this.Setting.DoOptimize)
+                result = result.Optimise(this.RData);
+
+            this.RData.AddLogWay("_LogDiffWay3",
+                res, result);
+
+            return result;
         }
 
 

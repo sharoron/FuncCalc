@@ -291,10 +291,17 @@ namespace FuncCalc.Expression
             switch (type) {
                 case OutputType.Mathjax: {
                         StringBuilder sb = new StringBuilder();
+                        sb.Append("(");
                         for(int i = 0; i < this.Count; i++) {
                             if (i != 0) sb.Append("+");
                             sb.Append("{");
                             sb.Append(this.items[i].Output(type));
+                            sb.Append("}");
+                        }
+                        sb.Append(")");
+                        if (!this.Pow.IsOne) {
+                            sb.Append("^{");
+                            sb.Append(this.Pow.Output(type));
                             sb.Append("}");
                         }
                         return sb.ToString();

@@ -150,6 +150,15 @@
   <data name="_LinerEquationWay1" xml:space="preserve">
     <value>{0} = -(b/a) = {1}</value>
   </data>
+  <data name="_LogDiffWay1" xml:space="preserve">
+    <value>対数微分法を使用して微分を解く。 y = {0} とすると</value>
+  </data>
+  <data name="_LogDiffWay2" xml:space="preserve">
+    <value>log y = log {{0}} = {1} log {{2}}</value>
+  </data>
+  <data name="_LogDiffWay3" xml:space="preserve">
+    <value>\frac {y'} {y} = {0} なので y' = {1}</value>
+  </data>
   <data name="_MaclaurinWay1" xml:space="preserve">
     <value>f({0} = 0) = {1}</value>
   </data>

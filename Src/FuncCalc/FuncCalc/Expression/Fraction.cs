@@ -314,8 +314,8 @@ namespace FuncCalc.Expression
 
 
             // メンバーを含む式で約分できるか確かめる
-            if (me.Numerator is MultipleFormula && me.Numerator.Pow.Equals(runtime, Number.New(1)) && 
-                me.Denominator is MultipleFormula && me.Denominator.Pow.Equals(runtime, Number.New(1)))
+            if (me.Numerator is MultipleFormula && me.Numerator.Pow.IsOne && 
+                me.Denominator is MultipleFormula && me.Denominator.Pow.IsOne)
             {
                 var den = me.Denominator as MultipleFormula;
                 bool flag = false;
@@ -335,6 +335,22 @@ namespace FuncCalc.Expression
                         i--;
                     }
                 }
+            }
+            // 分母と分子が同じ変数だった場合
+            if ((this.Denominator is Variable || this.Denominator is Member) && 
+                (this.Numerator is Variable || this.Numerator is Member) && 
+                this.Denominator.Token.Text == this.Numerator.Token.Text) {
+
+                var pow = this.Numerator.Pow.Subtract(runtime, this.Denominator.Pow);
+                var res = new Fraction(
+                    (this.Denominator as IMulti).Multi, (this.Numerator as IMulti).Multi) as INumber;
+                if (!pow.IsZero)
+                    res = res.Multiple(runtime,
+                        new Member(this.Denominator.Token).Power(runtime, pow));
+
+                return res;
+
+
             }
 
 

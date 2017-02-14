@@ -235,10 +235,14 @@ namespace FuncCalc.Expression
                 return false;
         }
         public static bool IsOne(INumber num) {
-            if (num.Pow.IsZero)
+            // 無限ループ防止に_powの内容がnullなら1と事前にみなす
+            bool powOne = (num is Number && (num as Number)._pow == null);
+                
+
+            if (!powOne && num.Pow.IsZero)
                 return true;
             if (num is Number && (num as Number).Value == 1) {
-                if (num.Pow.IsOne)
+                if (powOne || num.Pow.IsOne)
                     return true;
                 else
                     return false;

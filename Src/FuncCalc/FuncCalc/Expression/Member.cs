@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Expression
 {
-    public class Member : INumber, IExpression, IEval
+    public class Member : INumber, IExpression, IEval, IMulti
     {
         private INumber multi = Number.New(1);
 
@@ -51,6 +51,7 @@ namespace FuncCalc.Expression
         public INumber Multi
         {
             get { return this.multi; }
+            set { this.multi = value; }
         }
 
         public override INumber ExecuteOperator(RuntimeData runtime, IOperator op, INumber left, INumber right) {

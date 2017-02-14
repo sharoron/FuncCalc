@@ -199,7 +199,8 @@ namespace FuncCalc.Expression
                     mf.AddItem(runtime, this.multi);
                     return mf.Differentiate(runtime, ddata);
                 }
-                if (ddata.IsFunction(this.Pow)) {
+                if (ddata.IsFunction(this.Pow) || 
+                    this.Pow is Variable || this.Pow is Member) {
                     // (変数)^(変数)なので対数微分法を使用して微分することになる
                     return ddata.LogarithmicDifferentiate(this);
                 }
