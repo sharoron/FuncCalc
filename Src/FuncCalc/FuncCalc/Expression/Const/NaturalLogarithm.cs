@@ -68,7 +68,7 @@ namespace FuncCalc.Expression.Const
         public override string ToString() {
             return
                 string.Format("e{0}",
-                !(this.Pow is Number) || (this.Pow as Number).Value != 1 ? 
+                !this.Pow.IsOne ? 
                 "^" + this.Pow.ToString() : "");
         }
         public override string Output(OutputType type) {
@@ -78,7 +78,7 @@ namespace FuncCalc.Expression.Const
                 case OutputType.Mathjax: {
                         StringBuilder sb = new StringBuilder();
                         sb.Append("e");
-                        if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
+                        if (!this.Pow.IsOne)
                             sb.Append("^{" + this.Pow.Output(type) + "}");
                         return sb.ToString();
                     }

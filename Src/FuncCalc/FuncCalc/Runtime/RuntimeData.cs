@@ -329,22 +329,18 @@ namespace FuncCalc.Runtime
             if (val is Variable) {
                 if ((val as Variable).Name != varname)
                     return true;
-                else if (!(val.Pow is Number &&
-                    (val.Pow as Number).Value == 1))
+                else if (!val.Pow.IsOne)
                     return true;
-                else if (!((val as IMulti).Multi is Number &&
-                    ((val as IMulti).Multi as Number).Value == 1))
+                else if (!(val as IMulti).Multi.IsOne)
                     return true;
                 else return false;
             }
             if (val is Member) {
                 if ((val as Member).Text != varname)
                     return true;
-                else if (!(val.Pow is Number &&
-                    (val.Pow as Number).Value == 1))
+                else if (!val.Pow.IsOne)
                     return true;
-                else if (!((val as IMulti).Multi is Number &&
-                    ((val as IMulti).Multi as Number).Value == 1))
+                else if (!(val as IMulti).Multi.IsOne)
                     return true;
                 else
                     return false;
@@ -355,9 +351,9 @@ namespace FuncCalc.Runtime
                 AdditionFormula af = val as AdditionFormula;
                 bool flag = false;
                 for (int i = 0; i < af.Items.Length; i++) {
-                    if (af.Items[i] is Number && (af.Items[i] as Number).Value == 0)
+                    if (af.Items[i].IsZero)
                         continue;
-                    if (af.Items[i] is Number && (af.Items[i] as Number).Value == 1)
+                    if (af.Items[i].IsOne)
                         continue;
                     if (af.Items[i] is IConstParameter || af.Items[i] is ImaginaryNumber)
                         continue;
@@ -365,16 +361,14 @@ namespace FuncCalc.Runtime
                     if (af.Items[i] is Variable) {
                         if ((af.Items[i] as Variable).Name != varname || flag)
                             return true;
-                        else if (!(af.Items[i].Pow is Number &&
-                            (af.Items[i].Pow as Number).Value == 1))
+                        else if (!af.Items[i].Pow.IsOne)
                             return true;
                         else { flag = true; continue; }
                     }
                     if (af.Items[i] is Member) {
                         if ((af.Items[i] as Member).Text != varname || flag)
                             return true;
-                        else if (!(af.Items[i].Pow is Number &&
-                            (af.Items[i].Pow as Number).Value == 1))
+                        else if (!af.Items[i].Pow.IsOne)
                             return true;
                         else { flag = true; continue; }
                     }
@@ -392,9 +386,9 @@ namespace FuncCalc.Runtime
                 MultipleFormula mf = val as MultipleFormula;
                 bool flag = false;
                 for (int i = 0; i < mf.Items.Count; i++) {
-                    if (mf.Items[i] is Number && (mf.Items[i] as Number).Value == 0)
+                    if (mf.Items[i].IsZero)
                         return false;
-                    if (mf.Items[i] is Number && (mf.Items[i] as Number).Value == 1)
+                    if (mf.Items[i].IsOne)
                         continue;
                     if (mf.Items[i] is IConstParameter || mf.Items[i] is ImaginaryNumber)
                         return true;
@@ -402,16 +396,14 @@ namespace FuncCalc.Runtime
                     if (mf.Items[i] is Variable) {
                         if ((mf.Items[i] as Variable).Name != varname || flag)
                             return true;
-                        else if (!(mf.Items[i].Pow is Number &&
-                            (mf.Items[i].Pow as Number).Value == 1))
+                        else if (!mf.Items[i].Pow.IsOne)
                             return true;
                         else { flag = true; continue; }
                     }
                     if (mf.Items[i] is Member) {
                         if ((mf.Items[i] as Member).Text != varname || flag)
                             return true;
-                        else if (!(mf.Items[i].Pow is Number &&
-                            (mf.Items[i].Pow as Number).Value == 1))
+                        else if (!mf.Items[i].Pow.IsOne)
                             return true;
                         else { flag = true; continue; }
                     }

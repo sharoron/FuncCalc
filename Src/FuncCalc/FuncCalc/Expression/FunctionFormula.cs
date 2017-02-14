@@ -177,7 +177,7 @@ namespace FuncCalc.Expression
 
                         if (res is INumber)
                         {
-                            if (multiple is Number && (multiple as Number).Value != 1)
+                            if (!multiple.IsOne)
                                 multiple = multiple.Multiple(runtime, res as INumber);
                             else
                                 multiple = res as INumber;

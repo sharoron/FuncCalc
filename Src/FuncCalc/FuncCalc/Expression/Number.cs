@@ -131,7 +131,7 @@ namespace FuncCalc.Expression
         public override INumber Divide(RuntimeData runtime, INumber val) {
             var v = val.Eval(runtime);
 
-            if (val is Number && (val as Number).Value == 0) {
+            if (val.IsZero) {
                 if (this.ValueType == ValueType.Plus)
                     return InfinityValue.PlusValue;
                 else
@@ -235,8 +235,14 @@ namespace FuncCalc.Expression
                 return false;
         }
         public static bool IsOne(INumber num) {
-            if (num is Number && (num as Number).Value == 1)
+            if (num.Pow.IsZero)
                 return true;
+            if (num is Number && (num as Number).Value == 1) {
+                if (num.Pow.IsOne)
+                    return true;
+                else
+                    return false;
+            }
             else
                 return false;
         }
@@ -245,7 +251,7 @@ namespace FuncCalc.Expression
             return 
                 string.Format("{0}{1}", 
                     this._value.ToString(),
-                    this.Pow == null || (this.Pow is Number && (this.Pow as Number).Value == 1) ? 
+                    this.Pow == null || this.Pow.IsOne ? 
                         "" : "^(" + this.Pow.ToString() + ")");
         }
         public override string Output(OutputType type) {

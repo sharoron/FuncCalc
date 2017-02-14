@@ -77,8 +77,7 @@ namespace FuncCalc.Runtime.Func
             var param = parameters[1].FinalEval(runtime);
             var Base = parameters[0].FinalEval(runtime);
             if (parameters[0] is NaturalLogarithm && 
-                parameters[0].Pow is Number && 
-                (parameters[0].Pow as Number).Value == 1) {
+                parameters[0].Pow.IsOne) {
                 return new FloatNumber((decimal)(System.Math.Log(
                     (double)(param as IConstParameter).ConstValue)));
             }
@@ -103,12 +102,12 @@ namespace FuncCalc.Runtime.Func
             if (type == OutputType.Mathjax) {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("log");
-                if (!(pow is Number && (pow as Number).Value == 1)) {
+                if (!pow.IsOne) {
                     sb.Append("^");
                     sb.Append(pow.Output(type));
                 }
                 if (!(parameters[0] is NaturalLogarithm) ||
-                    !(parameters[0].Pow is Number) || (parameters[0].Pow as Number).Value != 1) {
+                    !parameters[0].Pow.IsOne) {
                     sb.Append("_");
                     sb.Append("{");
                     sb.Append(parameters[0].Output(type));
@@ -123,7 +122,7 @@ namespace FuncCalc.Runtime.Func
             {
                 StringBuilder sb = new StringBuilder();
                 sb.Append("log");
-                if (!(pow is Number && (pow as Number).Value == 1)) {
+                if (!pow.IsOne) {
                     sb.Append("^{");
                     sb.Append(pow.Output(type));
                     sb.Append("}");
@@ -131,8 +130,8 @@ namespace FuncCalc.Runtime.Func
                 sb.Append("(");
                 if (parameters.Length >= 2)
                 {
-                    if (((parameters[0] is NaturalLogarithm) && ((parameters[0] as NaturalLogarithm).Pow is Number) &&
-                    (parameters[0].Pow as Number).Value == 1)) {
+                    if (parameters[0] is NaturalLogarithm &&
+                        parameters[0].Pow.IsOne) {
                         sb.Append(parameters[1].Output(type));
                     }
                     else {
