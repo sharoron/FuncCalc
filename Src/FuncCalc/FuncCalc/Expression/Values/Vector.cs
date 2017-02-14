@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using FuncCalc.Runtime;
 using FuncCalc.Exceptions;
+using FuncCalc.Interface.Math;
 
 namespace FuncCalc.Expression
 {
-    public class Vector : INumber
+    public class Vector : INumber, IAbs
     {
         private INumber 
             x = null, 
@@ -24,28 +25,28 @@ namespace FuncCalc.Expression
         {
             get
             {
-                throw new NotImplementedException();
+                return false;
             }
         }
         public override int SortPriority
         {
             get
             {
-                throw new NotImplementedException();
+                return 600;
             }
         }
         public override ExpressionType Type
         {
             get
             {
-                throw new NotImplementedException();
+                return ExpressionType.Number;
             }
         }
         public override ValueType ValueType
         {
             get
             {
-                throw new NotImplementedException();
+                return ValueType.Unknown;
             }
         }
 
@@ -74,7 +75,22 @@ namespace FuncCalc.Expression
             throw new RuntimeException("ベクトルを微分することはできません。", this);
         }
         public override bool Equals(RuntimeData runtime, INumber val) {
-            throw new NotImplementedException();
+            if (val is Vector) {
+                Vector v = val as Vector;
+                return
+                    this.x.Equals(runtime, v.X) &&
+                    this.y.Equals(runtime, v.Y);
+            }
+            else
+                return false;
+        }
+
+        public INumber Abs(RuntimeData runtime) {
+            var sqrt = runtime.GetFunc("sqrt");
+            AdditionFormula af = new Expression.AdditionFormula();
+            af.AddItem(runtime, this.x.Eval(runtime).Power(runtime, Number.New(2)));
+            af.AddItem(runtime, this.y.Eval(runtime).Power(runtime, Number.New(2)));
+            return sqrt.Execute(runtime, af.Optimise(runtime));
         }
 
     }

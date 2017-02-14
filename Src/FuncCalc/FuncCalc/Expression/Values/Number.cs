@@ -1,5 +1,6 @@
 ﻿using FuncCalc.Exceptions;
 using FuncCalc.Interface;
+using FuncCalc.Interface.Math;
 using FuncCalc.Runtime;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,8 @@ using System.Threading.Tasks;
 
 namespace FuncCalc.Expression
 {
-    public class Number : INumber, IExpression, IConstParameter
+    public class Number : INumber, IExpression, IConstParameter,
+        IAbs
     {
 
         private BigInteger _value = 0;
@@ -199,11 +201,18 @@ namespace FuncCalc.Expression
                 return true;
             return false;
         }
+
         public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
             return ddata.DifferentiateConstant(this);
         }
         public override INumber Integrate(RuntimeData runtime, string t) {
             return base.Integrate(runtime, t);
+        }
+        public INumber Abs(RuntimeData runtime) {
+            if (this.Value < 0)
+                return this.Multiple(runtime, Number.New(-1));
+            else
+                return this.Clone();
         }
 
         public static Number New(RuntimeData runtime, Token t) {

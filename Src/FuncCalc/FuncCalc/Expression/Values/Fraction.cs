@@ -7,11 +7,13 @@ using System.Threading.Tasks;
 using FuncCalc.Runtime;
 using FuncCalc.Exceptions;
 using FuncCalc.Expression.Const;
+using FuncCalc.Interface.Math;
 
 namespace FuncCalc.Expression
 {
     /// <summary>分数</summary>
-    public class Fraction : INumber
+    public class Fraction : INumber,
+        IAbs
     {
         private INumber _denominator = null;
         private INumber _numerator = null;
@@ -530,6 +532,13 @@ namespace FuncCalc.Expression
             runtime.Setting.Logger.AddInfo("分数の積分は申し訳程度にしか実装していません。");
 
             throw new NotImplementedException("分数の積分はあまり対応してない");
+        }
+        public INumber Abs(RuntimeData runtime) {
+            var func = runtime.GetFunc("abs");
+            return new Fraction(
+                func.Execute(runtime, this.Denominator),
+                func.Execute(runtime, this.Numerator)
+                );
         }
     }
 }

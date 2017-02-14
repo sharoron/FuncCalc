@@ -5,10 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FuncCalc.Runtime;
+using FuncCalc.Interface.Math;
 
 namespace FuncCalc.Expression
 {
-    public class FloatNumber : INumber, IConstParameter
+    public class FloatNumber : INumber, IConstParameter,IAbs
     {
         private decimal value = 0m;
 
@@ -73,20 +74,6 @@ namespace FuncCalc.Expression
             af.AddItem(runtime, this);
             return af;
         }
-
-        public override bool CanJoin(RuntimeData runtime, INumber val) {
-            throw new NotImplementedException();
-        }
-
-        public override bool Equals(RuntimeData runtime, INumber val) {
-            return 
-                (val is IConstParameter && this.value == (val as IConstParameter).ConstValue);
-        }
-
-        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
-            return ddata.DifferentiateConstant(this);
-        }
-
         public override INumber Multiple(RuntimeData runtime, INumber val) {
             if (val is IConstParameter) {
                 var me = this.Clone() as FloatNumber;
@@ -117,6 +104,24 @@ namespace FuncCalc.Expression
             return base.Power(runtime, val);
         }
 
+        public override bool CanJoin(RuntimeData runtime, INumber val) {
+            throw new NotImplementedException();
+        }
+        public override bool Equals(RuntimeData runtime, INumber val) {
+            return 
+                (val is IConstParameter && this.value == (val as IConstParameter).ConstValue);
+        }
+
+        public INumber Abs(RuntimeData runtime) {
+            if (this.value < 0)
+                return new FloatNumber(this.value * -1);
+            else
+                return this.Clone();
+        }
+        public override INumber Differentiate(RuntimeData runtime, DifferentialData ddata) {
+            return ddata.DifferentiateConstant(this);
+        }
+        
         public override string Output(OutputType type) {
             return this.ToString();
         }

@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using FuncCalc.Runtime;
 using FuncCalc.Exceptions;
+using FuncCalc.Interface.Math;
 
 namespace FuncCalc.Expression
 {
     // 実態のある数値ではないのでIConstParamはつけないで
-    public class ImaginaryNumber : INumber, IOutput
+    public class ImaginaryNumber : INumber, IOutput,
+        IAbs
     {
         private long _val = 0;
 
@@ -87,6 +89,22 @@ namespace FuncCalc.Expression
             af.AddItem(runtime, this);
             return af;
         }
+        public override INumber Multiple(RuntimeData runtime, INumber val) {
+
+            if (val is ImaginaryNumber) {
+                Number res = Number.New(this.Value * (val as ImaginaryNumber).Value * -1);
+                return res;
+            }
+
+            if (!(val is IConstParameter))
+                throw new NotImplementedException("複素数の四則計算は現在、実数と虚数しか対応していません。");
+
+            MultipleFormula mf = new MultipleFormula();
+            mf.AddItem(runtime, val);
+            mf.AddItem(runtime, this);
+            return mf;
+
+        }
         public override INumber Power(RuntimeData runtime, INumber val) {
             if (val is Number) {
                 var pow = val as Number;
@@ -116,7 +134,6 @@ namespace FuncCalc.Expression
         public override bool CanJoin(RuntimeData runtime, INumber val) {
             return val is ImaginaryNumber;
         }
-
         public override bool Equals(RuntimeData runtime, INumber val) {
             return
                 val is ImaginaryNumber &&
@@ -137,24 +154,10 @@ namespace FuncCalc.Expression
 
 
         }
-
-
-        public override INumber Multiple(RuntimeData runtime, INumber val) {
-           
-            if (val is ImaginaryNumber) {
-                Number res = Number.New(this.Value * (val as ImaginaryNumber).Value * -1);
-                return res;
-            }
-
-            if (!(val is IConstParameter))
-                throw new NotImplementedException("複素数の四則計算は現在、実数と虚数しか対応していません。");
-
-            MultipleFormula mf = new MultipleFormula();
-            mf.AddItem(runtime, val);
-            mf.AddItem(runtime, this);
-            return mf;
-
+        public INumber Abs(RuntimeData runtime) {
+            return Number.New(Math.Abs(this.Value));
         }
+
 
         public override string Output(OutputType type) {
             switch (type) {
@@ -166,7 +169,6 @@ namespace FuncCalc.Expression
                     throw new NotImplementedException();
             }
         }
-
         public override string ToString() {
             return this.Output(OutputType.String);
         }
