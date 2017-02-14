@@ -25,7 +25,6 @@ namespace FuncCalc.Runtime
             Console.ForegroundColor = cc;
             Console.BackgroundColor = cc2;
         }
-
         public void AddInfo(string str) {
             ConsoleColor cc = Console.ForegroundColor;
             ConsoleColor cc2 = Console.BackgroundColor;
@@ -35,7 +34,6 @@ namespace FuncCalc.Runtime
             Console.ForegroundColor = cc;
             Console.BackgroundColor = cc2;
         }
-
         public void AddWarning(string str) {
             ConsoleColor cc = Console.ForegroundColor;
             ConsoleColor cc2 = Console.BackgroundColor;
@@ -45,7 +43,6 @@ namespace FuncCalc.Runtime
             Console.ForegroundColor = cc;
             Console.BackgroundColor = cc2;
         }
-
         public void AddWay(string str) {
             ConsoleColor cc = Console.ForegroundColor;
             ConsoleColor cc2 = Console.BackgroundColor;

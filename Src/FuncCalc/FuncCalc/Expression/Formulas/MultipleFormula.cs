@@ -410,7 +410,7 @@ namespace FuncCalc.Expression
                 else return mf;
             }
             else if (intg.Count == 2) {
-                // 両方とも無限回[微分]可能な関数なら積分を行う子てゃできない
+                // 両方とも無限回[微分]可能な関数なら積分を行うことはできない
                 if (intg[0].InfinitelyDifferentiable &&
                     intg[1].InfinitelyDifferentiable) {
                     MultipleFormula mmf = new MultipleFormula();
@@ -447,7 +447,7 @@ namespace FuncCalc.Expression
                 {
                     MultipleFormula mf3 = new MultipleFormula();
                     mf3.AddItem(runtime, diffedDiffable = diffable.Differentiate(runtime, t));
-                    mf3.AddItem(runtime, other.Integrate(runtime, t));
+                    mf3.AddItem(runtime, intedOthr);
                     res2 = mf3.Integrate(runtime, t).Multiple(runtime, Number.New(-1));
                 }
 

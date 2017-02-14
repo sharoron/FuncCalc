@@ -15,3 +15,4 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.pdb
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
+C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csprojResolveAssemblyReference.cache
