@@ -48,7 +48,7 @@ namespace FuncCalc.Expression.Const
         public override INumber Add(RuntimeData runtime, INumber val) {
             AdditionFormula af = new Expression.AdditionFormula();
             af.AddItem(runtime, val);
-            af.AddItem(runtime, val);
+            af.AddItem(runtime, this);
             return af;
         }
         public override INumber Multiple(RuntimeData runtime, INumber val) {

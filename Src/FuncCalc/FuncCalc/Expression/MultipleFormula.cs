@@ -527,7 +527,11 @@ namespace FuncCalc.Expression
             StringBuilder sb = new StringBuilder();
             foreach (var item in this.items) {
                 if (sb.Length != 0) sb.Append(" ");
-                sb.Append(string.Format("{0}", item));
+                if (item is Number && (item as Number).Value == -1 &&
+                    item.Pow.IsOne)
+                    sb.Append("-");
+                else
+                    sb.Append(string.Format("{0}", item));
             }
             if (!(this.Pow is Number && (this.Pow as Number).Value == 1))
                 sb.Append(string.Format("^{0}", this.Pow));
@@ -551,9 +555,15 @@ namespace FuncCalc.Expression
                         sb.Append("(");
                         for (int i = 0; i < this.Count; i++) {
                             if (i != 0) sb.Append(" ");
-                            sb.Append("{");
-                            sb.Append(this.items[i].Output(type));
-                            sb.Append("}");
+                            if (this.items[i] is Number &&
+                                (this.items[i] as Number).Value == -1 &&
+                                this.items[i].Pow.IsOne)
+                                sb.Append("-");
+                            else {
+                                sb.Append("{");
+                                sb.Append(this.items[i].Output(type));
+                                sb.Append("}");
+                            }
                         }
                         sb.Append(")");
                         if (this.Count == 0)

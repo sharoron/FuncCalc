@@ -124,7 +124,11 @@ namespace FuncCalc.Runtime
                     IsFunction((value as Member).Multi, t) ||
                     (value as Member).Text != t;
             }
-
+            if (value is Fraction) {
+                return
+                    IsFunction((value as Fraction).Denominator, t) ||
+                    IsFunction((value as Fraction).Numerator, t);
+            }
             if (value is AdditionFormula) {
                 foreach (var item in (value as AdditionFormula).Items) {
                     if (IsFunction(item, t))

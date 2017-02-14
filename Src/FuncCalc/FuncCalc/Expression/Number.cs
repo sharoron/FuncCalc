@@ -232,7 +232,7 @@ namespace FuncCalc.Expression
             if (num is Number && (num as Number).Value == 0)
                 return true;
             else
-                return true;
+                return false;
         }
         public static bool IsOne(INumber num) {
             if (num is Number && (num as Number).Value == 1)

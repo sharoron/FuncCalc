@@ -139,7 +139,7 @@ namespace FuncCalc.Expression
             var res = ddata.CheckPow(this) as FuncedINumber;
             if (this.func is IDiffWithParameters) {
                 var fres = (this.func as IDiffWithParameters).Differentiate(runtime, ddata, this.param);
-                fres.Pow = res.Pow;
+                fres = fres.Power(runtime, res.Pow);
 
                 if (runtime.Setting.DoOptimize)
                     return fres.Optimise(runtime);

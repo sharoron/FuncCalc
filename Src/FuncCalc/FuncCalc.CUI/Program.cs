@@ -250,8 +250,9 @@ namespace FuncCalc
                     Console.WriteLine("Runtime Error");
 
                 Console.WriteLine("エラー : " + ex.Message);
-                Console.WriteLine("トークン : {0} [Line: {1}, Num: {2}, Index: {3}]", ex.Token,
-                    ex.Token.Line, ex.Token.Number, ex.Token.Index);
+                if (ex.Token != null)
+                    Console.WriteLine("トークン : {0} [Line: {1}, Num: {2}, Index: {3}]", ex.Token,
+                        ex.Token.Line, ex.Token.Number, ex.Token.Index);
                 Console.Write("場所 : ");
                 ConsoleColor cc = Console.BackgroundColor;
                 if (analyzer.Tokens == null)

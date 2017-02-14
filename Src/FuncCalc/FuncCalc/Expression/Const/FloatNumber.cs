@@ -8,7 +8,7 @@ using FuncCalc.Runtime;
 
 namespace FuncCalc.Expression
 {
-    public class FloatNumber : INumber
+    public class FloatNumber : INumber, IConstParameter
     {
         private decimal value = 0m;
 
@@ -27,6 +27,11 @@ namespace FuncCalc.Expression
             {
                 this.value = value;
             }
+        }
+        public decimal ConstValue
+        {
+            get { return this.value; }
+            set { this.value = value; }
         }
         public override ExpressionType Type
         {
