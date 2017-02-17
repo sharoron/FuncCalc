@@ -41,12 +41,12 @@ namespace FuncCalc.Runtime.Func
 
             // 無効パラメータはここで弾く
             if (left is Fraction || left is AdditionFormula || left is MultipleFormula ||
-                left is InfinityValue || left is Variable || left is Member) {
+                left is InfinityValue || left is Variable || left is Expression.Member) {
                 throw new RuntimeException(string.Format("gcd関数では使用できないパラメータ '{0}'が含まれています。", left.GetType().Name), left);
             }
             
             if (right is Fraction || right is AdditionFormula || right is MultipleFormula ||
-                right is InfinityValue || right is Variable || right is Member) {
+                right is InfinityValue || right is Variable || right is Expression.Member) {
                 throw new RuntimeException(string.Format("gcd関数では使用できないパラメータ '{0}'が含まれています。", right.GetType().Name), right);
             }
 

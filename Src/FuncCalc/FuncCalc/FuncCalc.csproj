@@ -53,6 +53,8 @@
     <Compile Include="Analyzer\Exceptions\MathExecutionException.cs" />
     <Compile Include="Analyzer\Exceptions\RuntimeException.cs" />
     <Compile Include="Analyzer\Exceptions\SyntaxException.cs" />
+    <Compile Include="Attributes\FuncCalcAttribute.cs" />
+    <Compile Include="Attributes\FuncCalcMethodAttribute.cs" />
     <Compile Include="Expression\Formulas\AdditionFormula.cs" />
     <Compile Include="Expression\Values\Array.cs" />
     <Compile Include="Expression\Expressions\Condition.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="Expression\Expressions\ExpressionType.cs" />
     <Compile Include="Expression\Const\FloatNumber.cs" />
     <Compile Include="Expression\Formulas\Formula.cs" />
+    <Compile Include="Expression\Values\Complex.cs" />
     <Compile Include="Expression\Values\Fraction.cs" />
     <Compile Include="Expression\Formulas\FuncedINumber.cs" />
     <Compile Include="Expression\Formulas\FunctionFormula.cs" />
@@ -131,6 +134,7 @@
     <Compile Include="Runtime\Func\Differential.cs" />
     <Compile Include="Runtime\Func\Integrate.cs" />
     <Compile Include="Runtime\Func\Limit.cs" />
+    <Compile Include="Runtime\Func\Math\CreateGraph.cs" />
     <Compile Include="Runtime\Func\Math\ExGcd.cs" />
     <Compile Include="Runtime\Func\Math\Gcd.cs" />
     <Compile Include="Runtime\Func\Math\Logarithm.cs" />
@@ -146,11 +150,13 @@
     <Compile Include="Runtime\Func\Math\SquareRootInt.cs" />
     <Compile Include="Runtime\Func\Math\SquareRoot.cs" />
     <Compile Include="Runtime\Func\Math\to2.cs" />
+    <Compile Include="Runtime\Func\Math\Complex.cs" />
     <Compile Include="Runtime\Func\Math\Vector.cs" />
-    <Compile Include="Runtime\Func\pow.cs" />
+    <Compile Include="Runtime\Func\Math\Power.cs" />
     <Compile Include="Runtime\Func\Runtime\DeleteFunction.cs" />
     <Compile Include="Runtime\Func\Runtime\DeleteVariable.cs" />
     <Compile Include="Runtime\Func\Runtime\Evaluation.cs" />
+    <Compile Include="Runtime\Func\Runtime\Help.cs" />
     <Compile Include="Runtime\Func\Runtime\Loop.cs" />
     <Compile Include="Runtime\Func\Runtime\Print.cs" />
     <Compile Include="Runtime\Func\Runtime\UserDefineFunction.cs" />
@@ -158,6 +164,8 @@
     <Compile Include="Runtime\Func\Trigonometric\Sine.cs" />
     <Compile Include="Runtime\Func\Trigonometric\Tangent.cs" />
     <Compile Include="Runtime\Member\DynamicObjectProperty.cs" />
+    <Compile Include="Runtime\Member\FuncCalcMethodAccessor.cs" />
+    <Compile Include="Runtime\Objects\Graph.cs" />
     <Compile Include="Runtime\Operator\Bit\AndBit.cs" />
     <Compile Include="Runtime\Operator\Bit\OrBit.cs" />
     <Compile Include="Runtime\Operator\Condition\OrLess.cs" />
@@ -201,6 +209,7 @@
     <Compile Include="Runtime\OutputType.cs" />
     <Compile Include="Runtime\RuntimeData.cs" />
     <Compile Include="Runtime\RuntimeSetting.cs" />
+    <Compile Include="Runtime\Support\DotnetToFC.cs" />
     <Compile Include="Runtime\Support\SortFormula.cs" />
     <Compile Include="Spec.cs" />
     <Compile Include="Token.cs" />
@@ -217,8 +226,6 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Runtime\Func\Graph\" />
-    <Folder Include="Runtime\Func\Table\" />
     <Folder Include="Runtime\Statement\" />
   </ItemGroup>
   <ItemGroup>

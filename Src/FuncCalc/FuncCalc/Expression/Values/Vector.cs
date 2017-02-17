@@ -93,5 +93,20 @@ namespace FuncCalc.Expression
             return sqrt.Execute(runtime, af.Optimise(runtime));
         }
 
+        public override string ToString() {
+            return string.Format("({0}, {1})", this.x, this.y);
+        }
+        public override string Output(OutputType type) {
+            switch (type) {
+                case OutputType.String:
+                    return this.ToString();
+                case OutputType.Mathjax:
+                    return string.Format("({0}, {1})", 
+                        this.x.Output(type), this.y.Output(type));
+                default:
+                    throw new NotImplementedException();
+            }
+        }
+
     }
 }

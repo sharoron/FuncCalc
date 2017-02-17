@@ -16,6 +16,7 @@ namespace FuncCalc.Expression
     {
 
         private BigInteger _value = 0;
+        private readonly BigInteger maxVal = BigInteger.Parse("100000000000"); // 1000億
 
         private Number() { }
         private Number(Token t) {
@@ -172,7 +173,29 @@ namespace FuncCalc.Expression
             }
 
             if (me.Pow is Number) {
-                if ((val as Number).Value >= 1) {
+                if ((me.Pow as Number).Value <= 20) {
+                    // 10乗以下ならそのまま計算する
+                    BigInteger res = new BigInteger(1);
+                    bool flag = false;
+                    for (int i = 0; i < (me.Pow as Number).Value; i++) {
+                        res *= me.Value;
+                        
+                        // maxValを超えた場合、大きすぎる値として取り扱わないことにする
+                        if (false && res >= maxVal) {
+                            flag = true;
+                            break;
+                        }
+
+                        if (res.ToByteArray().Length * sizeof(byte) > runtime.Setting.AcceptBitLength) {
+                            flag = true;
+                            break;
+                        }
+                    }
+
+                    if (!flag)
+                        return Number.New(runtime, res);
+                }
+                else if ((val as Number).Value >= 1) {
                     // Powに代入する
                 }
                 else if ((val as Number).Value == 0)
@@ -237,6 +260,9 @@ namespace FuncCalc.Expression
 
             return new Number(val);
         }
+        internal static Number New(BigInteger val) {
+            return new Number(val);
+        }
         public static bool IsZero(INumber num) {
             if (num is Number && (num as Number).Value == 0)
                 return true;
@@ -264,14 +290,15 @@ namespace FuncCalc.Expression
             return 
                 string.Format("{0}{1}", 
                     this._value.ToString(),
-                    this.Pow == null || this.Pow.IsOne ? 
-                        "" : "^(" + this.Pow.ToString() + ")");
+                    this._pow != null && !this._pow.IsOne ? 
+                        "^(" + this._pow.ToString() + ")" : "");
         }
         public override string Output(OutputType type) {
             switch (type) {
                 case OutputType.Mathjax:
-                    return this.Value.ToString();
-                    break;
+                    return this.Value.ToString() + 
+                        (this._pow != null && !this._pow.IsOne ? 
+                        "^{" + this._pow.Output(type) + "}" : "");
             }
             return base.Output(type);
         }

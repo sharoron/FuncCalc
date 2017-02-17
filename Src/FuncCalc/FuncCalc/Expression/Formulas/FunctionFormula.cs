@@ -111,6 +111,11 @@ namespace FuncCalc.Expression
             IExpression func = null;
             INumber multiple = Number.New(1);
 
+            if (runtime.NowBlock.Parent != null) {
+                func = runtime.NowBlock.Parent;
+                nextFlag = true;
+            }
+
             for (int i = 0; i < this.items.Count; i++) {
                 IExpression ex = this.items[i];
 
@@ -311,7 +316,18 @@ namespace FuncCalc.Expression
 
             // 親メンバーから検索
             if (parent != null) {
-                throw new NotImplementedException();
+                if (parent is Member)
+                    return GetMember(runtime, runtime.GetData(parent.Token), searchToken);
+                if (!(parent is IObject))
+                    throw new RuntimeException(string.Format("'{0}' はメンバーオブジェクトではありません。", parent.GetType().FullName), parent);
+
+                var mem = (parent as IObject).GetMember(searchToken.Text);
+                if (mem == null)
+                    throw new RuntimeException(
+                        string.Format("'{0}' の中に '{1}' は見つかりませんでした。", 
+                        parent.GetType().FullName, searchToken.Token), searchToken);
+
+                return mem;
             }
 
             // フィールドメンバーから検索

@@ -61,11 +61,74 @@ namespace FuncCalc {
         }
         
         /// <summary>
+        ///   アセンブリ : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Assembly {
+            get {
+                return ResourceManager.GetString("Assembly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   ただし、 に類似しているローカライズされた文字列を検索します。
         /// </summary>
         public static string But {
             get {
                 return ResourceManager.GetString("But", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   クラス : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ClassFullname {
+            get {
+                return ResourceManager.GetString("ClassFullname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   説明 : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Description {
+            get {
+                return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   関数 &apos;{0}&apos; が見つかりませんでした。 に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FuncNotfound {
+            get {
+                return ResourceManager.GetString("FuncNotfound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   関数名 : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string FunctionName {
+            get {
+                return ResourceManager.GetString("FunctionName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   パラメータ : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string Parameters {
+            get {
+                return ResourceManager.GetString("Parameters", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   戻り値 : {0} に類似しているローカライズされた文字列を検索します。
+        /// </summary>
+        public static string ReturnType {
+            get {
+                return ResourceManager.GetString("ReturnType", resourceCulture);
             }
         }
     }

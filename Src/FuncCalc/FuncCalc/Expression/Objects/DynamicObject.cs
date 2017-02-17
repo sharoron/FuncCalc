@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using FuncCalc.Runtime;
 using FuncCalc.Exceptions;
+using System.Reflection;
 
 namespace FuncCalc.Expression
 {
@@ -12,6 +13,29 @@ namespace FuncCalc.Expression
     {
         private Dictionary<string, INumber> _variable = new Dictionary<string, INumber>();
         private List<IMember> _mem = new List<IMember>();
+        private bool _acceptNotfoundMember = true;
+
+        public DynamicObject() {
+            Initialize();
+        }
+        private void Initialize() {
+            foreach (var mem in 
+                this.GetType().GetMembers()
+                .Where(m=> {
+                    return m.GetCustomAttributes(typeof(FuncCalc.Attributes.FuncCalcAttribute), true).Length > 0;
+                })) {
+
+                if (this._mem.Where(m=> m.Name == mem.Name).Count() > 0)
+                    throw new FuncCalcException(
+                        string.Format("'{0}' 初期化中にエラーが発生しました。FuncCalc.DynamicObjectはオーバーロードメンバーを含むことはできません。", 
+                        this.GetType().FullName), this);
+
+                this._mem.Add(new Runtime.FuncCalcMemberAccessor(this,
+                    new MemberInfo[] { mem }));
+
+            }
+        }
+
 
         public override List<IMember> Members
         {
@@ -40,6 +64,11 @@ namespace FuncCalc.Expression
                     this._mem.Add(prop);
                 }
             }
+        }
+        public bool AcceptNotfoundMember
+        {
+            get { return this.AcceptNotfoundMember; }
+            protected internal set { this._acceptNotfoundMember = value; }
         }
 
         #region INumber 
@@ -116,6 +145,11 @@ namespace FuncCalc.Expression
             if (this._variable.ContainsKey(key))
                 this._variable[key] = val;
             else {
+
+                if (!this.AcceptNotfoundMember)
+                    throw new RuntimeException(
+                        string.Format("'{0}'は見つかりませんでした。", key, this));
+
                 DynamicObjectProperty prop = new DynamicObjectProperty(this, key);
                 this._mem.Add(prop);
                 this._variable.Add(key, val);
@@ -123,6 +157,21 @@ namespace FuncCalc.Expression
 
         }
         public override IMember GetMember(string name) {
+            if (!this._acceptNotfoundMember) {
+                var mems = this.Members.Where(mem => {
+                    return mem.Name == name;
+                });
+                if (mems.Count() == 0)
+                    throw new RuntimeException(string.Format("'{0}'は見つかりませんでした。", name), this);
+
+                List<MemberInfo> minf = new List<MemberInfo>();
+                foreach (var item in mems) {
+                    minf.AddRange((item as FuncCalcMemberAccessor).MInfo);
+                }
+
+                return new FuncCalcMemberAccessor(this, minf.ToArray());
+            }
+
             return new DynamicObjectProperty(this, name);
         }
         public override INumber Execute(RuntimeData runtime, string key, IObject obj, params INumber[] parameters) {

@@ -48,7 +48,8 @@ namespace FuncCalc.Analyzer {
                 var exp = this.input._items[this.index];
 
                 
-                if (!(exp is Operator || exp is LineBreak)) {
+                if (!((exp is Operator) || 
+                    exp is LineBreak)) {
                     if (this.index  < this.input._items.Count - 1) {
                         var next = this.input._items[this.index + 1];
                         if (!(next is Operator || next is LineBreak)) {

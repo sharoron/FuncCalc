@@ -1,9 +1,11 @@
-﻿using FuncCalc.Exceptions;
+﻿using FuncCalc.Attributes;
+using FuncCalc.Exceptions;
 using FuncCalc.Expression;
 using FuncCalc.Interface;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,20 +53,55 @@ namespace FuncCalc.Runtime.Operator
             runtime.NowBlock.MoreScope = true;
 
             var l = left.Eval(runtime);
+            string name = null;
+            if (right is Variable) name = (right as Variable).Name;
+            else if (right is Expression.Member) name = (right as Expression.Member).Text;
+            else if (right is Expression.String) name = (right as Expression.String).Token.Text;
+            else if (right is FunctionFormula) {
+                var ff = right as FunctionFormula;
+
+                runtime.AddBlock(new BlockData() {
+                    Parent = left,
+                    MoreScope = true,
+                });
+                var res = ff.Eval(runtime);
+                runtime.PopBlock();
+
+                return res;
+            }
+            else throw new SyntaxException(string.Format("メンバースコープ演算子は文字列である必要があります。", right.Token), right);
 
             if (l is IObject) {
                 IObject obj = l as IObject;
-                string name = null;
-                if (right is Variable) name = (right as Variable).Name;
-                else if (right is Member) name = (right as Member).Text;
-                else if (right is Expression.String) name = (right as Expression.String).Token.Text;
-                else throw new SyntaxException(string.Format("メンバースコープ演算子は文字列である必要があります。", right.Token), right);
 
                 var mem = obj.GetMember(name);
-                return mem as INumber;
+                return mem.Get(runtime);
+            } else {
+
+                // FuncCalcMethodAttribute属性のあるメソッドへスコープ
+                var mems = l.GetType().GetMember(name)
+                    .Where((mem)=> {
+                        if (mem.MemberType == System.Reflection.MemberTypes.Method) {
+                            if ((mem as MethodInfo).GetCustomAttributes(typeof(FuncCalcAttribute), true) != null)
+                                return true;
+                        }
+                        return false;
+                    });
+                if (mems.Count() == 0)
+                    throw new RuntimeException(
+                        string.Format("'{0}'に'{1}'は含まれていませんでした。",
+                        l.GetType().FullName, name), right);
+
+                return new FuncCalcMemberAccessor(
+                    l, mems.ToArray());
+
+
             }
 
             throw new SyntaxException("メンバースコープ演算子の左辺はオブジェクトである必要があります。", left);
         }
+
+
+
     }
 }

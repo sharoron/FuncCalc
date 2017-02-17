@@ -117,7 +117,28 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Assembly" xml:space="preserve">
+    <value>アセンブリ : {0}</value>
+  </data>
   <data name="But" xml:space="preserve">
     <value>ただし、</value>
+  </data>
+  <data name="ClassFullname" xml:space="preserve">
+    <value>クラス : {0}</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>説明 : {0}</value>
+  </data>
+  <data name="FuncNotfound" xml:space="preserve">
+    <value>関数 '{0}' が見つかりませんでした。</value>
+  </data>
+  <data name="FunctionName" xml:space="preserve">
+    <value>関数名 : {0}</value>
+  </data>
+  <data name="Parameters" xml:space="preserve">
+    <value>パラメータ : {0}</value>
+  </data>
+  <data name="ReturnType" xml:space="preserve">
+    <value>戻り値 : {0}</value>
   </data>
 </root>

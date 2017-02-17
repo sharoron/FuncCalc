@@ -108,6 +108,9 @@ namespace FuncCalc.Expression
 
         public override INumber Add(RuntimeData runtime, INumber val) {
 
+            if (val is IHighPriorityValue)
+                return val.Add(runtime, this);
+
             if (val is AdditionFormula) {
                 var res = this.Clone() as AdditionFormula;
                 res.AddItem(runtime, val);
@@ -133,6 +136,9 @@ namespace FuncCalc.Expression
             return af;
         }
         public override INumber Multiple(RuntimeData runtime, INumber val) {
+
+            if (val is IHighPriorityValue)
+                return val.Multiple(runtime, this);
 
             if (val is Number && (val as Number).Value == 1)
                 return this.Clone();

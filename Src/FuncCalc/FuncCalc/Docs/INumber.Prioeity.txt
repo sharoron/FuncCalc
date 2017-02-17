@@ -2,6 +2,7 @@
 Infinity		50
 Number			100
 FloatNumber		100
+Complex			110
 ImaginaryNumber	125
 IConstParameter	150
 Fanction		200

@@ -14,10 +14,16 @@ namespace FuncCalc.Runtime
         private Stack<IExpression> stack = new Stack<IExpression>();
         private List<Condition> conditions = new List<Condition>();
         private bool moreScope = false;
+        private INumber _parent = null;
 
         public Dictionary<string, INumber> Variables
         {
             get { return this.variables; }
+        }
+        public INumber Parent
+        {
+            get { return this._parent; }
+            set { this._parent = value; }
         }
         public List<Condition> Conditions
         {
