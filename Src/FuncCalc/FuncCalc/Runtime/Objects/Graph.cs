@@ -16,12 +16,8 @@ namespace FuncCalc.Runtime.Objects
         }
 
         [FuncCalc.Attributes.FuncCalc]
-        public int test
-        {
-            get { return 123; }
-            set {
-                Console.WriteLine("代入しようとしました。: " + value);
-            }
+        public FCNumber test(FCNumber n1, FCNumber n2) {
+            return n1 * n2;
         }
     }
 }

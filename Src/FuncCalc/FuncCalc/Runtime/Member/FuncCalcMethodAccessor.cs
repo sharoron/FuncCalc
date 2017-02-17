@@ -59,7 +59,7 @@ namespace FuncCalc.Runtime
 
             List<object> prm = new List<object>();
             for (int i = 0; i < parameters.Length; i++) {
-                prm.Add(parameters[i]);
+                prm.Add(new FCNumber(runtime, parameters[i]));
             }
 
             var mems = this._minfo.Where(
