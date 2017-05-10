@@ -16,3 +16,12 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.CUI.exe
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.CUI.pdb
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.exe
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.pdb
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.exe
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.pdb
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Docs\INumber.Prioeity.txt
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Docs\limit.txt
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Docs\OperatorFuncs.txt
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Source\crypt.fc
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.CUI.exe
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.CUI.pdb
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc.CUI\obj\Debug\FuncCalc.CUI.csprojResolveAssemblyReference.cache

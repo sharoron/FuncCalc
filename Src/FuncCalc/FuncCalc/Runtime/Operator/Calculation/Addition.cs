@@ -44,12 +44,14 @@ namespace FuncCalc.Runtime.Operator
         }
 
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
-
-            if (left is Expression.String || right is Expression.String) {
-                AdditionFormula af = new AdditionFormula() { DontSort = true };
-                af.AddItem(runtime, left);
-                af.AddItem(runtime, right);
-                return af;
+            if (right is Expression.String && left is Expression.String) {
+                return new Expression.String(new FuncCalc.Token(
+                    left.Token.Text + right.Token.Text));
+            }
+            if (left is Expression.String) {
+                return new Expression.String(new Token(left.Token.Text + right.ToString()));
+            } else if (right is Expression.String) {
+                return new Expression.String(new Token(left.ToString() + right.Token.Text));
             }
 
             return left.Add(runtime, right);

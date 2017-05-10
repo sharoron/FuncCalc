@@ -9,6 +9,7 @@ Fanction		200
 Results			300
 Member			500
 Variable		500
+ScopeFormula	500
 Vector			600
 Array			750
 AdditionFormula	1000

@@ -47,5 +47,9 @@ namespace FuncCalc.Runtime
         public override string Output(OutputType type) {
             return string.Format("{0},{1}", this.baseObj.Token, this.name);
         }
+
+        public override string ToString() {
+            return string.Format("{0}.{1}", this.baseObj.ToString(), this.name);
+        }
     }
 }

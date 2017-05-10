@@ -108,7 +108,7 @@ namespace FuncCalc.Expression
             }
 
             bool nextFlag = false;
-            IExpression func = null;
+            IExpression func = null, funcToken = null;
             INumber multiple = Number.New(1);
 
             if (runtime.NowBlock.Parent != null) {
@@ -127,14 +127,16 @@ namespace FuncCalc.Expression
                 
                 if (ex is Member && 
                     ((nextFlag && func != null) || (!nextFlag && func == null))) {
+                    funcToken = ex;
                     func = FunctionFormula.GetMember(runtime, func, ex as Member);
                     if (func == null)
                         throw new SyntaxException(string.Format("'{0}'は見つかりませんでした", ex.Token.Text), ex.Token,
                             new KeyNotFoundException());
-                    if (func is INumber && !(func is IEvalWithParameters))
+                    if (func is INumber && !(func is IEvalWithParameters) && 
+                        !(multiple is Number && multiple.IsOne))
                     {
                         multiple = multiple.Multiple(runtime, func as INumber);
-                        func = null;
+                        func = null; funcToken = null;
                     }
                     nextFlag = false;
                     continue;
@@ -148,7 +150,7 @@ namespace FuncCalc.Expression
                 // パラメータ関係
                 if ((ex is IFormula) && !nextFlag) {
                     if (func == null && multiple is IEvalWithParameters) {
-                        func = multiple;
+                        func = multiple; funcToken = func;
                         multiple = Number.New(1);
                     }
 
@@ -160,21 +162,22 @@ namespace FuncCalc.Expression
                         (ex as IFormula).ExecuteAsParameter(runtime);
 
                         IExpression res = null;
-                        if (func is INumber && func is IEvalWithParameters)
-                        {
+                        if (func is INumber && func is IEvalWithParameters) {
                             List<INumber> prm = new List<INumber>();
-                            for (; runtime.NowBlock.Stack.Length != 0; )
-                            {
+                            for (; runtime.NowBlock.Stack.Length != 0;) {
                                 var it = runtime.NowBlock.Pop(); if (it is LineBreak) continue;
                                 if (!(it is INumber)) throw new RuntimeException("インデックス指定で値型(INumber)以外のパラメータを指定することはできません。", it);
 
-                                if (func is IFunction && 
-                                    (func as IFunction).DoEvaledParam) it = (it as IEval).Eval(runtime);
+                                if (func is IFunction &&
+                                    (func as IFunction).DoEvaledParam)
+                                    it = (it as IEval).Eval(runtime);
 
                                 prm.Insert(0, it as INumber);
                             }
                             res = (func as IEvalWithParameters).Execute(runtime, prm.ToArray()) as IExpression;
+                            runtime.NoticeNextLine(funcToken, prm.ToArray<IExpression>(), res);
                         }
+                        else if (multiple.IsOne) { }
                         else
                             res = ExecuteFunc(runtime, func, multiple);
 

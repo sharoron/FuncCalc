@@ -75,7 +75,8 @@ namespace FuncCalc.Runtime.Operator
                 IObject obj = l as IObject;
 
                 var mem = obj.GetMember(name);
-                return mem.Get(runtime);
+                // return mem.Get(runtime);
+                return mem;
             } else {
 
                 // FuncCalcMethodAttribute属性のあるメソッドへスコープ

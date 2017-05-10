@@ -9,6 +9,7 @@ namespace FuncCalc.Analyzer
 {
     internal class RPEToken : Token, IExpression
     {
+
         private IExpression exp = null;
 
         internal RPEToken(IExpression t) {

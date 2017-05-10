@@ -46,9 +46,9 @@ namespace FuncCalc.Runtime.Operator
         public INumber Execute(RuntimeData runtime, INumber left, INumber right) {
 
             // 意味のない計算はここで弾く
-            if (left is Number && (left as Number).Value == 1)
+            if (left.IsOne)
                 return right;
-            if (right is Number && (right as Number).Value == 1)
+            if (right.IsOne)
                 return left;
             if ((left is Number && (left as Number).Value == 0) ||
                 (right is Number && (right as Number).Value == 0))

@@ -31,7 +31,7 @@ namespace FuncCalc
             if (!Directory.Exists(SaveDir))
                 Directory.CreateDirectory(SaveDir);
 
-
+            data.NextLine += Data_NextLine;
         
 
             Console.WriteLine("============================");
@@ -48,6 +48,9 @@ namespace FuncCalc
                     Console.WriteLine(" 7. Show Expression Tree");
                     Console.WriteLine(" 8. Enabled DebugMode");
                 }
+                Console.WriteLine(" L. Load file.");
+                Console.WriteLine(" C. Console Mode");
+                Console.WriteLine(" P. Print Analyzed Formula");
                 Console.WriteLine(" 9. Quit");
                 char c = Console.ReadKey(true).KeyChar;
                 Console.Clear();
@@ -63,6 +66,7 @@ namespace FuncCalc
                         setting.AcceptBitLength = 4096;
 
                         data = setting.CreateNewRuntimedata();
+                        data.NextLine += Data_NextLine;
                         Console.WriteLine("Initialized FormulaRuntime");
                         Console.WriteLine("Input formula");
                         Console.Write("> ");
@@ -195,6 +199,7 @@ namespace FuncCalc
                                 setting.AcceptBitLength = 4096;
 
                                 data = setting.CreateNewRuntimedata();
+                                data.NextLine += Data_NextLine;
                             }
                             var files = (new DirectoryInfo("./source")).GetFiles();
                             for (int i = 0; i < files.Length; i++) {
@@ -215,6 +220,7 @@ namespace FuncCalc
                             setting.AcceptBitLength = 4096;
 
                             data = setting.CreateNewRuntimedata();
+                            data.NextLine += Data_NextLine;
                         }
                         Console.Write(" > ");
                         string line = "";
@@ -223,6 +229,9 @@ namespace FuncCalc
                             ExecuteFormula(line);
                             Console.Write(" > ");
                         }
+                        break;
+                    case 'p':
+                        RebuildCode(data, formula);
                         break;
                     default:
                         continue;
@@ -233,6 +242,104 @@ namespace FuncCalc
 
         }
 
+        private static void Data_NextLine(RuntimeData runtime, IExpression eval, IExpression[] parameters, IExpression result) {
+
+            if (!runtime.Setting.IsDebug)
+                return;
+
+            // Search line that's running now.
+            int i = 1; int line = 0; bool flag = false;
+            for (; i < formula.Items.Count;i++) {
+                var item = formula.Items[i];
+
+                if (item is LineBreak && item.Token.Text == ";") {
+                    line++;
+                }
+                else {
+                    if (item == eval || item.Token == eval.Token ||
+                       (eval is IFormula) && (eval as IFormula).Items.Where(d => d != null && (d == item || (d.Token != null && d.Token == item.Token))).Count() != 0) {
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            if (!flag && eval.Token != null) {
+                line = eval.Token.Line;
+            }
+
+            // output
+            i = 0; flag = false;
+            Console.Clear();
+            for (int dline = 0; i < formula.Items.Count; i++) {
+                var item = formula.Items[i];
+
+                if (!flag && dline == line) {
+                    Console.Write("{0,3}: ", dline);
+                }
+
+                if (item is LineBreak && item.Token.Text == ";") {
+                    flag = false; dline++;
+                    if (dline == line) {
+                        continue;
+                    }
+                }
+                else {
+                    if (dline == line) {
+                        ConsoleColor bcc = Console.BackgroundColor;
+                        ConsoleColor fcc = Console.ForegroundColor;
+                        if (item == eval || item.Token == eval.Token || 
+                            (eval is IFormula) && (eval as IFormula).Items.Where(d => d != null && (d == item || (d.Token != null && d.Token == item.Token))).Count() != 0) {
+                            Console.BackgroundColor = ConsoleColor.White;
+                            Console.ForegroundColor = ConsoleColor.Black;
+                        }
+                        if (parameters.Where(d => d != null && (d == item || (d.Token != null && d.Token == item.Token))).Count() != 0) {
+                            Console.BackgroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.Green;
+                        }
+
+                        Console.Write("{0}", item);
+                        Console.BackgroundColor = bcc;
+                        Console.ForegroundColor = fcc;
+                        Console.Write(" ");
+                    }
+                    flag = true;
+                }
+            }
+            Console.WriteLine();
+
+            // output result
+            if (result != null) {
+                Console.WriteLine("Result > {0}", (result as IEval)?.Eval(runtime));
+            }
+
+            for(;;) {
+                Console.Write(">");
+                string linestr = Console.ReadLine();
+                if (string.IsNullOrEmpty(linestr)) {
+                    break;
+                }
+                else {
+                    runtime.Setting.IsDebug = false;
+
+                    try {
+                        var analyzer = new Analyzer.Analyzer(linestr, setting);
+                        var formula = analyzer.GetResult() as IFormula;
+                        Console.WriteLine(formula.Eval(runtime).Eval(runtime));
+                    }
+                    catch (FuncCalcException ex) {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Token: {0}", ex.Token);
+
+                    }
+                    catch (Exception ex) {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine("Token: {0}", null);
+                    }
+                    runtime.Setting.IsDebug = true;
+                }
+            }
+        }
+
         static void ExecuteFormula(string line) {
 
             try {
@@ -240,6 +347,11 @@ namespace FuncCalc
                 analyzer = new Analyzer.Analyzer(
                     line, setting);
                 var d = analyzer.GetResult();
+                Console.WriteLine("Debug(Y/N) >");
+                if (Console.ReadKey().KeyChar.ToString().ToLower() == "y") {
+                    setting.IsDebug = true;
+                }
+                formula = d as IFormula;
                 var dres = d.Eval(data);
                 Console.WriteLine((dres == null ? "null" : dres.ToString()));
             }
@@ -302,6 +414,31 @@ namespace FuncCalc
         {
             
         }
+
+        static void RebuildCode(RuntimeData runtime, IFormula f) {
+
+            int i = 1; bool flag = false;
+            foreach (var item in f.Items) {
+
+                if (!flag) {
+
+                    Console.Write("{0,3}: ", i++);
+                }
+
+                if (item is LineBreak) {
+                    flag = false;
+                    Console.WriteLine();
+                }
+                else {
+                    Console.Write("{0} ", item);
+                    flag = true;
+                }
+            }
+
+
+
+        }
+
 
     }
 }

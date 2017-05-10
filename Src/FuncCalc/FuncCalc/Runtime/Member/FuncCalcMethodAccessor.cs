@@ -34,8 +34,9 @@ namespace FuncCalc.Runtime
             get
             {
                 List<ExpressionType> res = new List<ExpressionType>();
-                var ms = (this._minfo).Where(m => m.MemberType == MemberTypes.Method);
-                if (ms.Count() == 0) return new ExpressionType[] { };
+                var ms = (this._minfo)?.Where(m => m.MemberType == MemberTypes.Method);
+                if (ms == null || ms.Count() == 0)
+                    return new ExpressionType[] { };
 
                 for (int i = 0; i < 
                     (ms.First() as MethodInfo).GetParameters().Length - 1; i++)

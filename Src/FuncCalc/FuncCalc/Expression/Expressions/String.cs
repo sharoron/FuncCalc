@@ -30,9 +30,9 @@ namespace FuncCalc.Expression
                 return 9500;
             }
         }      
-        public Token Token
+        public override Token Token
         {
-            get; internal set;
+            get; set;
         }
         public override ExpressionType Type
         {
@@ -78,14 +78,14 @@ namespace FuncCalc.Expression
         }
 
         public override string ToString() {
-            return this.Token.Text;
+            return "\"" + this.Token.Text + "\"";
         }
         public override string Output(OutputType type) {
             switch (type) {
                 case OutputType.String:
-                    return this.ToString();
+                    return "\"" + this.ToString() + "\"";
                 case OutputType.Mathjax:
-                    return this.ToString();
+                    return "\"" + this.ToString() + "\"";
                 default:
                     throw new NotImplementedException();
             }

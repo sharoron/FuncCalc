@@ -84,6 +84,13 @@ namespace FuncCalc.Expression
         }
         public override INumber Multiple(Runtime.RuntimeData runtime, INumber val)
         {
+            if (val.IsOne) return this;
+
+            if (val is Array && (val as Array).Items.Count == 1 &&
+                (val as Array).items[0].Count == 1) {
+                val = (val as Array).items[0][0];
+            }
+
             if (val is Array) {
                 throw new NotImplementedException("配列同士の乗はまだ田対応していません。");
 
@@ -101,6 +108,11 @@ namespace FuncCalc.Expression
                         
                     }
                 }
+            }
+            else if (this.items.Count == 1 && val is Number) {
+                // 配列の中身を取得 
+                var index = (int)(val as Number).Value;
+                return this.items[0][index];
 
             }
             else {

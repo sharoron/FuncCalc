@@ -39,6 +39,9 @@ namespace FuncCalc.Runtime
             get { return this.blocks[this.blocks.Count - 1]; }
         }
 
+        public event FCDebugHandler NextLine;
+        public delegate void FCDebugHandler(RuntimeData runtime, IExpression eval, IExpression[] parameters, IExpression result);
+
         public BlockData[] Blocks
         {
             get { return this.blocks.ToArray(); }
@@ -346,6 +349,12 @@ namespace FuncCalc.Runtime
 
 
             return str;
+        }
+        public void NoticeNextLine(IExpression eval, IExpression[] parameters, IExpression result) {
+
+            if (this.NextLine != null)
+                this.NextLine(this, eval, parameters, result);
+
         }
 
         public bool IsFunctionINumber(INumber val, string varname) {

@@ -16,3 +16,16 @@ C:\Users\kyoko\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.pdb
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
 C:\Users\kyoko\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csprojResolveAssemblyReference.cache
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Docs\INumber.Prioeity.txt
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Docs\limit.txt
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Docs\OperatorFuncs.txt
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\Source\crypt.fc
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.dll
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\binaries\debug\FuncCalc.pdb
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Res.resources
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Res-str.resources
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.Res-mathjax.resources
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csproj.GenerateResource.Cache
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.dll
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.pdb
+C:\Users\Sharoron\Source\Repos\FuncCalc\Src\FuncCalc\FuncCalc\obj\Debug\FuncCalc.csprojResolveAssemblyReference.cache

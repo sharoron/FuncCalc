@@ -4,6 +4,7 @@ using FuncCalc.Interface;
 using FuncCalc.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace FuncCalc.Analyzer
 {
     public partial class SyntaxAnalyzer
     {
+
+        private const bool IsDebugMode = true;
+
         public class ConvertToRPEFormula
         {
             private Formula formula = null;
@@ -175,7 +179,7 @@ namespace FuncCalc.Analyzer
                                             // rightもすでに入ってる
                                         }
                                         else {
-                                            
+
                                         }
                                     }
                                     else {
@@ -190,9 +194,7 @@ namespace FuncCalc.Analyzer
                                         }
                                     }
                                 }
-                                
-
-
+                               
                                 this.result.AddItem(null, new Operator(this.items[i].Token, op.Key));
                                 this.items.RemoveAt(i);
 

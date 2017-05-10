@@ -46,6 +46,7 @@
     <Compile Include="Analyzer\SyntaxAnalyzer\ConvertToFunctionFormula.cs" />
     <Compile Include="Analyzer\SyntaxAnalyzer\ConvertToRPEFormula.cs" />
     <Compile Include="Analyzer\SyntaxAnalyzer\RPEToken.cs" />
+    <Compile Include="Analyzer\SyntaxAnalyzer\ScopeAnalyze.cs" />
     <Compile Include="Analyzer\TokenAnaluzer.cs" />
     <Compile Include="Analyzer\TokenType.cs" />
     <Compile Include="Analyzer\Exceptions\FuncCalcException.cs" />
@@ -56,6 +57,7 @@
     <Compile Include="Attributes\FuncCalcAttribute.cs" />
     <Compile Include="Attributes\FuncCalcMethodAttribute.cs" />
     <Compile Include="Expression\Formulas\AdditionFormula.cs" />
+    <Compile Include="Expression\Formulas\ScopeFormula.cs" />
     <Compile Include="Expression\Values\Array.cs" />
     <Compile Include="Expression\Expressions\Condition.cs" />
     <Compile Include="Expression\Const\IntegralConstant.cs" />

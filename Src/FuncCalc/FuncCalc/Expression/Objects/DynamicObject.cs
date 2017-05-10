@@ -67,7 +67,7 @@ namespace FuncCalc.Expression
         }
         public bool AcceptNotfoundMember
         {
-            get { return this.AcceptNotfoundMember; }
+            get { return this._acceptNotfoundMember; }
             protected internal set { this._acceptNotfoundMember = value; }
         }
 
@@ -135,6 +135,8 @@ namespace FuncCalc.Expression
 
             if (this._variable.ContainsKey(key))
                 return this._variable[key];
+            if (this._acceptNotfoundMember)
+                return null;
 
             throw new RuntimeException(string.Format("'{0}'メンバーは見つかりませんでした。", key), this);
         }

@@ -71,14 +71,15 @@ namespace FuncCalc.Expression
                             !(this.items[j] as Operator).Evaluator.DoEvaledParam) {
                             willEval = false;
                             runtime.AddBlock(new BlockData() { MoreScope = false });
-                            if (runtime.Setting.IsDebug)
-                                Console.WriteLine("AddBlock[MoreScope=false] しました");
+                            //if (runtime.Setting.IsDebug)
+                            //    Console.WriteLine("AddBlock[MoreScope=false] しました");
                             break;
                         }
                     }
 
+                    IExpression r = null;
                     if (op.Evaluator.RequireRightParameter) {
-                        var r = data.Pop();
+                        r = data.Pop();
                         if (op.Evaluator.DoEvaledParam && willEval)
                             r = (r as IEval).Eval(runtime);
                         if (!op.Evaluator.DoEvaledParam && r is INumber) { }
@@ -92,8 +93,9 @@ namespace FuncCalc.Expression
                         if (op.Evaluator.DoEvaledParam && willEval)
                             right = right.Eval(runtime);
                     }
+                    IExpression l = null;
                     if (op.Evaluator.RequireLeftParameter) {
-                        var l = data.Pop();
+                        l = data.Pop();
                         if (op.Evaluator.DoEvaledParam && willEval)
                             l = (l as IEval).Eval(runtime);
                         if(!op.Evaluator.DoEvaledParam && l is INumber) { }
@@ -120,15 +122,20 @@ namespace FuncCalc.Expression
 
                     if (runtime.Setting.IsDebug) {
                         // Console.Clear();
-                        Console.WriteLine("Eval RPE Formula : ({0})[{1}] {2} ({3})[{4}] => {5}[{6}]",
-                            left != null ? left.ToString() : "null",
-                            left != null ? left.GetType().Name : "",
-                            (exp as Operator).Evaluator.Name,
-                            right != null ? right.ToString() : "null",
-                            right != null ? right.GetType().Name : "",
-                            res != null ? res.ToString() : "null",
-                            res != null ? res.GetType().Name : "");
-                        OutputStackData(runtime, null);
+                        //Console.WriteLine("Eval RPE Formula : ({0})[{1}] {2} ({3})[{4}] => {5}[{6}]",
+                        //    left != null ? left.ToString() : "null",
+                        //    left != null ? left.GetType().Name : "",
+                        //    (exp as Operator).Evaluator.Name,
+                        //    right != null ? right.ToString() : "null",
+                        //    right != null ? right.GetType().Name : "",
+                        //    res != null ? res.ToString() : "null",
+                        //    res != null ? res.GetType().Name : "");
+
+                        // スコープ演算子は無視する
+                        if (exp.Token?.Text != runtime.Setting.Spec.ScopeOperator)
+                            runtime.NoticeNextLine(
+                                exp, new[] { l, r }, res);
+                        //OutputStackData(runtime, null);
                     }
                 }
                 else {
@@ -150,13 +157,15 @@ namespace FuncCalc.Expression
             }
         }
         private void OutputStackData(RuntimeData runtime, IExpression exp) {
-                Console.WriteLine("RPE Status :");
-                Console.Write("Stack : ");
-                foreach (var item in runtime.NowBlock.Stack.ToArray().Reverse())
-                    Console.Write(string.Format("[{0}] ", item));
+
+            return;
+            Console.WriteLine("RPE Status :");
+            Console.Write("Stack : ");
+            foreach (var item in runtime.NowBlock.Stack.ToArray().Reverse())
+                Console.Write(string.Format("[{0}] ", item));
             if (exp != null) Console.Write(string.Format("[{0}]", exp));
-                Console.WriteLine("\n");
-                Console.ReadKey(true);
+            Console.WriteLine("\n");
+            Console.ReadKey(true);
             runtime.OutputDebug();
         }
 

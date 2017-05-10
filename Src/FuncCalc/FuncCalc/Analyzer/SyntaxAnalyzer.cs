@@ -105,9 +105,13 @@ namespace FuncCalc.Analyzer {
             // メンバーを一括りにまとめる
             IFormula result = f;
 
+
+            result = ScopeAnalyze.Convert(result as Formula, this.setting);
+
             result = ConvertToFunctionFormula.Convert(result as Formula, this.setting);
 
             result = ConvertMFormula.Convert(result as Formula, this.setting);
+
 
             // 式を逆ポーランド記法に変換する
             if (result.Count >= 2) {
